@@ -19,9 +19,7 @@ class ValueDisplay {
     this.valueName = valueName;
     this.labelText = labelText;
     this.onClick = onClick;
-    console.log(onClick);
-    console.log(this.onClick)
-    
+  
     this.indicator = document.createElement('div');
     this.indicator.className = indicatorClassName;
 
@@ -67,7 +65,6 @@ class ValueDisplayBoolean extends ValueDisplay {
       if(valueName) this.img.src = booleanTrueImage;
       else this.img.src = booleanFalseImage;
       this.indicator.appendChild(this.img);
-      
     }
   }
 
