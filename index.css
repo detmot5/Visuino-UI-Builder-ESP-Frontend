@@ -1,0 +1,24 @@
+body{
+  padding: 0;
+  margin: 0;
+}
+#wrapper{
+  font-family: 'Montserrat', sans-serif;
+  color: #444;
+  font-weight: 600;
+}
+#top-bar{
+  background-color: #fefefe;
+  border-bottom: solid 1px #eee;
+  width: 100vw;
+  height: 60px;
+}
+#title{
+  text-align: center;
+  color: #444;
+  width: 100%;
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: 30px;
+}
+
