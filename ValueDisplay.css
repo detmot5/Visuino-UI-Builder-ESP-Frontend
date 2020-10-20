@@ -24,6 +24,11 @@
   max-height: 80px;
 }
 
+.vd-number-indicator{
+  font-size: 40px;
+  padding: 19px;
+}
+
 .vd-label{
   border: none;
   padding-top: 10px;

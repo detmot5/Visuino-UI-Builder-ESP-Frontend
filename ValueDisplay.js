@@ -1,6 +1,7 @@
 
 const wrapperClassName = 'vd-wrapper';
 const indicatorClassName = 'vd-indicator';
+const numberIndicatorClassName = 'vd-number-indicator';
 const labelClassName = 'vd-label';
 
 
@@ -33,7 +34,7 @@ class ValueDisplay {
     this.wrapper.className = wrapperClassName;    
   }
 
-  setValue(value){
+  setValue(){
     this.refresh();
   }
 
@@ -86,7 +87,7 @@ class ValueDisplayBoolean extends ValueDisplay {
       value: this.value,
     })
     .then(response => {
-      console.log("sent");
+      console.log("sent boolean");
     })
     .catch(err => {
       console.log("Not connected to server")
@@ -94,26 +95,74 @@ class ValueDisplayBoolean extends ValueDisplay {
   }
 
   setValue(value){
-    this.value = value;
-    super.setValue(value);
+    if(typeof value === 'boolean'){
+      this.value = value;
+      super.setValue();
+    }
   }
-  
 
-  
   onClick(){
     this.value = !this.value;
     this.sendData();
     super.onClick();
   }
 
+}
 
 
 
-  create(){
-    return super.create();
+class ValueDisplayNumeric extends ValueDisplay {
+  numberContainer;
+
+  constructor({value, name}){
+    super({value, name});
+    this.indicator.className = numberIndicatorClassName;
+    this.numberContainer = document.createElement('div');
+    if(typeof value === 'number'){
+      this.numberContainer.innerHTML = value;
+      this.indicator.appendChild(this.numberContainer);
+    }
   }
 
+  refresh(){
+    if(typeof this.value === 'number'){
+      this.numberContainer.innerHTML = this.value;
+    }
+    super.refresh();
+  }
+
+  sendData() {
+    axios.post(`${url}status`, {
+      name: this.name,
+      type: typeof this.value,
+      value: this.value,
+    })
+    .then(response => {
+      console.log("sent numeric");
+    })
+    .catch(err => {
+      console.log("Not connected to the server")
+    });
+  }
+
+
+
+  setValue(value){
+    if(typeof value === 'number'){
+      this.value = value;
+    }
+    super.setValue();
+  }
+
+
+  onClick(){
+    console.log("Number clicked");
+    super.onClick();
+  }
+
+
 }
+
 
 
 
