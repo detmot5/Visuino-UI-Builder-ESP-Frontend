@@ -8,24 +8,29 @@ const booleanTrueImage = 'Assets/bulbOn.svg'
 const booleanFalseImage = 'Assets/bulbOff.svg'
 
 
+
+
 class ValueDisplay {
-  valueName;
-  labelText;
-  onClick;
+  value;
+  name;
   indicator;
   label;
+  wrapper;
+  
 
-  constructor({valueName, labelText, onClick}){
-    this.valueName = valueName;
-    this.labelText = labelText;
-    this.onClick = onClick;
+  constructor({value, name}){
+    this.value = value;
+    this.name = name;
   
     this.indicator = document.createElement('div');
     this.indicator.className = indicatorClassName;
 
     this.label = document.createElement('div');
     this.label.className = labelClassName;
-    this.label.innerHTML = labelText;
+    this.label.innerHTML = name;
+
+    this.wrapper = document.createElement('div');
+    this.wrapper.className = wrapperClassName;    
   }
 
 
@@ -33,20 +38,18 @@ class ValueDisplay {
 
   }
 
+  onClick(){
+    this.refresh();
+  }
 
   create() {
     const dFragment = document.createDocumentFragment();
-    
-
-    const wrapper = document.createElement('div');
-    wrapper.className = wrapperClassName;
-    wrapper.appendChild(this.indicator);
-    wrapper.appendChild(this.label);
-    wrapper.addEventListener('click', () => {
+    this.wrapper.addEventListener('click', () => {
       this.onClick();
-      this.refresh();
     });
-    dFragment.appendChild(wrapper);
+    this.wrapper.appendChild(this.indicator);
+    this.wrapper.appendChild(this.label);
+    dFragment.appendChild(this.wrapper);
     
     return dFragment;
   }
@@ -56,28 +59,55 @@ class ValueDisplay {
 
 class ValueDisplayBoolean extends ValueDisplay {
   img;
-
-  constructor({valueName, labelText, onClick}){
-    super({valueName, labelText, onClick})
-    
-    if(typeof valueName === 'boolean'){
+  constructor({value, name}){
+    super({value, name})
+    if(typeof value === 'boolean'){
       this.img = document.createElement('img');
-      if(valueName) this.img.src = booleanTrueImage;
+      if(value) this.img.src = booleanTrueImage;
       else this.img.src = booleanFalseImage;
       this.indicator.appendChild(this.img);
     }
   }
-
+  
   refresh(){
-    this.img.src = this.valueName ? booleanTrueImage : booleanFalseImage;
+    if(typeof this.value === 'boolean'){
+      this.img.src = this.value ? booleanTrueImage : booleanFalseImage;
+    }
     super.refresh()
   }
 
-  create(){
-    return super.create();
+  sendData() {
+
+    console.log("called send data")
+    axios.post(`${url}status`, {
+      name: this.name,
+      type: typeof this.value,
+      value: this.value,
+    })
+    .then(response => {
+      console.log("sent");
+    })
+    .catch(err => {
+      console.log("Not connected to server")
+    });
+  }
+
+  
+  
+  onClick(){
+    this.value = !this.value;
+    this.sendData();
+    
+    super.onClick();
   }
 
 
+
+
+  create(){
+   
+    return super.create();
+  }
 
 }
 

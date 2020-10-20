@@ -5,14 +5,18 @@
   min-height: 100px;
   width: 150px;
   padding: 10px;
-  
+  user-select: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid #ddd;
-  
+  border: 1px solid #ddd; 
 }
+
+.vd-wrapper:hover{
+  border: 1px solid #aaa;
+}
+
 
 .vd-indicator{
   display: flex;
@@ -29,4 +33,18 @@
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 1px;
+}
+
+
+@media screen and (min-width: 1280px){
+  .vd-wrapper{
+    width: 300px;
+    height: 200px;
+  }
+  .vd-indicator{
+    max-height: 120px;
+  }
+  .vd-label{
+    font-size: 20px;
+  }
 }
