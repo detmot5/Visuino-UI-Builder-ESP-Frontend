@@ -1,7 +1,8 @@
 const url = window.location.href;
+
 const valueDisplays = [];
 const content = document.getElementById('content');
-
+const title = document.getElementById('title');
 
 
 
@@ -9,27 +10,20 @@ const content = document.getElementById('content');
 
 
 const getData = () => {
-
-
-  axios.get("test.json")
+  axios.get("http://localhost:8080/users")
   .then(response => renderData(response))
-
-
-  setTimeout(getData, 5000);
+  console.log("data")
+  setTimeout(getData, 1000);
 }
-
-
 getData();
 
 
 
-
 const renderData = ({data}) => {
-  const title = data.title;
   const elements = data.elements;
 
-  const domFragment = document.createDocumentFragment();
-
+  title.innerHTML = data.title;
+  
 
   elements.forEach((el) => {
     if(el.type === "boolean"){
@@ -41,11 +35,11 @@ const renderData = ({data}) => {
         }));
         content.appendChild(valueDisplays[newLength-1].create());
       } else {
-        console.log("not generated");
-        const found = valueDisplays.find(element => element.name === el.name);
-        found.value = el.value === "true";
-      }
-    }
+        // there we know the privided element is rendered, then we have to get it from array
+        //const found = valueDisplays.find(element => element.name === el.name);
+        element.setValue(el.value === "true");
+      } 
+    } 
   });
 }
 

@@ -33,6 +33,9 @@ class ValueDisplay {
     this.wrapper.className = wrapperClassName;    
   }
 
+  setValue(value){
+    this.refresh();
+  }
 
   refresh(){
 
@@ -77,8 +80,6 @@ class ValueDisplayBoolean extends ValueDisplay {
   }
 
   sendData() {
-
-    console.log("called send data")
     axios.post(`${url}status`, {
       name: this.name,
       type: typeof this.value,
@@ -92,12 +93,16 @@ class ValueDisplayBoolean extends ValueDisplay {
     });
   }
 
+  setValue(value){
+    this.value = value;
+    super.setValue(value);
+  }
   
+
   
   onClick(){
     this.value = !this.value;
     this.sendData();
-    
     super.onClick();
   }
 
@@ -105,7 +110,6 @@ class ValueDisplayBoolean extends ValueDisplay {
 
 
   create(){
-   
     return super.create();
   }
 
