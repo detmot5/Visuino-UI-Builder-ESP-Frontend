@@ -1,6 +1,7 @@
 const url = window.location.href;
 
 const valueDisplays = [];
+const wrapper = document.getElementById('wrapper');
 const content = document.getElementById('content');
 const title = document.getElementById('title');
 

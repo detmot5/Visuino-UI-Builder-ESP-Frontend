@@ -1,0 +1,74 @@
+#number-input {
+  position: fixed;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+
+.ni-wrapper{
+  position: fixed;
+  top: 40%;
+  background-color: #fefefe;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  width: 100vw;
+  height: 15vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.ni-text-field{
+  width: 150px;
+  outline: none;
+  border: none;
+  font-size: 20px;
+  border-bottom: 1px solid #888;
+  color: #444;
+  text-align: center;
+}
+
+.ni-button{
+  border: none;
+  background-color: #759900;
+  color: #fefefe;
+  font-weight: 600;
+  margin-top: 15px;
+  width: 90px;
+  padding: 5px;
+  font-size: 30px;
+}
+
+
+@media screen and (max-width: 400px){
+  .ni-wrapper{
+    height: 20vh;
+  }
+  .ni-text-field{
+    font-size: 25px;
+  }
+  .ni-button{
+    font-size: 25px;
+  }
+}
+
+
+@media screen and (min-height: 1280px){
+  .ni-text-field{
+    font-size: 40px;
+  }
+  .ni-button{
+    width: 20vw;
+    height: 5vh; 
+  }
+}
+
+@media screen and (min-width: 968px){
+  .ni-wrapper{
+    width: 30vw;
+    border: 1px solid #aaa;
+  }
+}

@@ -8,9 +8,10 @@ const renderData = ({data}) => {
     const element = getElementIfIsRendered(el); // check the element is already rendered (by name)
     if(el.type === 'boolean'){
       if(element === null){
-        const newLength = valueDisplays.push(new ValueDisplayBoolean({
-          name: el.name,
-          value: el.value === "true",   // convert logic value in string to boolean
+        const newLength = valueDisplays.push(
+          new ValueDisplayBoolean({
+            name: el.name,
+            value: el.value === "true",   // convert logic value in string to boolean
         }));
         content.appendChild(valueDisplays[newLength-1].create());
       } else {
@@ -20,9 +21,10 @@ const renderData = ({data}) => {
       } 
     } else if(el.type === 'number'){
       if(element === null){
-        const newLength = valueDisplays.push(new ValueDisplayNumeric({
-          name: el.name,
-          value: parseFloat(el.value),      // convert logic value in string to boolean
+        const newLength = valueDisplays.push(
+          new ValueDisplayNumeric({
+            name: el.name,
+            value: parseFloat(el.value),     
         }));
         content.appendChild(valueDisplays[newLength-1].create());
       } else {

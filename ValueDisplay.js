@@ -156,6 +156,7 @@ class ValueDisplayNumeric extends ValueDisplay {
 
 
   onClick(){
+    numberInputShow(this);
     console.log("Number clicked");
     super.onClick();
   }
