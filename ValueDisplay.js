@@ -46,6 +46,22 @@ class ValueDisplay {
     this.refresh();
   }
 
+  sendData() {
+    axios.post(`${url}status`, {
+      name: this.name,
+      type: typeof this.value,
+      value: this.value,
+    })
+    .then(response => {
+      console.log("sent numeric");
+    })
+    .catch(err => {
+      console.log("Not connected to the server")
+    });
+  }
+
+
+
   create() {
     const dFragment = document.createDocumentFragment();
     this.wrapper.addEventListener('click', () => {
@@ -78,20 +94,6 @@ class ValueDisplayBoolean extends ValueDisplay {
       this.img.src = this.value ? booleanTrueImage : booleanFalseImage;
     }
     super.refresh()
-  }
-
-  sendData() {
-    axios.post(`${url}status`, {
-      name: this.name,
-      type: typeof this.value,
-      value: this.value,
-    })
-    .then(response => {
-      console.log("sent boolean");
-    })
-    .catch(err => {
-      console.log("Not connected to server")
-    });
   }
 
   setValue(value){
@@ -131,22 +133,6 @@ class ValueDisplayNumeric extends ValueDisplay {
     super.refresh();
   }
 
-  sendData() {
-    axios.post(`${url}status`, {
-      name: this.name,
-      type: typeof this.value,
-      value: this.value,
-    })
-    .then(response => {
-      console.log("sent numeric");
-    })
-    .catch(err => {
-      console.log("Not connected to the server")
-    });
-  }
-
-
-
   setValue(value){
     if(typeof value === 'number'){
       this.value = value;
@@ -157,7 +143,6 @@ class ValueDisplayNumeric extends ValueDisplay {
 
   onClick(){
     numberInputShow(this);
-    console.log("Number clicked");
     super.onClick();
   }
 
