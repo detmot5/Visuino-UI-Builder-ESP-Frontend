@@ -6,8 +6,18 @@ const content = document.getElementById('content');
 const title = document.getElementById('title');
 
 
+axios.get(`${url}init`)
+.then(response => {
+  document.title = response.data;
+  title.innerHTML = response.data;
+
+});
+
+
+
+
 const getData = () => {
-  axios.get("http://localhost:8080/users")
+  axios.get(`${url}input`)
   .then(response => renderData(response))
   console.log("data")
   setTimeout(getData, 1000);

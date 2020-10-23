@@ -1,9 +1,8 @@
 
 
 const renderData = ({data}) => {
+  console.log(data.elements);
   const elements = data.elements;
-
-  title.innerHTML = data.title;
   elements.forEach((el) => {
     const element = getElementIfIsRendered(el); // check the element is already rendered (by name)
     if(el.type === 'boolean'){
@@ -11,13 +10,13 @@ const renderData = ({data}) => {
         const newLength = valueDisplays.push(
           new ValueDisplayBoolean({
             name: el.name,
-            value: el.value === "true",   // convert logic value in string to boolean
+            value: el.value,   // convert logic value in string to boolean
         }));
         content.appendChild(valueDisplays[newLength-1].create());
       } else {
         // there we know the privided element is rendered, then we have to get it from array
         //const found = valueDisplays.find(element => element.name === el.name);
-        element.setValue(el.value === "true");
+        element.setValue(el.value);
       } 
     } else if(el.type === 'number'){
       if(element === null){

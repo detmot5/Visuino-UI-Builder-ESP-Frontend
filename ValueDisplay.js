@@ -53,7 +53,7 @@ class ValueDisplay {
       value: this.value,
     })
     .then(response => {
-      console.log("sent numeric");
+      console.log("sent");
     })
     .catch(err => {
       console.log("Not connected to the server")

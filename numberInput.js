@@ -31,37 +31,38 @@ numberInput_ErrorMessage.className = numberInput_ErrorMessageClassName;
 
 
 numberInput_Wrapper.appendChild(numberInput_TextField);
-numberInput_Wrapper.appendChild(numberInput_SubmitButton);
 numberInput_Wrapper.appendChild(numberInput_CloseButton);
+numberInput_Wrapper.appendChild(numberInput_SubmitButton);
 numberInput_Wrapper.appendChild(numberInput_ErrorMessage);
 
 
 
-const numberInputSubmitButtonOnClick = (valueDisplay) => {
+let actualValueDisplay = null;
+
+const numberInputSubmitButtonOnClick = () => {
   const value = parseFloat(numberInput_TextField.value);
-  if(!isNaN(value)){
-    valueDisplay.setValue(value);
-    valueDisplay.sendData();
+  if(!isNaN(value) && actualValueDisplay != null){
+    actualValueDisplay.setValue(value);
+    actualValueDisplay.sendData();
     numberInputHide();
   } else{
     numberInput_ErrorMessage.innerHTML = "Error: value must be a number!";
   } 
   numberInput_TextField.value = "";
+  
 }
+
 
 
 
 let isInputShowed = false;
 
+
 const numberInputShow = (valueDisplay) => {
   if(!isInputShowed){
+    actualValueDisplay = valueDisplay;
     numberInput_MainDiv.appendChild(numberInput_Wrapper);
-    numberInput_SubmitButton.addEventListener('click', () => {  
-      numberInputSubmitButtonOnClick(valueDisplay);
-    });
-    numberInput_CloseButton.addEventListener('click', () => {
-      numberInputHide();
-    })
+    numberInput_SubmitButton.addEventListener('click', numberInputSubmitButtonOnClick);
   }
   isInputShowed = true;
 }
@@ -69,8 +70,12 @@ const numberInputShow = (valueDisplay) => {
 
 const numberInputHide = () => {
   if(numberInput_Wrapper !== null && isInputShowed){
-    numberInput_ErrorMessage.innerHTML = "";
-    numberInput_Wrapper.remove();
+    numberInput_SubmitButton.removeEventListener('click', numberInputSubmitButtonOnClick);
+    numberInput_Wrapper.parentNode.removeChild(numberInput_Wrapper);
   }
+
+  numberInput_ErrorMessage.innerHTML = "";
   isInputShowed = false;
 }
+
+numberInput_CloseButton.addEventListener('click', numberInputHide);
