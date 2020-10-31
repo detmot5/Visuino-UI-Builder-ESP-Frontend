@@ -25,14 +25,12 @@ body{
   margin-top: 20px;
   font-weight: 700;
   font-size: 30px;
+  -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 
-#content{
-  margin-top: 40px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-left: 10px;
-  margin-right: 10px;
+#content {
+  width: 100vw;
+  height: 100%;
 }
 
 

@@ -6,21 +6,35 @@ const content = document.getElementById('content');
 const title = document.getElementById('title');
 
 
-axios.get(`${url}init`)
-.then(response => {
-  document.title = response.data;
-  title.innerHTML = response.data;
 
-});
+const sw = new Switch({
+  name: "dupa",
+  posX: 100,
+  posY: 200,
+  width: 500,
+  height: 500,
+  dataType: 'boolean',
+  desktopScale: 2,
+})
+
+const sw1 = new Switch({
+  name: "dupa1",
+  posX: 150,
+  posY: 250,
+  width: 500,
+  height: 500,
+  dataType: 'boolean',
+  desktopScale: 2,
+})
 
 
 
+console.log("siema")
 
+content.appendChild(sw.render());
+content.appendChild(sw1.render());
 const getData = () => {
-  axios.get(`${url}input`)
-  .then(response => renderData(response))
-  console.log("data")
-  setTimeout(getData, 1000);
+
 }
 getData();
 
