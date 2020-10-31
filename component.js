@@ -30,6 +30,11 @@ class Component {
   render() {
 
   }
+
+  sendData() {
+    console.log("elo")
+  }
+
 }
 
 
@@ -42,13 +47,12 @@ class Switch extends Component {
   onOffwitch;
   checkBox;
   label;
-  constructor({name, dataType, width, height, posX, posY, desktopScale }) {
-    super({name, dataType, width, height, posX, posY, desktopScale });
+  constructor({name, dataType, width, height, posX, posY, state, desktopScale }) {
+    super({name, dataType, width, height, posX, posY, state, desktopScale });
   }
 
 
   render() {
-
     const dFragment = document.createDocumentFragment();
     this.wrapper = document.createElement('div');
     this.wrapper.id = this.name;
@@ -58,15 +62,18 @@ class Switch extends Component {
     this.wrapper.style.left =`${this.posX}px`
 
 
+
     this.onOffwitch = document.createElement('div');
     this.onOffwitch.className = switchClassName;
+    this.onOffwitch.id = this.name+'-sw';
+    this.onOffwitch.addEventListener('click', this.onClick);
 
     this.checkBox = document.createElement('input');
     this.checkBox.type = "checkbox";
     this.checkBox.name = "onoffswitch";
     this.checkBox.id = this.name + "-cb";
     this.checkBox.className = switchCheckBoxClassName;
-
+    this.checkBox.checked = this.state;
 
     const checkBoxLabel = document.createElement('label');
     checkBoxLabel.htmlFor = this.checkBox.id;
@@ -79,6 +86,11 @@ class Switch extends Component {
     dFragment.appendChild(this.wrapper);
 
     return dFragment;
+  }
+
+  onClick() {
+    console.log("klikaj");
+    super.sendData();
   }
 
 

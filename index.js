@@ -15,6 +15,7 @@ const sw = new Switch({
   height: 500,
   dataType: 'boolean',
   desktopScale: 2,
+  state: false,
 })
 
 const sw1 = new Switch({
@@ -25,6 +26,17 @@ const sw1 = new Switch({
   height: 500,
   dataType: 'boolean',
   desktopScale: 2,
+  state: true,
+})
+const sw2 = new Switch({
+  name: "dupa2",
+  posX: 150,
+  posY: 300,
+  width: 500,
+  height: 500,
+  dataType: 'boolean',
+  desktopScale: 2,
+  state: true,
 })
 
 
@@ -33,6 +45,7 @@ console.log("siema")
 
 content.appendChild(sw.render());
 content.appendChild(sw1.render());
+content.appendChild(sw2.render());
 const getData = () => {
 
 }
