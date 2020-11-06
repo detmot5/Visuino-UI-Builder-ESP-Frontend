@@ -20,12 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35103424-b295-4d85-a3fe-61b8156d7cb1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Libs/switch.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Libs/switch.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component.css" beforeDir="false" afterPath="$PROJECT_DIR$/component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component.js" beforeDir="false" afterPath="$PROJECT_DIR$/component.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/renderer.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer.js" afterDir="false" />
     </list>
@@ -76,7 +71,7 @@
       <workItem from="1604180470440" duration="7088000" />
       <workItem from="1604231311985" duration="7015000" />
       <workItem from="1604611388777" duration="709000" />
-      <workItem from="1604659941708" duration="14351000" />
+      <workItem from="1604659941708" duration="24636000" />
     </task>
     <servers />
   </component>
@@ -103,6 +98,10 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2381" y="165" key="SettingsEditor/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604660100871" />
+    <state x="2472" y="249" key="Vcs.Push.Dialog.v2" timestamp="1604678406761">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2472" y="249" key="Vcs.Push.Dialog.v2/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604678406761" />
     <state x="2536" y="240" key="run.anything.popup" timestamp="1604660104208">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
