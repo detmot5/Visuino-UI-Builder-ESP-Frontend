@@ -17,49 +17,23 @@ fetch('test.json')
   })
 
 
-/*const sw = new Switch({
-  name: "dupa",
-  posX: 100,
-  posY: 200,
-  width: 500,
-  height: 500,
+
+const label = new Label({
+  name: "eluwina",
+  state: "Cos jest włączone",
+  fontSize: 15,
   dataType: 'boolean',
-  componentType: 'switch',
+  color: 'lightblue',
+  posX: 321,
+  posY: 440,
+  height: 10,
+  width: 40,
   desktopScale: 2,
-  state: false,
+  componentType: 'label'
 })
 
-const sw1 = new Switch({
-  name: "dupa1",
-  posX: 1,
-  posY: 1,
-  width: 500,
-  height: 500,
-  dataType: 'boolean',
-  componentType: 'switch',
-  desktopScale: 2,
-  state: true,
-})
-const sw2 = new Switch({
-  name: "dupa2",
-  posX: 150,
-  posY: 300,
-  width: 500,
-  height: 500,
-  dataType: 'boolean',
-  componentType: 'switch',
-  desktopScale: 2,
-  state: true,
-})*/
+content.appendChild(label.render());
 
-
-
-
-console.log("siema")
-
-/*content.appendChild(sw.render());
-content.appendChild(sw1.render());
-content.appendChild(sw2.render());*/
 const getData = () => {
 
 }

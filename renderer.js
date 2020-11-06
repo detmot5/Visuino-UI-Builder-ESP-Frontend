@@ -1,33 +1,50 @@
 
 
-const renderData = (data) => {
+
+const renderComponent = (component) => {
+}
+
+
+
+
+
+const renderData = ({elements}) => {
   console.log("render")
-  console.log(data.elements);
-  const elements = data.elements;
 
-
+  console.log(elements)
   elements.forEach((el) => {
-    if (el.componentType === 'switch') {
-      console.log("exist")
-      const existing = getElementIfIsRendered(el);
-      if(existing === null){
-        components.push(new Switch({
-          name: el.name,
-          dataType: el.dataType,
-          componentType: el.componentType,
-          posX: el.posX,
-          posY: el.posY,
-          width: el.width,
-          height: el.height,
-          state: el.value,
-          desktopScale: el.desktopScale,
-        }
-        ));
-      } else {
-        console.log("notexist")
-        existing.setState(el.value);
-      }
+    const existing = getElementIfIsRendered(el);
+    if(existing === null){
+      switch (el.componentType){
+        case 'switch':
+          components.push(new SwitchComponent({
+            name: el.name,
+            componentType: el.componentType,
+            size: el.size,
+            posX: el.posX,
+            posY: el.posY,
+            state: el.value,
+            color: el.color,
+            desktopScale: el.desktopScale,
+          }));
+          break;
 
+        case 'label':
+          components.push(new Label({
+            name: el.name,
+            componentType: el.componentType,
+            posX: el.posX,
+            posY: el.posY,
+            width: el.width,
+            height: el.height,
+            state: el.value,
+            desktopScale: el.desktopScale,
+            fontSize: el.fontSize,
+            color: el.color,
+          }));
+          break;
+
+      }
     }
 
   });

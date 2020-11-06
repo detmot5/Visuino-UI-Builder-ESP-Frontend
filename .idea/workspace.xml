@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="35103424-b295-4d85-a3fe-61b8156d7cb1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Libs/switch.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Libs/switch.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/bulbOff.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/bulbOn.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/component.css" beforeDir="false" afterPath="$PROJECT_DIR$/component.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/component.js" beforeDir="false" afterPath="$PROJECT_DIR$/component.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/renderer.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer.js" afterDir="false" />
@@ -43,6 +61,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\mySoft\Projects\Embedded\Ra\Workspace\Website\frontend-rafal-vanila\Libs" />
       <recent name="C:\mySoft\Projects\Embedded\Ra\Workspace\Website\frontend-rafal-vanila" />
     </key>
   </component>
@@ -55,22 +74,39 @@
       <option name="presentableId" value="Default" />
       <updated>1604180467342</updated>
       <workItem from="1604180470440" duration="7088000" />
-      <workItem from="1604231311985" duration="5286000" />
+      <workItem from="1604231311985" duration="7015000" />
+      <workItem from="1604611388777" duration="709000" />
+      <workItem from="1604659941708" duration="14351000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
     <state x="2627" y="144" key="#JavaScript" timestamp="1604180851674">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2627" y="144" key="#JavaScript/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604180851674" />
-    <state x="2381" y="165" key="SettingsEditor" timestamp="1604181802287">
+    <state x="2381" y="165" key="SettingsEditor" timestamp="1604660100871">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="2381" y="165" key="SettingsEditor/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604181802287" />
+    <state x="2381" y="165" key="SettingsEditor/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604660100871" />
+    <state x="2536" y="240" key="run.anything.popup" timestamp="1604660104208">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2536" y="240" key="run.anything.popup/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604660104208" />
     <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1604180740018">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
