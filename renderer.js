@@ -14,7 +14,7 @@ const renderData = ({elements}) => {
               size: el.size,
               posX: el.posX,
               posY: el.posY,
-              state: el.value,
+              value: el.value,
               color: el.color,
               desktopScale: el.desktopScale,
             }));
@@ -28,15 +28,30 @@ const renderData = ({elements}) => {
               componentType: el.componentType,
               posX: el.posX,
               posY: el.posY,
-              width: el.width,
-              height: el.height,
-              state: el.value,
+              value: el.value,
               desktopScale: el.desktopScale,
               fontSize: el.fontSize,
               color: el.color,
             }));
-          } else existing.setState(el.value);
+          } else existing.setState(el);
           break;
+        case 'gauge':
+          if(existing === null){
+            components.push(new GaugeComponent({
+              name: el.name,
+              componentType: el.componentType,
+              posX: el.posX,
+              posY: el.posY,
+              width: el.width,
+              height: el.height,
+              color: el.color,
+              maxValue: el.maxValue,
+              minValue: el.minValue,
+              value: el.value,
+            }));
+          } else existing.setState(el);
+
+          break
       }
   });
 

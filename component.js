@@ -4,30 +4,27 @@ const componentWrapperClassName = 'c-wrapper';
 
 class Component {
   dFragment;
-
   name;
-  dataType;
   posX;
   posY;
-  state;
+  value;
   componentType;
 
   desktopScale;
   wrapper;
 
-  constructor({name, dataType, componentType, posX, posY, state, desktopScale}) {
+  constructor({name, componentType, posX, posY, value, desktopScale}) {
     this.name = name;
-    this.dataType = dataType;
     this.componentType = componentType;
     this.posX = posX;
     this.posY = posY;
     this.desktopScale = desktopScale;
-    this.state = state;
+    this.value = value;
     this.wrapper = document.createElement('div');
     this.dFragment = document.createDocumentFragment();
   }
   setState(state){
-    this.state = state;
+    this.value = state.value;
   }
   render() {
     this.wrapper.id = this.name;
@@ -42,14 +39,14 @@ class Component {
 
 
 class InputComponent extends Component {
-  constructor({name, dataType, componentType, width, height, posX, posY, state, desktopScale }) {
-    super({name, dataType, componentType, width, height, posX, posY, state, desktopScale})
+  constructor({name, componentType, width, height, posX, posY, value, desktopScale }) {
+    super({name, componentType, width, height, posX, posY, value, desktopScale})
   }
   toJson() {
     return{
       name: this.name,
       componentType: this.componentType,
-      value: this.state
+      value: this.value
     }
   }
   sendData() {
@@ -66,8 +63,8 @@ class InputComponent extends Component {
 }
 
 class OutputComponent extends Component{
-  constructor({name, dataType, componentType, posX, posY, state, desktopScale }) {
-    super({name, dataType, componentType, posX, posY, state, desktopScale})
+  constructor({name, componentType, posX, posY, value, desktopScale }) {
+    super({name, componentType, posX, posY, value, desktopScale})
   }
 
   refresh(){
@@ -79,24 +76,74 @@ class OutputComponent extends Component{
 class Label extends OutputComponent {
   fontSize;
   color;
-  constructor({name, dataType, componentType, posX, posY, state, desktopScale, fontSize, color }) {
-    super({name, dataType, componentType, posX, posY, state, desktopScale})
-    if(typeof state !== 'string') throw `${this.toString()} Illegal Parameter Type`;
+  constructor({name, componentType, posX, posY, value, desktopScale, fontSize, color }) {
+    super({name, componentType, posX, posY, value, desktopScale})
+    if(typeof value !== 'string') throw `${this.toString()} Illegal Parameter Type`;
     this.fontSize = fontSize;
     this.color = color;
-    this.setState(state);
+    this.setState({fontSize, color, value});
   }
 
   setState(state) {
     super.setState(state);
-    this.wrapper.innerHTML = this.state;
+    this.fontSize = state.fontSize;
+    this.color = state.color;
+
+    this.wrapper.innerHTML = this.value;
+    this.wrapper.style.fontSize = `${this.fontSize}px`;
+    this.wrapper.style.color = this.color;
   }
 
   render() {
     super.render();
     this.wrapper.style.fontSize = this.fontSize;
     this.wrapper.style.color = this.color;
-    this.wrapper.innerHTML = this.state;
+    this.wrapper.innerHTML = this.value;
+    this.dFragment.appendChild(this.wrapper);
+    return this.dFragment;
+  }
+}
+
+class GaugeComponent extends OutputComponent{
+  color;
+  maxValue;
+  minValue;
+  width;
+  height;
+  knob;     //gauge component object;
+  constructor({name,componentType, posX, posY, value, desktopScale, color, minValue, maxValue, width, height}) {
+    super({name, componentType, posX, posY, value, desktopScale})
+
+    this.color = color;
+    this.minValue = minValue;
+    this.maxValue = maxValue;
+    this.width = width;
+    this.height = height;
+
+    this.knob = pureknob.createKnob(this.width, this.height);
+    this.knob.setProperty('label', this.name);
+    this.knob.setProperty('colorLabel', '#333');
+    this.knob.setProperty('angleStart', -0.75 * Math.PI);
+    this.knob.setProperty('angleEnd', 0.75 * Math.PI);
+    this.knob.setProperty('colorFG', this.color);
+    this.knob.setProperty('colorBG', '#aaa');
+    this.knob.setProperty('trackWidth', 0.4);
+    this.knob.setProperty('valMin', this.minValue);
+    this.knob.setProperty('valMax', this.maxValue);
+    this.knob.setProperty('readonly', true);
+    this.knob.setValue(this.value);
+  }
+
+  setState(state) {
+    super.setState(state);
+    this.color = state.color;
+    this.knob.setProperty('colorFG', this.color);
+    this.knob.setValue(this.value);
+  }
+
+  render() {
+    super.render();
+    this.wrapper.appendChild(this.knob.node());
     this.dFragment.appendChild(this.wrapper);
     return this.dFragment;
   }
@@ -117,9 +164,9 @@ class SwitchComponent extends InputComponent {
   label;
   swObject;
 
-  constructor({name, dataType, componentType, width, height, posX, posY, state, desktopScale, color, size }) {
-    super({name, dataType,componentType, width, height, posX, posY, state, desktopScale });
-    if(typeof state !== 'boolean') throw `${this.toString()} Illegal Parameter Type`;
+  constructor({name, dataType, componentType, width, height, posX, posY, value, desktopScale, color, size }) {
+    super({name, dataType,componentType, width, height, posX, posY, value, desktopScale });
+    if(typeof value !== 'boolean') throw `${this.toString()} Illegal Parameter Type`;
     this.checkBox = document.createElement('input');
     this.color = color;
     this.size = size;
@@ -128,7 +175,7 @@ class SwitchComponent extends InputComponent {
 
   onClick(e) {
     console.log(e);
-    this.setState(e);
+    this.setState({value: e});
     super.sendData();
   }
 
@@ -143,9 +190,10 @@ class SwitchComponent extends InputComponent {
     console.log(el);
     this.swObject = new Switch(el,{
       size: this.size,
-      checked: this.state,
+      checked: this.value,
       onChange: (e) => {this.onClick(e)},
-      onSwitchColor: this.color
+      onSwitchColor: this.color,
+      offSwitchColor: '#ccc',
     }
     );
 
