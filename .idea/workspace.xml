@@ -21,13 +21,9 @@
   <component name="ChangeListManager">
     <list default="true" id="35103424-b295-4d85-a3fe-61b8156d7cb1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ValueDisplay.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ValueDisplay.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/component.js" beforeDir="false" afterPath="$PROJECT_DIR$/component.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/numberInput.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/numberInput.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +77,7 @@
       <workItem from="1604231311985" duration="7015000" />
       <workItem from="1604611388777" duration="709000" />
       <workItem from="1604659941708" duration="24636000" />
-      <workItem from="1604834166694" duration="7674000" />
+      <workItem from="1604834166694" duration="9714000" />
     </task>
     <servers />
   </component>
@@ -121,16 +117,5 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604180740018" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.js</url>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
