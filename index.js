@@ -39,6 +39,22 @@ const getData = async () => {
 getData();
 
 
+const slider = new SliderComponent({
+  name: 'sl',
+  maxValue: 100,
+  minValue: 20,
+  value: 30,
+  color: '#333',
+  posY: 200,
+  posX: 200,
+  componentType: 'slider',
+  desktopScale: 2,
+})
+
+
+content.appendChild(slider.render());
+
+
 
 
 

@@ -29,7 +29,7 @@ class Component {
   render() {
     this.wrapper.id = this.name;
     this.wrapper.className = componentWrapperClassName;
-    this.wrapper.style.position = 'fixed';
+    this.wrapper.style.position = 'absolute';
     this.wrapper.style.top = `${this.posY}px`
     this.wrapper.style.left =`${this.posX}px`
   }
@@ -39,8 +39,8 @@ class Component {
 
 
 class InputComponent extends Component {
-  constructor({name, componentType, width, height, posX, posY, value, desktopScale }) {
-    super({name, componentType, width, height, posX, posY, value, desktopScale})
+  constructor({name, componentType, posX, posY, value, desktopScale }) {
+    super({name, componentType, posX, posY, value, desktopScale})
   }
   toJson() {
     return{
@@ -153,7 +153,6 @@ class GaugeComponent extends OutputComponent{
 
 
 class SwitchComponent extends InputComponent {
-
   #switchClassName = "onoffswitch";
   #switchCheckBoxClassName = "onoffswitch-checkbox";
   #switchLabelClassName = "onoffswitch-label";
@@ -164,8 +163,8 @@ class SwitchComponent extends InputComponent {
   label;
   swObject;
 
-  constructor({name, dataType, componentType, width, height, posX, posY, value, desktopScale, color, size }) {
-    super({name, dataType,componentType, width, height, posX, posY, value, desktopScale });
+  constructor({name, componentType, posX, posY, value, desktopScale, color, size }) {
+    super({name, componentType, posX, posY, value, desktopScale });
     if(typeof value !== 'boolean') throw `${this.toString()} Illegal Parameter Type`;
     this.checkBox = document.createElement('input');
     this.color = color;
@@ -181,7 +180,6 @@ class SwitchComponent extends InputComponent {
 
   render() {
     super.render();
-
     this.checkBox.type = 'checkbox';
     this.checkBox.className = this.#switchCheckBoxClassName+this.name;
     this.wrapper.appendChild(this.checkBox);
@@ -196,19 +194,42 @@ class SwitchComponent extends InputComponent {
       offSwitchColor: '#ccc',
     }
     );
-
     console.log(this.swObject);
-
-
-
     return this.dFragment;
+  }
+}
+
+
+class SliderComponent extends InputComponent{
+  maxValue;
+  minValue;
+  slider;
+  color;
+  constructor({name, componentType, posX, posY, value, desktopScale, color, maxValue, minValue }) {
+    super({name, componentType, posX, posY, value, desktopScale});
+    this.minValue = minValue;
+    this.maxValue = maxValue;
+    this.color = color;
+    this.slider = document.createElement('input');
   }
 
 
-
+  render() {
+    super.render();
+    this.slider.type = "range";
+    this.slider.className = "slider";
+    this.slider.max = this.maxValue;
+    this.slider.min = this.minValue;
+    this.slider.style.background = '#333';
+    this.slider.value = this.value;
+    this.slider.style.width = '400px';
+    this.slider.style.height = '20px';
+    this.wrapper.append(this.slider);
+    this.dFragment.appendChild(this.wrapper);
+    return this.dFragment;
+  }
 
 }
-
 
 
 

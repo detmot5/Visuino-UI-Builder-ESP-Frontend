@@ -6,4 +6,19 @@
      user-select: none;
 }
 
+.slider{
+    -webkit-appearance: none;
+    outline: none;
+    border-radius: 4px;
+}
 
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
