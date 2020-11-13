@@ -50,8 +50,22 @@ const renderData = ({elements}) => {
               value: el.value,
             }));
           } else existing.setState(el);
-
-          break
+          break;
+        case 'slider':
+          if(existing === null){
+            components.push(new SliderComponent({
+              name: el.name,
+              componentType: el.componentType,
+              posX: el.posX,
+              posY: el.posY,
+              width: el.width,
+              height: el.height,
+              color: el.color,
+              maxValue: el.maxValue,
+              minValue: el.minValue,
+              value: el.value
+            }))
+          } else existing.setState(el);
       }
   });
 

@@ -246,7 +246,8 @@ class SliderComponent extends InputComponent{
     this.wrapper.style.alignItems = 'center';
 
     this.slider.type = "range";
-    this.slider.className = this.#sliderClassName;
+    this.slider.classList.add(this.#sliderClassName);
+    this.slider.classList.add(`${this.name}`);        // second, unique class is required because modifying thumb via id not work
     this.slider.max = this.maxValue;
     this.slider.min = this.minValue;
     this.slider.style.background = '#999';
@@ -256,7 +257,7 @@ class SliderComponent extends InputComponent{
     this.slider.addEventListener('input', (e) => this.onChange(e));
     this.slider.addEventListener('change', () => this.onRelease());
 
-    this.style.innerHTML = `.slider::-webkit-slider-thumb {
+    this.style.innerHTML = `.${this.name}::-webkit-slider-thumb {
                                 background: ${this.color}; 
                                 height: ${this.height * 1.1 + 'px'}; 
                                 width: ${this.height * 1.1 + 'px'}};`;
