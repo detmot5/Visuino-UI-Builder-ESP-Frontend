@@ -231,10 +231,11 @@ class SliderComponent extends InputComponent{
 
   onChange(e) {
     this.sliderValueWrapper.innerHTML = e.target.value;
-    this.setState({value: this.value});
+    this.setState({value: parseInt(e.target.value)});
   }
 
-  onRelease() {
+  onRelease(e) {
+    this.setState({value: parseInt(e.target.value)});
     this.sendData();
   }
 
@@ -255,7 +256,7 @@ class SliderComponent extends InputComponent{
     this.slider.style.width = this.width + 'px';
     this.slider.style.height = this.height + 'px';
     this.slider.addEventListener('input', (e) => this.onChange(e));
-    this.slider.addEventListener('change', () => this.onRelease());
+    this.slider.addEventListener('change', (e) => this.onRelease(e));
 
     this.style.innerHTML = `.${this.name}::-webkit-slider-thumb {
                                 background: ${this.color}; 

@@ -2,7 +2,7 @@
 const renderData = ({elements}) => {
   console.log("render")
 
-  console.log(elements)
+  //console.log(elements)
   elements.forEach((el) => {
     const existing = getElementIfIsRendered(el);
       switch (el.componentType){
