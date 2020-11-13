@@ -198,21 +198,34 @@ class SwitchComponent extends InputComponent {
 
 
 class SliderComponent extends InputComponent{
+  width;
+  height;
   maxValue;
   minValue;
   slider;
   color;
   style;
   sliderValueWrapper;
-  constructor({name, componentType, posX, posY, value, desktopScale, color, maxValue, minValue }) {
-    super({name, componentType, posX, posY, value, desktopScale});
+  constructor({name, componentType, width, height, posX, posY, value, desktopScale, color, maxValue, minValue }) {
+    super({name, componentType, width, height, posX, posY, value, desktopScale});
     this.minValue = minValue;
     this.maxValue = maxValue;
     this.color = color;
+    this.width = width;
+    this.height = height;
     this.slider = document.createElement('input');
     this.style = document.createElement('style');
     this.sliderValueWrapper = document.createElement('span');
   }
+
+  onChange(e) {
+    this.sliderValueWrapper.innerHTML = e.target.value;
+  }
+
+  onRelease(e) {
+    console.log(e.target.value);
+  }
+
 
 
   render() {
@@ -223,11 +236,12 @@ class SliderComponent extends InputComponent{
     this.slider.min = this.minValue;
     this.slider.style.background = '#999';
     this.slider.value = this.value;
-    this.slider.style.width = '400px';
-    this.slider.style.height = '20px';
-    this.style.innerHTML = `.slider::-webkit-slider-thumb {background: ${this.color}`;
-
-
+    this.slider.style.width = this.width + 'px';
+    this.slider.style.height = this.height + 'px';
+    this.slider.addEventListener('input', (e) => this.onChange(e));
+    this.slider.addEventListener('change', (e) => this.onRelease(e));
+    this.style.innerHTML = `.slider::-webkit-slider-thumb {background: ${this.color}; height: ${this.height + 'px'}; width: ${this.height + 'px'};`;
+    this.sliderValueWrapper.innerHTML = this.value;
     this.wrapper.appendChild(this.style);
     this.wrapper.appendChild(this.slider);
     this.wrapper.appendChild(this.sliderValueWrapper);
