@@ -223,6 +223,18 @@ class SliderComponent extends InputComponent{
     this.sliderValueWrapper = document.createElement('span');
   }
 
+  setIsScrollingEnabled(state){
+    if(state){
+      document.body.style.position = 'relative';
+      document.body.style.overflowX = 'hidden';
+      document.getElementsByTagName('html').item(0).style.overflowX = "hidden";
+    } else {
+      document.body.style.position = 'absolute';
+      document.body.style.overflowX = 'auto';
+      document.getElementsByTagName('html').item(0).style.overflowX = "auto";
+    }
+  }
+
 
   setState(state) {
     super.setState(state);
@@ -230,11 +242,13 @@ class SliderComponent extends InputComponent{
   }
 
   onChange(e) {
+    this.setIsScrollingEnabled(true);
     this.sliderValueWrapper.innerHTML = e.target.value;
     this.setState({value: parseInt(e.target.value)});
   }
 
   onRelease(e) {
+    this.setIsScrollingEnabled(false);
     this.setState({value: parseInt(e.target.value)});
     this.sendData();
   }
@@ -257,6 +271,7 @@ class SliderComponent extends InputComponent{
     this.slider.style.height = this.height + 'px';
     this.slider.addEventListener('input', (e) => this.onChange(e));
     this.slider.addEventListener('change', (e) => this.onRelease(e));
+    this.slider.addEventListener('click', () => {content.style.overflow = 'hidden'})
 
     this.style.innerHTML = `.${this.name}::-webkit-slider-thumb {
                                 background: ${this.color}; 
