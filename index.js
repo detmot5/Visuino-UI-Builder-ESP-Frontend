@@ -44,9 +44,9 @@ const slider = new SliderComponent({
   maxValue: 100,
   minValue: 20,
   value: 30,
-  color: '#333',
+  color: 'red',
   posY: 200,
-  posX: 200,
+  posX: 300,
   componentType: 'slider',
   desktopScale: 2,
 })

@@ -67,9 +67,6 @@ class OutputComponent extends Component{
     super({name, componentType, posX, posY, value, desktopScale})
   }
 
-  refresh(){
-
-  }
 }
 
 
@@ -205,12 +202,16 @@ class SliderComponent extends InputComponent{
   minValue;
   slider;
   color;
+  style;
+  sliderValueWrapper;
   constructor({name, componentType, posX, posY, value, desktopScale, color, maxValue, minValue }) {
     super({name, componentType, posX, posY, value, desktopScale});
     this.minValue = minValue;
     this.maxValue = maxValue;
     this.color = color;
     this.slider = document.createElement('input');
+    this.style = document.createElement('style');
+    this.sliderValueWrapper = document.createElement('span');
   }
 
 
@@ -220,11 +221,16 @@ class SliderComponent extends InputComponent{
     this.slider.className = "slider";
     this.slider.max = this.maxValue;
     this.slider.min = this.minValue;
-    this.slider.style.background = '#333';
+    this.slider.style.background = '#999';
     this.slider.value = this.value;
     this.slider.style.width = '400px';
     this.slider.style.height = '20px';
-    this.wrapper.append(this.slider);
+    this.style.innerHTML = `.slider::-webkit-slider-thumb {background: ${this.color}`;
+
+
+    this.wrapper.appendChild(this.style);
+    this.wrapper.appendChild(this.slider);
+    this.wrapper.appendChild(this.sliderValueWrapper);
     this.dFragment.appendChild(this.wrapper);
     return this.dFragment;
   }
