@@ -198,6 +198,11 @@ class SwitchComponent extends InputComponent {
 
 
 class SliderComponent extends InputComponent{
+  #sliderClassName = 'slider';
+  #sliderValueWrapperClassName = 'sliderValueWrapper';
+
+
+
   width;
   height;
   maxValue;
@@ -218,20 +223,30 @@ class SliderComponent extends InputComponent{
     this.sliderValueWrapper = document.createElement('span');
   }
 
+
+  setState(state) {
+    super.setState(state);
+    this.color = state.color;
+  }
+
   onChange(e) {
     this.sliderValueWrapper.innerHTML = e.target.value;
+    this.setState({value: this.value});
   }
 
-  onRelease(e) {
-    console.log(e.target.value);
+  onRelease() {
+    this.sendData();
   }
-
-
 
   render() {
     super.render();
+
+    this.wrapper.style.display = 'flex';
+    this.wrapper.style.flexDirection = 'column';
+    this.wrapper.style.alignItems = 'center';
+
     this.slider.type = "range";
-    this.slider.className = "slider";
+    this.slider.className = this.#sliderClassName;
     this.slider.max = this.maxValue;
     this.slider.min = this.minValue;
     this.slider.style.background = '#999';
@@ -239,9 +254,16 @@ class SliderComponent extends InputComponent{
     this.slider.style.width = this.width + 'px';
     this.slider.style.height = this.height + 'px';
     this.slider.addEventListener('input', (e) => this.onChange(e));
-    this.slider.addEventListener('change', (e) => this.onRelease(e));
-    this.style.innerHTML = `.slider::-webkit-slider-thumb {background: ${this.color}; height: ${this.height + 'px'}; width: ${this.height + 'px'};`;
+    this.slider.addEventListener('change', () => this.onRelease());
+
+    this.style.innerHTML = `.slider::-webkit-slider-thumb {
+                                background: ${this.color}; 
+                                height: ${this.height * 1.1 + 'px'}; 
+                                width: ${this.height * 1.1 + 'px'}};`;
+
+    this.sliderValueWrapper.className = this.#sliderValueWrapperClassName;
     this.sliderValueWrapper.innerHTML = this.value;
+
     this.wrapper.appendChild(this.style);
     this.wrapper.appendChild(this.slider);
     this.wrapper.appendChild(this.sliderValueWrapper);

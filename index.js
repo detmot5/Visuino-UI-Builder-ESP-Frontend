@@ -42,7 +42,7 @@ getData();
 const slider = new SliderComponent({
   name: 'sl',
   width: 300,
-  height: 20,
+  height: 30,
   maxValue: 100,
   minValue: 20,
   value: 30,
