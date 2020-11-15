@@ -39,23 +39,19 @@ const getData = async () => {
 getData();
 
 
-const slider = new SliderComponent({
-  name: 'sl',
-  width: 300,
-  height: 30,
-  maxValue: 100,
-  minValue: 20,
-  value: 30,
-  color: 'red',
-  posY: 200,
-  posX: 300,
-  componentType: 'slider',
+const ninput = new NumberInputComponent({
+  name: "engine temperature",
+  color: "red",
+  fontSize: 16,
+  width: 100,
+  value: 20,
   desktopScale: 2,
+  componentType: 'numberInput',
+  posY: 100,
+  posX: 400,
 })
 
-
-content.appendChild(slider.render());
-
+content.appendChild(ninput.render());
 
 
 

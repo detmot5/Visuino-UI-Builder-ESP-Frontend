@@ -65,7 +65,22 @@ const renderData = ({elements}) => {
               minValue: el.minValue,
               value: el.value
             }))
-          } else existing.setState(el);
+          }
+          break;
+        case "numberInput":
+          if(existing === null){
+            components.push(new NumberInputComponent({
+              name: el.name,
+              componentType: el.componentType,
+              posX: el.posX,
+              posY: el.posY,
+              width: el.width,
+              fontSize: el.fontSize,
+              color: el.color,
+              value: el.value
+            }))
+          } else
+          break
       }
   });
 

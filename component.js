@@ -1,7 +1,6 @@
 const componentWrapperClassName = 'c-wrapper';
 
 
-
 class Component {
   dFragment;
   name;
@@ -147,6 +146,52 @@ class GaugeComponent extends OutputComponent{
 }
 
 
+class LedIndicatorComponent extends OutputComponent{
+  #ledClassName = "led";
+  #frameClassName = "frame";
+  #offColor = "#999";
+  led;
+  frame;
+  color;
+  constructor({name, componentType, posX, posY, value, desktopScale, color }) {
+    super({name, componentType, posX, posY, value, desktopScale });
+    this.color = color;
+    this.frame = document.createElement('div');
+    this.led = document.createElement('div');
+  }
+
+  setState(state) {
+    super.setState(state);
+    this.setLed(state.value);
+    this.color = state.color;
+  }
+
+
+  setLed(value){
+    if(value) {
+      this.led.style.backgroundColor = "red";
+    } else {
+      this.led.style.backgroundColor = "red";
+    }
+  }
+
+
+
+  render() {
+    super.render();
+    this.led.className = this.#ledClassName;
+    this.frame.className = this.#frameClassName;
+    this.setLed(this.value);
+
+    this.wrapper.appendChild(this.led);
+    this.wrapper.appendChild(this.frame);
+    this.dFragment.appendChild(this.wrapper);
+    return this.dFragment;
+  }
+
+}
+
+
 
 
 class SwitchComponent extends InputComponent {
@@ -162,7 +207,7 @@ class SwitchComponent extends InputComponent {
 
   constructor({name, componentType, posX, posY, value, desktopScale, color, size }) {
     super({name, componentType, posX, posY, value, desktopScale });
-    if(typeof value !== 'boolean') throw `${this.toString()} Illegal Parameter Type`;
+    if(typeof value !== 'boolean') throw `Switch ${this.toString()} Illegal Value Type`;
     this.checkBox = document.createElement('input');
     this.color = color;
     this.size = size;
@@ -201,8 +246,6 @@ class SliderComponent extends InputComponent{
   #sliderClassName = 'slider';
   #sliderValueWrapperClassName = 'sliderValueWrapper';
 
-
-
   width;
   height;
   maxValue;
@@ -228,17 +271,13 @@ class SliderComponent extends InputComponent{
       document.body.style.position = 'relative';
       document.body.style.overflowX = 'hidden';
       document.getElementsByTagName('html').item(0).style.overflowX = "hidden";
+      content.style.overflowX = "hidden";
     } else {
       document.body.style.position = 'absolute';
       document.body.style.overflowX = 'auto';
-      document.getElementsByTagName('html').item(0).style.overflowX = "auto";
+      document.getElementsByTagName('html').item(0).style.overflowX = "scroll";
+      content.style.overflowX = "scroll";
     }
-  }
-
-
-  setState(state) {
-    super.setState(state);
-    this.color = state.color;
   }
 
   onChange(e) {
@@ -262,7 +301,7 @@ class SliderComponent extends InputComponent{
 
     this.slider.type = "range";
     this.slider.classList.add(this.#sliderClassName);
-    this.slider.classList.add(`${this.name}`);        // second, unique class is required because modifying thumb via id not work
+    this.slider.classList.add(`${this.name}`);        // second, unique class is required because modifying thumb via id is not working
     this.slider.max = this.maxValue;
     this.slider.min = this.minValue;
     this.slider.style.background = '#999';
@@ -289,6 +328,68 @@ class SliderComponent extends InputComponent{
   }
 
 }
+
+class NumberInputComponent extends InputComponent {
+  #inputClassName = 'input'
+  #submitButtonClassName = 'input-btn';
+
+  width;
+  fontSize;
+  color;
+
+  input;
+  submitButton;
+  constructor({name, componentType, posX, posY, value, desktopScale, fontSize, width, color}) {
+    super({name, componentType, posX, posY, value, desktopScale });
+    if(typeof value !== 'number') throw `Number Input ${this.toString()} Illegal Value Type`
+
+    this.width = width;
+    this.fontSize = fontSize;
+    this.color = color;
+
+    this.input = document.createElement('input');
+    this.submitButton = document.createElement('button');
+  }
+
+
+  onSubmit(e){
+    this.sendData();
+  }
+
+  render() {
+    super.render();
+    this.input.className = this.#inputClassName;
+    this.submitButton.className = this.#submitButtonClassName;
+
+    this.wrapper.style.display = "flex";
+    this.wrapper.style.flexDirection = "row";
+    this.wrapper.style.justifyContent = "center";
+    this.wrapper.style.alignItems = "center";
+
+    this.input.type = "number";
+    this.input.value = this.value;
+    this.input.style.width = `${this.width}px`;
+    this.input.style.fontSize = `${this.fontSize}px`;
+    this.input.style.color = this.color;
+    this.input.style.borderBottom = `solid 1px ${this.color}`
+    this.input.addEventListener('focusout', (e) => {e.target.style.borderBottom = `solid 1px ${this.color}`})
+    this.input.addEventListener('focus', (e) => {e.target.style.borderBottom = `solid 2px ${this.color}`})
+
+    this.input.placeholder = this.name;
+    this.submitButton.style.padding = `${ Math.round(this.fontSize / 5) }px`;
+    this.submitButton.addEventListener('click', (e) => {this.onSubmit(e)});
+
+
+    this.wrapper.appendChild(this.input);
+    this.wrapper.appendChild(this.submitButton);
+
+    this.dFragment.appendChild(this.wrapper);
+    return this.dFragment;
+  }
+
+
+}
+
 
 
 
