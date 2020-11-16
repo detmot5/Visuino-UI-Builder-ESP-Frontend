@@ -48,16 +48,16 @@ class InputComponent extends Component {
       value: this.value
     }
   }
-  sendData() {
+  async sendData() {
     console.log(this.toJson())
-    fetch(`${url}status`, {
+    const res = await fetch(`${url}status`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(this.toJson())
-    }).then(r => console.log("sent"))
-      .catch(err => console.log("err"));
+    });
+    return res.clone();
   }
 }
 
@@ -353,7 +353,25 @@ class NumberInputComponent extends InputComponent {
 
 
   onSubmit(e){
-    this.sendData();
+    this.setState({value: parseFloat(this.input.value)});
+    this.sendData()
+      .then(data => {
+        if(data.status === 200) this.notifyAboutSending('#00b80c');
+        else this.notifyAboutSending('red');
+      })
+  }
+
+
+  setButtonColor(color){
+    this.submitButton.style.border = `solid ${color}`;
+    this.submitButton.style.borderWidth = '0 3px 3px 0';
+  }
+
+  notifyAboutSending(color) {
+    this.setButtonColor(color);
+    setTimeout(() => {
+      this.setButtonColor('#333');
+    },500);
   }
 
   render() {
