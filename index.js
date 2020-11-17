@@ -39,6 +39,7 @@ const getData = async () => {
 getData();
 
 
+/*
 const button = new ButtonComponent({
   name: "btn",
   textColor: 'white',
@@ -57,6 +58,7 @@ const button = new ButtonComponent({
 content.appendChild(button.render());
 
 
+*/
 
 
 

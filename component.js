@@ -465,8 +465,7 @@ class ButtonComponent extends InputComponent{
   onRelease(e){
     this.#isButtonPressed = false;
     this.value = false;
-    console.log("release");
-
+    this.sendData();
   }
 
   render() {
@@ -479,7 +478,7 @@ class ButtonComponent extends InputComponent{
     this.button.style.width = `${this.width}px`;
     this.button.style.height = `${this.height}px`;
     this.button.addEventListener('mousedown', (e) => {this.onClick(e)});
-    this.button.addEventListener('mouseup', (e) => {this.onRelease(e)});
+    this.button.addEventListener('click', (e) => {this.onRelease(e)});
     this.wrapper.appendChild(this.button);
     this.dFragment.appendChild(this.wrapper);
     return this.dFragment;

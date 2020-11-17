@@ -79,8 +79,23 @@ const renderData = ({elements}) => {
               color: el.color,
               value: el.value
             }))
-          } else
-          break
+          }
+          break;
+        case "button":
+          if(existing === null){
+            components.push(new ButtonComponent({
+              name: el.name,
+              componentType: el.componentType,
+              posX: el.posX,
+              posY: el.posY,
+              width: el.width,
+              height: el.height,
+              fontSize: el.fontSize,
+              color: el.color,
+              textColor: el.textColor,
+              text: el.text,
+            }))
+          }
       }
   });
 
@@ -90,6 +105,7 @@ const renderData = ({elements}) => {
 
 const getElementIfIsRendered = (elementToCheck) => {
   let element = null;
+
   components.forEach((el) => {
     if(el.name === elementToCheck.name) element = el;
   })
