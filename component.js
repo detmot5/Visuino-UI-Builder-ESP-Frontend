@@ -479,6 +479,9 @@ class ButtonComponent extends InputComponent{
     this.button.style.height = `${this.height}px`;
     this.button.addEventListener('mousedown', (e) => {this.onClick(e)});
     this.button.addEventListener('click', (e) => {this.onRelease(e)});
+    this.button.addEventListener("touchstart", (e) => {this.onClick(e)}, false);
+    this.button.addEventListener("touchend", (e) => {this.onRelease(e)}, false);
+
     this.wrapper.appendChild(this.button);
     this.dFragment.appendChild(this.wrapper);
     return this.dFragment;
