@@ -77,6 +77,7 @@
 }
 
 
+
 .input-btn {
     margin: 6px 0 0 5px;
     outline: none;
@@ -92,4 +93,10 @@
 .input-btn:active {
     border: solid #777;
     border-width: 0 3px 3px 0;
+}
+
+
+.button{
+    outline: none;
+    border: none;
 }

@@ -39,23 +39,22 @@ const getData = async () => {
 getData();
 
 
-const ninput = new NumberInputComponent({
-  name: "engine temperature",
-  color: "red",
+const button = new ButtonComponent({
+  name: "btn",
+  textColor: 'white',
   fontSize: 16,
-  width: 100,
-  value: 20,
+  text: "Twoj stary",
+  width: 200,
+  height: 40,
+  color: "#444",
+  posX: 500,
+  posY: 50,
+  componentType: "button",
   desktopScale: 2,
-  componentType: 'numberInput',
-  posY: 100,
-  posX: 400,
+  value: false,
 })
 
-content.appendChild(ninput.render());
-
-
-
-
+content.appendChild(button.render());
 
 
 

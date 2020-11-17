@@ -41,6 +41,9 @@ class InputComponent extends Component {
   constructor({name, componentType, posX, posY, value, desktopScale }) {
     super({name, componentType, posX, posY, value, desktopScale})
   }
+
+
+
   toJson() {
     return{
       name: this.name,
@@ -48,6 +51,11 @@ class InputComponent extends Component {
       value: this.value
     }
   }
+
+  notifyAboutSendingStatus(color){
+
+  }
+
   async sendData() {
     console.log(this.toJson())
     const res = await fetch(`${url}status`, {
@@ -241,7 +249,6 @@ class SwitchComponent extends InputComponent {
   }
 }
 
-
 class SliderComponent extends InputComponent{
   #sliderClassName = 'slider';
   #sliderValueWrapperClassName = 'sliderValueWrapper';
@@ -356,8 +363,8 @@ class NumberInputComponent extends InputComponent {
     this.setState({value: parseFloat(this.input.value)});
     this.sendData()
       .then(data => {
-        if(data.status === 200) this.notifyAboutSending('#00b80c');
-        else this.notifyAboutSending('red');
+        if(data.status === 200) this.notifyAboutSendingStatus('#00b80c');
+        else this.notifyAboutSendingStatus('red');
       })
   }
 
@@ -367,7 +374,7 @@ class NumberInputComponent extends InputComponent {
     this.submitButton.style.borderWidth = '0 3px 3px 0';
   }
 
-  notifyAboutSending(color) {
+  notifyAboutSendingStatus(color) {
     this.setButtonColor(color);
     setTimeout(() => {
       this.setButtonColor('#333');
@@ -404,8 +411,79 @@ class NumberInputComponent extends InputComponent {
     this.dFragment.appendChild(this.wrapper);
     return this.dFragment;
   }
+}
 
 
+class ButtonComponent extends InputComponent{
+  #buttonClassName = "button";
+  #isButtonPressed = false;
+
+  width;
+  height;
+  color;
+  text;
+  fontSize;
+  textColor;
+  button;
+  constructor({name, componentType, posX, posY, value, desktopScale, color, text, textColor, fontSize, width, height}) {
+    super({name, componentType, posX, posY, value, desktopScale});
+    this.color = color;
+    this.text = text;
+    this.fontSize = fontSize;
+    this.textColor = textColor;
+    this.width = width;
+    this.height = height;
+    this.button = document.createElement('button');
+  }
+
+  notifyAboutSendingStatus(color) {
+    this.button.style.outline = `${color} 3px solid`;
+  }
+
+  deleteNotifyingOutline(){
+    this.button.style.outline = 'none';
+  }
+
+
+  onClick(e){
+    this.#isButtonPressed = true;
+    this.value = true;
+    const send = () => {
+      this.sendData()
+        .then(res => {
+          if(res.status === 200) this.notifyAboutSendingStatus('#00b80c');
+          else this.notifyAboutSendingStatus('red');
+          if(!this.#isButtonPressed) this.deleteNotifyingOutline()
+        })
+      if(this.#isButtonPressed) setTimeout(send,  100);
+      else this.deleteNotifyingOutline();
+    }
+    send();
+
+  }
+
+  onRelease(e){
+    this.#isButtonPressed = false;
+    this.value = false;
+    console.log("release");
+
+  }
+
+  render() {
+    super.render();
+    this.button.className = this.#buttonClassName;
+    this.button.innerHTML = this.text;
+    this.button.style.fontSize = `${this.fontSize}px`;
+    this.button.style.color = this.textColor;
+    this.button.style.backgroundColor = this.color;
+    this.button.style.width = `${this.width}px`;
+    this.button.style.height = `${this.height}px`;
+    this.button.addEventListener('mousedown', (e) => {this.onClick(e)});
+    this.button.addEventListener('mouseup', (e) => {this.onRelease(e)});
+    this.wrapper.appendChild(this.button);
+    this.dFragment.appendChild(this.wrapper);
+    return this.dFragment;
+  }
 }
 
 
