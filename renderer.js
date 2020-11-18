@@ -61,6 +61,8 @@ const renderData = ({elements}) => {
               width: el.width,
               height: el.height,
               color: el.color,
+              xName: el.xName,
+              yName: el.yName,
               labels: el.labels,
               value: el.value,
             }))

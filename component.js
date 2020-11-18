@@ -200,31 +200,54 @@ class ChartComponent extends OutputComponent {
   color;
   width;
   height;
+  xName;
+  yName;
   canvas;
   canvasContainer;
   context;
   chart;
-  constructor({name, componentType, posX, posY, value, desktopScale, color, labels, width, height}) {
+  constructor({name, componentType, posX, posY, value, desktopScale, color, labels, width, height, xName, yName}) {
     super({name, componentType, posX, posY, value, desktopScale});
     this.labels = labels;
     this.color = color;
     this.width = width;
     this.height = height;
+    this.xName = xName;
+    this.yName = yName;
     this.canvasContainer = document.createElement("div");
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
   }
 
+  isDataEqual(a,b){
+    return Array.isArray(a) &&
+      Array.isArray(b) &&
+      a.length === b.length &&
+      a.every((val, index) => val === b[index]);
+  }
+
   setState(state) {
     super.setState(state);
     this.labels = state.labels;
+    this.chart.data.datasets.forEach(dataset => {
 
-    this.chart.data.labels = this.labels;
-    this.chart.data.datasets.forEach(dataset =>{
-      dataset.data = this.value;
+      if (!this.isDataEqual(dataset.data, this.value)) {
+        console.log(dataset.data + this.value);
+        dataset.data = this.value;
+        this.chart.update();
+      }
     })
-    this.chart.update();
+
+    console.log(this.labels);
+    console.log(this.chart.data.labels);
+     if(!this.isDataEqual(this.chart.data.labels, this.labels)){
+       this.chart.data.labels = this.labels;
+       this.chart.update();
+     }
+
+
   }
+
 
 
   render() {
@@ -251,14 +274,14 @@ class ChartComponent extends OutputComponent {
             display: true,
             scaleLabel: {
               display: true,
-              labelString: 'Month'
+              labelString: this.xName
             }
           }],
           yAxes: [{
             display: true,
             scaleLabel: {
               display: true,
-              labelString: 'Value'
+              labelString: this.yName
             }
           }]
         }
