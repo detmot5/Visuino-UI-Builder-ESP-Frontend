@@ -28,6 +28,7 @@ const getData = async () => {
       })
     })
     .catch(error => {
+      console.log(error);
       isConnectedDiv.innerHTML = disconnectedStr;
       isConnectedDiv.style.color = '#a10000';
     })
@@ -39,28 +40,17 @@ const getData = async () => {
 getData();
 
 
-/*
-const button = new ButtonComponent({
-  name: "btn",
-  textColor: 'white',
-  fontSize: 16,
-  text: "Twoj stary",
-  width: 200,
-  height: 40,
-  color: "#444",
-  posX: 500,
-  posY: 50,
-  componentType: "button",
-  desktopScale: 2,
-  value: false,
+const chart = new ChartComponent({
+  name: "mydata",
+  color: "blue",
+  posX: 700,
+  posY: 400,
+  width: 500,
+  height: 400,
+  componentType: "chart",
+  value: [10, 11, 12, 22],
+  labels: ["Rafał 바보", "twoj stary", "nic ciekawego", "cokolwiek"]
 })
 
-content.appendChild(button.render());
 
-
-*/
-
-
-
-
-
+//content.appendChild(chart.render());

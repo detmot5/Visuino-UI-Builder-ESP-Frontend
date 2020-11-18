@@ -51,6 +51,21 @@ const renderData = ({elements}) => {
             }));
           } else existing.setState(el);
           break;
+        case 'chart':
+          if(existing === null){
+            components.push(new ChartComponent({
+              name: el.name,
+              componentType: el.componentType,
+              posX: el.posX,
+              posY: el.posY,
+              width: el.width,
+              height: el.height,
+              color: el.color,
+              labels: el.labels,
+              value: el.value,
+            }))
+          } else existing.setState(el);
+          break;
         case 'slider':
           if(existing === null){
             components.push(new SliderComponent({

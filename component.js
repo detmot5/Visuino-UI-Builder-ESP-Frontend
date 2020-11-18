@@ -41,9 +41,6 @@ class InputComponent extends Component {
   constructor({name, componentType, posX, posY, value, desktopScale }) {
     super({name, componentType, posX, posY, value, desktopScale})
   }
-
-
-
   toJson() {
     return{
       name: this.name,
@@ -198,7 +195,83 @@ class LedIndicatorComponent extends OutputComponent{
   }
 
 }
+class ChartComponent extends OutputComponent {
+  labels;
+  color;
+  width;
+  height;
+  canvas;
+  canvasContainer;
+  context;
+  chart;
+  constructor({name, componentType, posX, posY, value, desktopScale, color, labels, width, height}) {
+    super({name, componentType, posX, posY, value, desktopScale});
+    this.labels = labels;
+    this.color = color;
+    this.width = width;
+    this.height = height;
+    this.canvasContainer = document.createElement("div");
+    this.canvas = document.createElement('canvas');
+    this.context = this.canvas.getContext('2d');
+  }
 
+  setState(state) {
+    super.setState(state);
+    this.labels = state.labels;
+
+    this.chart.data.labels = this.labels;
+    this.chart.data.datasets.forEach(dataset =>{
+      dataset.data = this.value;
+    })
+    this.chart.update();
+  }
+
+
+  render() {
+    super.render();
+    this.canvasContainer.appendChild(this.canvas);
+    this.canvasContainer.style.width = `${this.width}px`;
+    this.canvasContainer.style.height = `${this.height}px`;
+    console.log(this.context);
+    this.chart = new Chart(this.context, {
+      type: 'line',
+      data: {
+        labels: this.labels,
+        datasets: [{
+          label: this.name,
+          backgroundColor: 'transparent',
+          borderColor: this.color,
+          data: this.value,
+        },
+        ]
+      },
+      options: {
+        scales: {
+          xAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Month'
+            }
+          }],
+          yAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Value'
+            }
+          }]
+        }
+      }
+
+    });
+    console.log(this.canvasContainer)
+    this.wrapper.appendChild(this.canvasContainer);
+    this.dFragment.appendChild(this.wrapper);
+    return this.dFragment;
+  }
+
+}
 
 
 
