@@ -21,8 +21,14 @@
   <component name="ChangeListManager">
     <list default="true" id="35103424-b295-4d85-a3fe-61b8156d7cb1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Libs/switch.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Libs/switch.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/component.css" beforeDir="false" afterPath="$PROJECT_DIR$/component.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/component.js" beforeDir="false" afterPath="$PROJECT_DIR$/component.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer.js" beforeDir="false" afterPath="$PROJECT_DIR$/renderer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,8 +38,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -86,7 +92,9 @@
       <workItem from="1605562418570" duration="603000" />
       <workItem from="1605613442490" duration="12459000" />
       <workItem from="1605647435606" duration="615000" />
-      <workItem from="1605693740032" duration="15189000" />
+      <workItem from="1605693740032" duration="16867000" />
+      <workItem from="1605816724395" duration="3077000" />
+      <workItem from="1605875795246" duration="7137000" />
     </task>
     <servers />
   </component>
@@ -110,10 +118,10 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2627" y="144" key="#JavaScript/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604180851674" />
-    <state x="2610" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1605278041156">
+    <state x="2610" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1605903419681">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="2610" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605278041156" />
+    <state x="2610" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605903419681" />
     <state x="2381" y="165" key="SettingsEditor" timestamp="1604660100871">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
@@ -122,6 +130,10 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2472" y="249" key="Vcs.Push.Dialog.v2/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604678406761" />
+    <state width="600" height="440" key="javadoc.popup" timestamp="1605903398166">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="600" height="440" key="javadoc.popup/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605903398166" />
     <state x="2536" y="240" key="run.anything.popup" timestamp="1604660104208">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>

@@ -1,17 +1,5 @@
 const componentWrapperClassName = 'c-wrapper';
-
-
 class Component {
-  dFragment;
-  name;
-  posX;
-  posY;
-  value;
-  componentType;
-
-  desktopScale;
-  wrapper;
-
   constructor({name, componentType, posX, posY, value, desktopScale}) {
     this.name = name;
     this.componentType = componentType;
@@ -29,17 +17,14 @@ class Component {
     this.wrapper.id = this.name;
     this.wrapper.className = componentWrapperClassName;
     this.wrapper.style.position = 'absolute';
-    this.wrapper.style.top = `${this.posY}px`
-    this.wrapper.style.left =`${this.posX}px`
+    this.wrapper.style.top = `${this.posY}px`;
+    this.wrapper.style.left =`${this.posX}px`;
   }
-
 }
-
-
 
 class InputComponent extends Component {
   constructor({name, componentType, posX, posY, value, desktopScale }) {
-    super({name, componentType, posX, posY, value, desktopScale})
+    super({name, componentType, posX, posY, value, desktopScale});
   }
   toJson() {
     return{
@@ -68,17 +53,15 @@ class InputComponent extends Component {
 
 class OutputComponent extends Component{
   constructor({name, componentType, posX, posY, value, desktopScale }) {
-    super({name, componentType, posX, posY, value, desktopScale})
+    super({name, componentType, posX, posY, value, desktopScale});
   }
 
 }
 
 
 class Label extends OutputComponent {
-  fontSize;
-  color;
   constructor({name, componentType, posX, posY, value, desktopScale, fontSize, color }) {
-    super({name, componentType, posX, posY, value, desktopScale})
+    super({name, componentType, posX, posY, value, desktopScale});
     if(typeof value !== 'string') throw `${this.toString()} Illegal Parameter Type`;
     this.fontSize = fontSize;
     this.color = color;
@@ -106,14 +89,8 @@ class Label extends OutputComponent {
 }
 
 class GaugeComponent extends OutputComponent{
-  color;
-  maxValue;
-  minValue;
-  width;
-  height;
-  knob;     //gauge component object;
   constructor({name,componentType, posX, posY, value, desktopScale, color, minValue, maxValue, width, height}) {
-    super({name, componentType, posX, posY, value, desktopScale})
+    super({name, componentType, posX, posY, value, desktopScale});
 
     this.color = color;
     this.minValue = minValue;
@@ -134,7 +111,6 @@ class GaugeComponent extends OutputComponent{
     this.knob.setProperty('readonly', true);
     this.knob.setValue(this.value);
   }
-
   setState(state) {
     super.setState(state);
     this.color = state.color;
@@ -149,17 +125,12 @@ class GaugeComponent extends OutputComponent{
     return this.dFragment;
   }
 }
-
-
 class LedIndicatorComponent extends OutputComponent{
-  #ledClassName = "led";
-  #frameClassName = "frame";
-  #offColor = "#999";
-  led;
-  frame;
-  color;
   constructor({name, componentType, posX, posY, value, desktopScale, color }) {
     super({name, componentType, posX, posY, value, desktopScale });
+    this.ledClassName = "led";
+    this.frameClassName = "frame";
+    this.offColor = "#999";
     this.color = color;
     this.frame = document.createElement('div');
     this.led = document.createElement('div');
@@ -170,8 +141,6 @@ class LedIndicatorComponent extends OutputComponent{
     this.setLed(state.value);
     this.color = state.color;
   }
-
-
   setLed(value){
     if(value) {
       this.led.style.backgroundColor = "red";
@@ -179,13 +148,10 @@ class LedIndicatorComponent extends OutputComponent{
       this.led.style.backgroundColor = "red";
     }
   }
-
-
-
   render() {
     super.render();
-    this.led.className = this.#ledClassName;
-    this.frame.className = this.#frameClassName;
+    this.led.className = this.ledClassName;
+    this.frame.className = this.frameClassName;
     this.setLed(this.value);
 
     this.wrapper.appendChild(this.led);
@@ -193,172 +159,44 @@ class LedIndicatorComponent extends OutputComponent{
     this.dFragment.appendChild(this.wrapper);
     return this.dFragment;
   }
-
 }
-class ChartComponent extends OutputComponent {
-  labels;
-  color;
-  width;
-  height;
-  xName;
-  yName;
-  canvas;
-  canvasContainer;
-  context;
-  chart;
-  constructor({name, componentType, posX, posY, value, desktopScale, color, labels, width, height, xName, yName}) {
-    super({name, componentType, posX, posY, value, desktopScale});
-    this.labels = labels;
-    this.color = color;
-    this.width = width;
-    this.height = height;
-    this.xName = xName;
-    this.yName = yName;
-    this.canvasContainer = document.createElement("div");
-    this.canvas = document.createElement('canvas');
-    this.context = this.canvas.getContext('2d');
-  }
-
-  isDataEqual(a,b){
-    return Array.isArray(a) &&
-      Array.isArray(b) &&
-      a.length === b.length &&
-      a.every((val, index) => val === b[index]);
-  }
-
-  setState(state) {
-    super.setState(state);
-    this.labels = state.labels;
-    this.chart.data.datasets.forEach(dataset => {
-
-      if (!this.isDataEqual(dataset.data, this.value)) {
-        console.log(dataset.data + this.value);
-        dataset.data = this.value;
-        this.chart.update();
-      }
-    })
-
-    console.log(this.labels);
-    console.log(this.chart.data.labels);
-     if(!this.isDataEqual(this.chart.data.labels, this.labels)){
-       this.chart.data.labels = this.labels;
-       this.chart.update();
-     }
-
-
-  }
-
-
-
-  render() {
-    super.render();
-    this.canvasContainer.appendChild(this.canvas);
-    this.canvasContainer.style.width = `${this.width}px`;
-    this.canvasContainer.style.height = `${this.height}px`;
-    console.log(this.context);
-    this.chart = new Chart(this.context, {
-      type: 'line',
-      data: {
-        labels: this.labels,
-        datasets: [{
-          label: this.name,
-          backgroundColor: 'transparent',
-          borderColor: this.color,
-          data: this.value,
-        },
-        ]
-      },
-      options: {
-        scales: {
-          xAxes: [{
-            display: true,
-            scaleLabel: {
-              display: true,
-              labelString: this.xName
-            }
-          }],
-          yAxes: [{
-            display: true,
-            scaleLabel: {
-              display: true,
-              labelString: this.yName
-            }
-          }]
-        }
-      }
-
-    });
-    console.log(this.canvasContainer)
-    this.wrapper.appendChild(this.canvasContainer);
-    this.dFragment.appendChild(this.wrapper);
-    return this.dFragment;
-  }
-
-}
-
-
 
 class SwitchComponent extends InputComponent {
-  #switchClassName = "onoffswitch";
-  #switchCheckBoxClassName = "onoffswitch-checkbox";
-  #switchLabelClassName = "onoffswitch-label";
-
-  color;
-  size;
-  checkBox;
-  label;
-  swObject;
-
   constructor({name, componentType, posX, posY, value, desktopScale, color, size }) {
     super({name, componentType, posX, posY, value, desktopScale });
     if(typeof value !== 'boolean') throw `Switch ${this.toString()} Illegal Value Type`;
+    this.switchClassName = "onoffswitch";
+    this.switchCheckBoxClassName = "onoffswitch-checkbox";
+    this.switchLabelClassName = "onoffswitch-label";
     this.checkBox = document.createElement('input');
     this.color = color;
     this.size = size;
   }
-
-
   onClick(e) {
-    console.log(e);
-    this.setState({value: e});
+    console.log(e.target.checked);
+    this.setState({value: e.target.checked});
     super.sendData();
   }
 
   render() {
     super.render();
     this.checkBox.type = 'checkbox';
-    this.checkBox.className = this.#switchCheckBoxClassName+this.name;
+    this.checkBox.className = this.switchCheckBoxClassName+this.name;
+    this.checkBox.style.width = `${this.size}px`;
+    this.checkBox.style.height = `${this.size}px`;
+    this.checkBox.addEventListener('change', e => {this.onClick(e)});
     this.wrapper.appendChild(this.checkBox);
     this.dFragment.appendChild(this.wrapper);
-    const el = this.dFragment.querySelector(`.${this.checkBox.className}`);
-    console.log(el);
-    this.swObject = new Switch(el,{
-      size: this.size,
-      checked: this.value,
-      onChange: (e) => {this.onClick(e)},
-      onSwitchColor: this.color,
-      offSwitchColor: '#ccc',
-    }
-    );
-    console.log(this.swObject);
     return this.dFragment;
   }
 }
 
 class SliderComponent extends InputComponent{
-  #sliderClassName = 'slider';
-  #sliderValueWrapperClassName = 'sliderValueWrapper';
 
-  width;
-  height;
-  maxValue;
-  minValue;
-  slider;
-  color;
-  style;
-  sliderValueWrapper;
   constructor({name, componentType, width, height, posX, posY, value, desktopScale, color, maxValue, minValue }) {
     super({name, componentType, width, height, posX, posY, value, desktopScale});
+    this.sliderClassName = 'slider';
+    this.sliderValueWrapperClassName = 'sliderValueWrapper';
     this.minValue = minValue;
     this.maxValue = maxValue;
     this.color = color;
@@ -403,7 +241,7 @@ class SliderComponent extends InputComponent{
     this.wrapper.style.alignItems = 'center';
 
     this.slider.type = "range";
-    this.slider.classList.add(this.#sliderClassName);
+    this.slider.classList.add(this.sliderClassName);
     this.slider.classList.add(`${this.name}`);        // second, unique class is required because modifying thumb via id is not working
     this.slider.max = this.maxValue;
     this.slider.min = this.minValue;
@@ -413,14 +251,14 @@ class SliderComponent extends InputComponent{
     this.slider.style.height = this.height + 'px';
     this.slider.addEventListener('input', (e) => this.onChange(e));
     this.slider.addEventListener('change', (e) => this.onRelease(e));
-    this.slider.addEventListener('click', () => {content.style.overflow = 'hidden'})
+    this.slider.addEventListener('click', () => {content.style.overflow = 'hidden'});
 
     this.style.innerHTML = `.${this.name}::-webkit-slider-thumb {
                                 background: ${this.color}; 
                                 height: ${this.height * 1.1 + 'px'}; 
                                 width: ${this.height * 1.1 + 'px'}};`;
 
-    this.sliderValueWrapper.className = this.#sliderValueWrapperClassName;
+    this.sliderValueWrapper.className = this.sliderValueWrapperClassName;
     this.sliderValueWrapper.innerHTML = this.value;
 
     this.wrapper.appendChild(this.style);
@@ -433,19 +271,11 @@ class SliderComponent extends InputComponent{
 }
 
 class NumberInputComponent extends InputComponent {
-  #inputClassName = 'input'
-  #submitButtonClassName = 'input-btn';
-
-  width;
-  fontSize;
-  color;
-
-  input;
-  submitButton;
   constructor({name, componentType, posX, posY, value, desktopScale, fontSize, width, color}) {
     super({name, componentType, posX, posY, value, desktopScale });
-    if(typeof value !== 'number') throw `Number Input ${this.toString()} Illegal Value Type`
-
+    if(typeof value !== 'number') throw `Number Input ${this.toString()} Illegal Value Type`;
+    this.inputClassName = 'input';
+    this.submitButtonClassName = 'input-btn';
     this.width = width;
     this.fontSize = fontSize;
     this.color = color;
@@ -479,8 +309,8 @@ class NumberInputComponent extends InputComponent {
 
   render() {
     super.render();
-    this.input.className = this.#inputClassName;
-    this.submitButton.className = this.#submitButtonClassName;
+    this.input.className = this.inputClassName;
+    this.submitButton.className = this.submitButtonClassName;
 
     this.wrapper.style.display = "flex";
     this.wrapper.style.flexDirection = "row";
@@ -492,9 +322,9 @@ class NumberInputComponent extends InputComponent {
     this.input.style.width = `${this.width}px`;
     this.input.style.fontSize = `${this.fontSize}px`;
     this.input.style.color = this.color;
-    this.input.style.borderBottom = `solid 1px ${this.color}`
-    this.input.addEventListener('focusout', (e) => {e.target.style.borderBottom = `solid 1px ${this.color}`})
-    this.input.addEventListener('focus', (e) => {e.target.style.borderBottom = `solid 2px ${this.color}`})
+    this.input.style.borderBottom = `solid 1px ${this.color}`;
+    this.input.addEventListener('focusout', (e) => {e.target.style.borderBottom = `solid 1px ${this.color}`});
+    this.input.addEventListener('focus', (e) => {e.target.style.borderBottom = `solid 2px ${this.color}`});
 
     this.input.placeholder = this.name;
     this.submitButton.style.padding = `${ Math.round(this.fontSize / 5) }px`;
@@ -511,18 +341,12 @@ class NumberInputComponent extends InputComponent {
 
 
 class ButtonComponent extends InputComponent{
-  #buttonClassName = "button";
-  #isButtonPressed = false;
 
-  width;
-  height;
-  color;
-  text;
-  fontSize;
-  textColor;
-  button;
+
   constructor({name, componentType, posX, posY, value, desktopScale, color, text, textColor, fontSize, width, height}) {
     super({name, componentType, posX, posY, value, desktopScale});
+    this.buttonClassName = "button";
+    this.isButtonPressed = false;
     this.color = color;
     this.text = text;
     this.fontSize = fontSize;
@@ -542,16 +366,16 @@ class ButtonComponent extends InputComponent{
 
 
   onClick(e){
-    this.#isButtonPressed = true;
+    this.isButtonPressed = true;
     this.value = true;
     const send = () => {
       this.sendData()
         .then(res => {
           if(res.status === 200) this.notifyAboutSendingStatus('#00b80c');
           else this.notifyAboutSendingStatus('red');
-          if(!this.#isButtonPressed) this.deleteNotifyingOutline()
-        })
-      if(this.#isButtonPressed) setTimeout(send,  100);
+          if(!this.isButtonPressed) this.deleteNotifyingOutline();
+        });
+      if(this.isButtonPressed) setTimeout(send,  100);
       else this.deleteNotifyingOutline();
     }
     send();
@@ -559,14 +383,14 @@ class ButtonComponent extends InputComponent{
   }
 
   onRelease(e){
-    this.#isButtonPressed = false;
+    this.isButtonPressed = false;
     this.value = false;
     this.sendData();
   }
 
   render() {
     super.render();
-    this.button.className = this.#buttonClassName;
+    this.button.className = this.buttonClassName;
     this.button.innerHTML = this.text;
     this.button.style.fontSize = `${this.fontSize}px`;
     this.button.style.color = this.textColor;

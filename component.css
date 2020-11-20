@@ -5,14 +5,11 @@
     -ms-user-select: none;
      user-select: none;
 }
-
 .slider{
     -webkit-appearance: none;
     outline: none;
     border-radius: 4px;
 }
-
-
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -20,13 +17,10 @@
     background: #4CAF50;
     cursor: pointer;
 }
-
 .sliderValueWrapper{
     padding: 0;
     margin: 0;
 }
-
-
 .led-red {
     margin: 20px auto;
     width: 12px;
@@ -35,9 +29,6 @@
     border-radius: 50%;
     box-shadow: #000 0 -1px 7px 1px, inset #600 0 -1px 9px, #F00 0 2px 12px;
 }
-
-
-
 .led {
     top: 7px;
     left: 7px;
@@ -49,7 +40,6 @@
     position: absolute;
     box-shadow: 0 0 20px red;
 }
-
 .frame {
     position: absolute;
     width: 29px;
@@ -59,10 +49,6 @@
     background-color: #ccc;
     box-shadow: 0 0 5px #ccc;
 }
-
-
-
-
 .input {
     border: none;
     outline: none;
@@ -71,13 +57,9 @@
 .input:focus{
     border-bottom: solid 2px #444;
 }
-
 .input::-webkit-input-placeholder {
     opacity: 0.5;
 }
-
-
-
 .input-btn {
     margin: 6px 0 0 5px;
     outline: none;
@@ -89,13 +71,10 @@
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
 }
-
 .input-btn:active {
     border: solid #777;
     border-width: 0 3px 3px 0;
 }
-
-
 .button{
     outline: none;
     border: none;
