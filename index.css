@@ -1,4 +1,4 @@
-body{
+body {
   padding: 0;
   margin: 0;
 }
@@ -18,28 +18,33 @@ body{
   border-bottom: solid 1px #eee;
   width: 100vw;
   height: 60px;
+  -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 #title{
   text-align: left;
   color: #444;
   width: 100%;
   margin-left: 15px;
-  margin-top: 20px;
+  margin-top: 12px;
   font-weight: 700;
   font-size: 20px;
-  -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
+#info{
+  text-align: left;
+  font-size: 12px;
+  margin-left: 15px;
+}
+
 #isConnected{
   position: fixed;
   top: 10px;
-  right: 10px;
+  right: 20px;
   font-size: 18px;
 }
 #content {
   position: fixed;
   top: 0;
   bottom: 0;
-  padding: 10px;
   width: 100vw;
   overflow-y: scroll;
   overflow-x: scroll;
@@ -55,12 +60,9 @@ body{
     text-align: center;
     font-size: 30px;
   }
+  #info{
+    text-align: center;
+    margin-left: 40px;
+  }
 
-}
-.canvas-container {
-  position: absolute;
-  left: 900px;
-  top: 300px;
-  width: 400px;
-  height: 400px;
 }
