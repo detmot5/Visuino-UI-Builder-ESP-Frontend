@@ -50,9 +50,6 @@ body {
   overflow-x: scroll;
 }
 @media screen and (min-width: 768px){
-  #content{
-    width: 100vw;
-  }
   #isConnected{
     font-size: 30px;
   }
@@ -64,5 +61,17 @@ body {
     text-align: center;
     margin-left: 40px;
   }
-
 }
+
+.pwrapper{
+  position: absolute;
+  width: 400px;
+  height: 100px;
+  top: 400px;
+  left: 700px;
+}
+#file{
+  transform: rotate(-90deg);
+  width: 100px;
+}
+

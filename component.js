@@ -39,7 +39,7 @@ class InputComponent extends Component {
 
   async sendData() {
     console.log(this.toJson())
-    const res = await fetch(`${url}status`, {
+    const res = await fetch(`duppa`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -152,13 +152,12 @@ class LedIndicatorComponent extends OutputComponent{
   setLed(value){
     if(value){
       this.inner.style.backgroundColor = this.color;
-      this.inner.style.boxShadow = `0 0 ${Math.round(this.innerSize / 10)}px ${this.color}`
+      this.inner.style.boxShadow = `0 0 ${Math.round(this.innerSize / 3)}px ${this.color}`
     } else {
       this.inner.style.backgroundColor = this.offColor;
-      this.inner.style.boxShadow = `0 0 ${Math.round(this.innerSize / 10)}px ${this.color}`;
+      this.inner.style.boxShadow = `none`;
     }
   }
-
 
   render() {
     super.render();
@@ -178,6 +177,33 @@ class LedIndicatorComponent extends OutputComponent{
   }
 }
 
+class ProgressBarComponent extends OutputComponent{
+  constructor({name, componentType, posX, posY, value, maxValue, minValue,width, height, color, isVertical}) {
+    super({name, componentType, posX, posY, value});
+    this.progressBarClassname = "progress-bar";
+    this.maxValue = maxValue;
+    this.minValue = minValue;
+    this.width = width;
+    this.height = height;
+    this.color = color;
+    this.isVertical = isVertical;
+    this.progressBar = document.createElement('progress');
+  }
+  setState(state) {
+    super.setState(state);
+  }
+  render() {
+    super.render();
+    this.progressBar.style.width = `${this.width}px`;
+    this.progressBar.style.height = `${this.width}px`;
+    this.progressBar.className = this.progressBarClassname;
+
+
+  }
+
+}
+
+
 class SwitchComponent extends InputComponent {
   constructor({name, componentType, posX, posY, value, color, size }) {
     super({name, componentType, posX, posY, value});
@@ -194,7 +220,6 @@ class SwitchComponent extends InputComponent {
     this.setState({value: e.target.checked});
     super.sendData();
   }
-
   render() {
     super.render();
     this.checkBox.type = 'checkbox';
@@ -223,7 +248,6 @@ class SliderComponent extends InputComponent{
     this.style = document.createElement('style');
     this.sliderValueWrapper = document.createElement('span');
   }
-
   setIsScrollingEnabled(state){
     if(state){
       document.body.style.position = 'relative';
@@ -237,19 +261,16 @@ class SliderComponent extends InputComponent{
       content.style.overflowX = "scroll";
     }
   }
-
   onChange(e) {
     this.setIsScrollingEnabled(true);
     this.sliderValueWrapper.innerHTML = e.target.value;
     this.setState({value: parseInt(e.target.value)});
   }
-
   onRelease(e) {
     this.setIsScrollingEnabled(false);
     this.setState({value: parseInt(e.target.value)});
     this.sendData();
   }
-
   render() {
     super.render();
 
