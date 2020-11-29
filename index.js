@@ -30,7 +30,7 @@ const bar = new ProgressBarComponent({
   height: 20,
   width: 500,
   maxValue: 200,
-  value: 100,
+  value: 1,
   color: 'orangered',
   posX: 800,
   posY: 500,
@@ -57,6 +57,7 @@ const getData = async () => {
     })
     .catch(error => {
       console.log(error);
+      isConnectedDiv.innerHTML = disconnectedStr;
       isConnectedDiv.style.color = '#a10000';
     })
   setTimeout(getData, 500);

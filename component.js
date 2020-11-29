@@ -403,23 +403,21 @@ class ButtonComponent extends InputComponent{
   deleteNotifyingShadow(){
     this.button.style.boxShadow = 'none';
   }
-  onClick(e){
+  onClick(e) {
     this.isButtonPressed = true;
     this.value = true;
     const send = () => {
       this.sendData()
         .then(res => {
-          if(res.status === 200) this.notifyAboutSendingStatus('#00b80c');
+          if (res.status === 200) this.notifyAboutSendingStatus('#00b80c');
           else this.notifyAboutSendingStatus('red');
-          if(!this.isButtonPressed) this.deleteNotifyingShadow();
+          if (!this.isButtonPressed) this.deleteNotifyingShadow();
         });
-      if(this.isButtonPressed) setTimeout(send,  100);
+      if (this.isButtonPressed) setTimeout(send, 100);
       else this.deleteNotifyingShadow();
     }
     send();
-
   }
-
   onRelease(e){
     this.isButtonPressed = false;
     this.value = false;
