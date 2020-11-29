@@ -397,14 +397,12 @@ class ButtonComponent extends InputComponent{
   }
 
   notifyAboutSendingStatus(color) {
-    this.button.style.outline = `${color} 3px solid`;
+    this.button.style.boxShadow = `0 0 10px ${color}`;
   }
 
-  deleteNotifyingOutline(){
-    this.button.style.outline = 'none';
+  deleteNotifyingShadow(){
+    this.button.style.boxShadow = 'none';
   }
-
-
   onClick(e){
     this.isButtonPressed = true;
     this.value = true;
@@ -413,10 +411,10 @@ class ButtonComponent extends InputComponent{
         .then(res => {
           if(res.status === 200) this.notifyAboutSendingStatus('#00b80c');
           else this.notifyAboutSendingStatus('red');
-          if(!this.isButtonPressed) this.deleteNotifyingOutline();
+          if(!this.isButtonPressed) this.deleteNotifyingShadow();
         });
       if(this.isButtonPressed) setTimeout(send,  100);
-      else this.deleteNotifyingOutline();
+      else this.deleteNotifyingShadow();
     }
     send();
 
