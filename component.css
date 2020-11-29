@@ -55,3 +55,6 @@
     outline: none;
     border: none;
 }
+.progress-bar{
+    -webkit-appearance: none;
+}

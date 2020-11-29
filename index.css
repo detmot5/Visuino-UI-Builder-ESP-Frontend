@@ -11,6 +11,7 @@ body {
   align-items: center;
   width: 100vw;
   height: 100vh;
+  -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 #top-bar{
   position: fixed;
@@ -18,7 +19,6 @@ body {
   border-bottom: solid 1px #eee;
   width: 100vw;
   height: 60px;
-  -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 #title{
   text-align: left;
@@ -72,6 +72,14 @@ body {
 }
 #file{
   transform: rotate(-90deg);
-  width: 100px;
+  width: 150px;
+  -webkit-appearance: none;
 }
+
+#file::-webkit-progress-value{
+  background: orangered;
+  color: blue;
+}
+
+
 

@@ -188,17 +188,28 @@ class ProgressBarComponent extends OutputComponent{
     this.color = color;
     this.isVertical = isVertical;
     this.progressBar = document.createElement('progress');
+    this.style = document.createElement('style');
   }
   setState(state) {
     super.setState(state);
   }
   render() {
     super.render();
+    this.progressBar.classList.add(this.progressBarClassname);
+    this.progressBar.classList.add(this.name); // second unique class to webkit styles
+    this.progressBar.max = this.maxValue;
+    this.progressBar.min = this.minValue;
+    this.progressBar.value = this.value;
     this.progressBar.style.width = `${this.width}px`;
-    this.progressBar.style.height = `${this.width}px`;
-    this.progressBar.className = this.progressBarClassname;
+    this.progressBar.style.height = `${this.height}px`;
+    if(this.isVertical) this.wrapper.style.transform = "rotate(-90deg)";
+    this.style.innerHTML = `.${this.name}::-webkit-progress-value{background-color: ${this.color};}`;
 
 
+    this.wrapper.appendChild(this.style);
+    this.wrapper.appendChild(this.progressBar);
+    this.dFragment.appendChild(this.wrapper);
+    return this.dFragment;
   }
 
 }
