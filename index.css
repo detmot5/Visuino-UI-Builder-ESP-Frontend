@@ -19,6 +19,7 @@ body {
   border-bottom: solid 1px #eee;
   width: 100vw;
   height: 60px;
+  z-index: 1;
 }
 #title{
   text-align: left;
@@ -52,7 +53,7 @@ body {
 @media screen and (min-width: 768px){
   #isConnected{
     font-size: 30px;
-    right: 45px;
+    right: 20px;
   }
   #title{
     text-align: center;
@@ -63,3 +64,4 @@ body {
     margin-left: 40px;
   }
 }
+@media screen and (min-width: 1024px){#isConnected{right: 45px;}}

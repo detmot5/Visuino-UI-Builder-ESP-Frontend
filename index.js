@@ -25,21 +25,6 @@ const initialFetch = async () => {
 }
 
 
-const bar = new ProgressBarComponent({
-  name: "bar",
-  isVertical: true,
-  height: 20,
-  width: 500,
-  maxValue: 200,
-  value: 1,
-  color: 'orangered',
-  posX: 800,
-  posY: 500,
-  componentType: "progress",
-  minValue: 0,
-})
-
-content.appendChild(bar.render());
 
 const getData = async () => {
   const controller = new AbortController();
@@ -97,6 +82,7 @@ const renderData = ({elements}) => {
             posY: el.posY,
             value: el.value,
             fontSize: el.fontSize,
+            isVertical: el.isVertical,
             color: el.color,
           }));
         } else existing.setState(el);

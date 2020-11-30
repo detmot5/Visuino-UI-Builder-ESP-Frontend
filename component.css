@@ -49,8 +49,6 @@
     margin: 30px;
 }
 
-
-
 .input {
     border: none;
     outline: none;
@@ -75,4 +73,6 @@
 }
 .progress-bar{
     -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 3px;
 }
