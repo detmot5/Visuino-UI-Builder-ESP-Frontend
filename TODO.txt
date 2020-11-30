@@ -1,4 +1,7 @@
-Add Vertical button witch optional vertical text
 Add color field for grouping components
 Firefox compatibility!
-Scrolling issue!
+Top Bar higher z-index than content
+
+
+Add Vertical button witch optional vertical text       DONE
+Scrolling issue!            DONE

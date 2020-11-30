@@ -39,7 +39,7 @@ class InputComponent extends Component {
 
   async sendData() {
     console.log(this.toJson())
-    const res = await fetch(`duppa`, {
+    const res = await fetch(`${url}status`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -208,10 +208,7 @@ class ProgressBarComponent extends OutputComponent{
     this.dFragment.appendChild(this.wrapper);
     return this.dFragment;
   }
-
 }
-
-
 class SwitchComponent extends InputComponent {
   constructor({name, componentType, posX, posY, value, color, size }) {
     super({name, componentType, posX, posY, value});
@@ -289,11 +286,9 @@ class SliderComponent extends InputComponent{
     this.slider.style.height = this.height + 'px';
     this.slider.addEventListener('input', (e) => this.onChange(e));
     this.slider.addEventListener('change', (e) => this.onRelease(e));
-    this.style.innerHTML = `.${this.name}::-webkit-slider-thumb {
-                                background: ${this.color}; 
-                                height: ${this.height * 1.1 + 'px'}; 
-                                width: ${this.height * 1.1 + 'px'}};`;
-
+    //append style to slider thumb (Firefox/Chrome)
+    this.style.innerHTML = `.${this.name}::-webkit-slider-thumb {background: ${this.color}; height: ${this.height * 1.1 + 'px'}; width: ${this.height * 1.1 + 'px'};}
+                                .${this.name}::-moz-range-thumb {background: ${this.color}; height: ${this.height * 1.1 + 'px'}; width: ${this.height * 1.1 + 'px'};}`;
     this.sliderValueWrapper.className = this.sliderValueWrapperClassName;
     this.sliderValueWrapper.innerHTML = this.value;
 
@@ -368,8 +363,6 @@ class NumberInputComponent extends InputComponent {
 
 
 class ButtonComponent extends InputComponent{
-
-
   constructor({name, componentType, posX, posY, value, color, text, textColor, fontSize, width, height, isVertical}) {
     super({name, componentType, posX, posY, value});
     this.buttonClassName = "button";

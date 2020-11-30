@@ -13,13 +13,12 @@ console.log(content.style.width);
 
 
 const initialFetch = async () => {
-  fetch(`init.json`)
+  fetch(`init.txt`)
     .then(response => {
-      if(response.status === 200){
-        return response.text();
-      }
+      return response.text();
     })
     .then(data => {
+      console.log(data);
       title.innerHTML = data.toString();
       document.title = data.toString();
     })
@@ -128,9 +127,26 @@ const renderData = ({elements}) => {
             size: el.size,
             color: el.color,
             value: el.value
-          }))
+          }));
         } else existing.setState(el);
           break;
+      case "progressBar":
+        if(existing === null){
+          components.push(new ProgressBarComponent({
+            name: el.name,
+            componentType: el.componentType,
+            posX: el.posX,
+            posY: el.posY,
+            width: el.width,
+            height: el.height,
+            color: el.color,
+            isVertical: el.isVertical,
+            value: el.value,
+            minValue: el.minValue,
+            maxValue: el.maxValue,
+          }));
+        } else existing.setState(el);
+        break;
       case 'slider':
         if(existing === null){
           components.push(new SliderComponent({
