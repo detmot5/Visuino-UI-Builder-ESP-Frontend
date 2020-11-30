@@ -7,8 +7,10 @@ const content = document.getElementById('content');
 const title = document.getElementById('title');
 const loadingInfo = document.getElementById('info');
 const isConnectedDiv = document.getElementById('isConnected');
-
+content.style.overflow = 'scroll';
 console.log(content.style.width);
+
+
 
 const initialFetch = async () => {
   fetch(`init.json`)
@@ -171,6 +173,7 @@ const renderData = ({elements}) => {
             fontSize: el.fontSize,
             color: el.color,
             textColor: el.textColor,
+            isVertical: el.isVertical,
             text: el.text,
           }));
         }

@@ -71,7 +71,6 @@ class Label extends OutputComponent {
     super.setState(state);
     this.fontSize = state.fontSize;
     this.color = state.color;
-
     this.wrapper.innerHTML = this.value;
     this.wrapper.style.fontSize = `${this.fontSize}px`;
     this.wrapper.style.color = this.color;
@@ -204,8 +203,6 @@ class ProgressBarComponent extends OutputComponent{
     this.progressBar.style.height = `${this.height}px`;
     if(this.isVertical) this.wrapper.style.transform = "rotate(-90deg)";
     this.style.innerHTML = `.${this.name}::-webkit-progress-value{background-color: ${this.color};}`;
-
-
     this.wrapper.appendChild(this.style);
     this.wrapper.appendChild(this.progressBar);
     this.dFragment.appendChild(this.wrapper);
@@ -219,9 +216,7 @@ class SwitchComponent extends InputComponent {
   constructor({name, componentType, posX, posY, value, color, size }) {
     super({name, componentType, posX, posY, value});
     if(typeof value !== 'boolean') throw `Switch ${this.toString()} Illegal Value Type`;
-    this.switchClassName = "onoffswitch";
     this.switchCheckBoxClassName = "onoffswitch-checkbox";
-    this.switchLabelClassName = "onoffswitch-label";
     this.checkBox = document.createElement('input');
     this.color = color;
     this.size = size;
@@ -261,15 +256,9 @@ class SliderComponent extends InputComponent{
   }
   setIsScrollingEnabled(state){
     if(state){
-      document.body.style.position = 'relative';
-      document.body.style.overflowX = 'hidden';
-      document.getElementsByTagName('html').item(0).style.overflowX = "hidden";
-      content.style.overflowX = "hidden";
+      content.style.overflow = "hidden";
     } else {
-      document.body.style.position = 'absolute';
-      document.body.style.overflowX = 'auto';
-      document.getElementsByTagName('html').item(0).style.overflowX = "scroll";
-      content.style.overflowX = "scroll";
+      content.style.overflow = "scroll";
     }
   }
   onChange(e) {
@@ -300,8 +289,6 @@ class SliderComponent extends InputComponent{
     this.slider.style.height = this.height + 'px';
     this.slider.addEventListener('input', (e) => this.onChange(e));
     this.slider.addEventListener('change', (e) => this.onRelease(e));
-    this.slider.addEventListener('click', () => {content.style.overflow = 'hidden'});
-
     this.style.innerHTML = `.${this.name}::-webkit-slider-thumb {
                                 background: ${this.color}; 
                                 height: ${this.height * 1.1 + 'px'}; 
@@ -383,7 +370,7 @@ class NumberInputComponent extends InputComponent {
 class ButtonComponent extends InputComponent{
 
 
-  constructor({name, componentType, posX, posY, value, color, text, textColor, fontSize, width, height}) {
+  constructor({name, componentType, posX, posY, value, color, text, textColor, fontSize, width, height, isVertical}) {
     super({name, componentType, posX, posY, value});
     this.buttonClassName = "button";
     this.isButtonPressed = false;
@@ -393,6 +380,7 @@ class ButtonComponent extends InputComponent{
     this.textColor = textColor;
     this.width = width;
     this.height = height;
+    if(isVertical) this.textToVertical();
     this.button = document.createElement('button');
   }
 
@@ -422,6 +410,16 @@ class ButtonComponent extends InputComponent{
     this.isButtonPressed = false;
     this.value = false;
     this.sendData();
+  }
+
+
+  textToVertical(){
+    console.log(this.text);
+    let newText = '';
+    for(let i = 0; i < this.text.length; i++){
+      newText += `${this.text.charAt(i)}<br/>`;
+    }
+    this.text = newText;
   }
 
   render() {

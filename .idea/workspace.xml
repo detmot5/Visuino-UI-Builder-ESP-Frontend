@@ -21,9 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="35103424-b295-4d85-a3fe-61b8156d7cb1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component.js" beforeDir="false" afterPath="$PROJECT_DIR$/component.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +50,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Libs" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -94,6 +91,8 @@
       <workItem from="1606042903160" duration="4869000" />
       <workItem from="1606498060731" duration="4287000" />
       <workItem from="1606686247802" duration="3979000" />
+      <workItem from="1606690443107" duration="79000" />
+      <workItem from="1606736669321" duration="5408000" />
     </task>
     <servers />
   </component>
@@ -121,10 +120,10 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2610" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1605903419681" />
-    <state x="2381" y="165" key="SettingsEditor" timestamp="1604660100871">
+    <state x="2381" y="165" key="SettingsEditor" timestamp="1606741652710">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="2381" y="165" key="SettingsEditor/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1604660100871" />
+    <state x="2381" y="165" key="SettingsEditor/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1606741652710" />
     <state x="2472" y="249" key="Vcs.Push.Dialog.v2" timestamp="1604678406761">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>

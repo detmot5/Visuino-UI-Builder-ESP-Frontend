@@ -1,2 +1,4 @@
 Add Vertical button witch optional vertical text
 Add color field for grouping components
+Firefox compatibility!
+Scrolling issue!
