@@ -23,7 +23,7 @@ class Component {
     this.wrapper.id = this.name;
     this.wrapper.className = componentWrapperClassName;
     this.wrapper.style.position = 'absolute';
-    this.wrapper.style.top = `${this.posY}px`;
+    this.wrapper.style.top = `${this.posY + 62}px`; //topbar offset
     this.wrapper.style.left =`${this.posX}px`;
   }
 }
@@ -223,12 +223,15 @@ class ProgressBarComponent extends OutputComponent{
   }
 }
 class ColorFieldComponent extends OutputComponent{
-  constructor({name, componentType, posX, posY, width, height, color}) {
+  constructor({name, componentType, posX, posY, width, height, color, hasOutline, outlineColor}) {
     super({name, componentType, posX, posY});
     this.fieldClassName = 'color-field';
     this.width = width;
     this.height = height;
     this.color = color;
+    this.hasOutline = hasOutline;
+    this.outlineColor = outlineColor;
+    this.outlineOffset = 2;
   }
   setState(state) {
     this.color = state.color;
@@ -238,9 +241,10 @@ class ColorFieldComponent extends OutputComponent{
     super.render();
     this.wrapper.classList.add(this.fieldClassName);
     this.wrapper.style.zIndex = '0';
-    this.wrapper.style.width = `${this.width}px`;
-    this.wrapper.style.height = `${this.height}px`;
+    this.wrapper.style.width = `${this.width - this.outlineOffset}px`;
+    this.wrapper.style.height = `${this.height - this.outlineOffset}px`;
     this.wrapper.style.backgroundColor = this.color;
+    if(this.hasOutline) this.wrapper.style.outline = `1px solid ${this.outlineColor}`;
     this.dFragment.appendChild(this.wrapper);
     return this.dFragment;
   }
@@ -409,12 +413,13 @@ class ButtonComponent extends InputComponent{
   }
 
   notifyAboutSendingStatus(color) {
-    this.button.style.boxShadow = `0 0 10px ${color}`;
+    this.button.style.boxShadow = `0px 0px 0px 3px ${color}`;
   }
 
-  deleteNotifyingShadow(){
+  deleteNotifyingShadow() {
     this.button.style.boxShadow = 'none';
   }
+
   onClick(e) {
     this.isButtonPressed = true;
     this.value = true;

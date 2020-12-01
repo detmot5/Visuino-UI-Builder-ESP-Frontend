@@ -165,6 +165,8 @@ const renderData = ({elements}) => {
             width: el.width,
             height: el.height,
             color: el.color,
+            hasOutline: el.hasOutline,
+            outlineColor: el.outlineColor
           }));
         } else existing.setState(el);
         break;
