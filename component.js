@@ -223,8 +223,26 @@ class ProgressBarComponent extends OutputComponent{
   }
 }
 class ColorFieldComponent extends OutputComponent{
-  constructor({name, componentType, posX, posY, value}) {
-    super({name, componentType, posX, posY, value});
+  constructor({name, componentType, posX, posY, width, height, color}) {
+    super({name, componentType, posX, posY});
+    this.fieldClassName = 'color-field';
+    this.width = width;
+    this.height = height;
+    this.color = color;
+  }
+  setState(state) {
+    this.color = state.color;
+    this.wrapper.style.backgroundColor = this.color;
+  }
+  render() {
+    super.render();
+    this.wrapper.classList.add(this.fieldClassName);
+    this.wrapper.style.zIndex = '0';
+    this.wrapper.style.width = `${this.width}px`;
+    this.wrapper.style.height = `${this.height}px`;
+    this.wrapper.style.backgroundColor = this.color;
+    this.dFragment.appendChild(this.wrapper);
+    return this.dFragment;
   }
 }
 
@@ -329,8 +347,6 @@ class NumberInputComponent extends InputComponent {
     this.color = color;
     this.input = document.createElement('input');
   }
-
-
   onSubmit(e){
     this.setState({value: parseFloat(this.input.value)});
     this.sendData()
@@ -339,8 +355,6 @@ class NumberInputComponent extends InputComponent {
         else this.notifyAboutSendingStatus('red');
       })
   }
-
-
   setColor(color){
     this.input.style.borderBottom = `solid 2px ${color}`;
   }

@@ -1,7 +1,7 @@
     Add color field for grouping components
-    Add vertical label
 
 Add Vertical button witch optional vertical text       DONE
 Scrolling issue!            DONE
 Firefox compatibility! DONE
 Top Bar higher z-index than content DONE
+Add vertical label      DONE

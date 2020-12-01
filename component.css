@@ -4,6 +4,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
      user-select: none;
+    z-index: 1;
 }
 .slider{
     -webkit-appearance: none;
@@ -62,8 +63,6 @@
 }
 .input::-moz-placeholder{
     opacity: 0.5;
-    outline: none;
-    border: none;
 }
 
 .button{
@@ -75,4 +74,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     border-radius: 3px;
+}
+.color-field{
+    z-index: 0;
 }

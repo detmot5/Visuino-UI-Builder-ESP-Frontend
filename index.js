@@ -25,6 +25,28 @@ const initialFetch = async () => {
 }
 
 
+const field = new ColorFieldComponent({
+  name: "controls",
+  width: 600,
+  height: 400,
+  posX: 1200,
+  posY: 50,
+  componentType: "field",
+  color: "#00fbff",
+})
+
+const field2 = new ColorFieldComponent({
+  name: "controls2",
+  width: 600,
+  height: 400,
+  posX: 1200,
+  posY: 450,
+  componentType: "field",
+  color: "#ffb300",
+})
+
+
+
 
 const getData = async () => {
   const controller = new AbortController();
@@ -130,6 +152,19 @@ const renderData = ({elements}) => {
             value: el.value,
             minValue: el.minValue,
             maxValue: el.maxValue,
+          }));
+        } else existing.setState(el);
+        break;
+      case "field":
+        if(existing === null){
+          components.push(new ColorFieldComponent({
+            name: el.name,
+            componentType: el.componentType,
+            posX: el.posX,
+            posY: el.posY,
+            width: el.width,
+            height: el.height,
+            color: el.color,
           }));
         } else existing.setState(el);
         break;
