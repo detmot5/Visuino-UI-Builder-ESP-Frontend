@@ -203,7 +203,8 @@ class ProgressBarComponent extends OutputComponent{
     this.updateColor();
   }
   updateColor(){
-    this.style.innerHTML = `.${this.name}::-webkit-progress-value{background-color: ${this.color};}`;
+    this.style.innerHTML = `.${this.name}::-webkit-progress-value{background-color: ${this.color};}
+                               .${this.name}::-moz-progress-bar{background-color: ${this.color};}`;
   }
   render() {
     super.render();
@@ -223,13 +224,12 @@ class ProgressBarComponent extends OutputComponent{
   }
 }
 class ColorFieldComponent extends OutputComponent{
-  constructor({name, componentType, posX, posY, width, height, color, hasOutline, outlineColor}) {
+  constructor({name, componentType, posX, posY, width, height, color, outlineColor}) {
     super({name, componentType, posX, posY});
     this.fieldClassName = 'color-field';
     this.width = width;
     this.height = height;
     this.color = color;
-    this.hasOutline = hasOutline;
     this.outlineColor = outlineColor;
     this.outlineOffset = 2;
   }
@@ -244,7 +244,7 @@ class ColorFieldComponent extends OutputComponent{
     this.wrapper.style.width = `${this.width - this.outlineOffset}px`;
     this.wrapper.style.height = `${this.height - this.outlineOffset}px`;
     this.wrapper.style.backgroundColor = this.color;
-    if(this.hasOutline) this.wrapper.style.outline = `1px solid ${this.outlineColor}`;
+    this.wrapper.style.outline = `1px solid ${this.outlineColor}`;
     this.dFragment.appendChild(this.wrapper);
     return this.dFragment;
   }
@@ -292,22 +292,27 @@ class SliderComponent extends InputComponent{
     this.style = document.createElement('style');
     this.sliderValueWrapper = document.createElement('span');
   }
+  notifyAboutSendingStatus(color) {
+    this.slider.style.outline = `1px solid ${color}`;
+    setTimeout(() => {this.slider.style.outline = `none`}, 500);
+  }
   setIsScrollingEnabled(state){
-    if(state){
-      content.style.overflow = "hidden";
-    } else {
-      content.style.overflow = "scroll";
-    }
+    content.style.overflow = state ? "scroll" : "hidden";
   }
   onChange(e) {
-    this.setIsScrollingEnabled(true);
+    this.setIsScrollingEnabled(false);
     this.sliderValueWrapper.innerHTML = e.target.value;
     this.setState({value: parseInt(e.target.value)});
+    setTimeout(() => {this.setIsScrollingEnabled(true);}, 5000);
   }
   onRelease(e) {
-    this.setIsScrollingEnabled(false);
+    this.setIsScrollingEnabled(true);
     this.setState({value: parseInt(e.target.value)});
-    this.sendData();
+    this.sendData()
+      .then(data => {
+        if(data.status === 200) this.notifyAboutSendingStatus('#00b80c');
+        else this.notifyAboutSendingStatus('red');
+      })
   }
   render() {
     super.render();
@@ -320,7 +325,7 @@ class SliderComponent extends InputComponent{
     this.slider.classList.add(`${this.name}`);        // second, unique class is required because modifying thumb via id is not working
     this.slider.max = this.maxValue;
     this.slider.min = this.minValue;
-    this.slider.style.background = '#999';
+    this.slider.style.background = '#333';
     this.slider.value = this.value;
     this.slider.style.width = this.width + 'px';
     this.slider.style.height = this.height + 'px';
