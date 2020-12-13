@@ -1,4 +1,5 @@
 const componentWrapperClassName = 'c-wrapper';
+const successColor = "#00b80c";
 const strToVertical = (str) => {
   let newStr = '';
   for(let i = 0; i < str.length; i++){
@@ -217,8 +218,8 @@ class ProgressBarComponent extends OutputComponent{
     this.progressBar.style.height = `${this.height}px`;
     if(this.isVertical) this.wrapper.style.transform = "rotate(-90deg)";
     this.updateColor();
-    this.wrapper.appendChild(this.style);
     this.wrapper.appendChild(this.progressBar);
+    this.wrapper.appendChild(this.style);
     this.dFragment.appendChild(this.wrapper);
     return this.dFragment;
   }
@@ -310,7 +311,7 @@ class SliderComponent extends InputComponent{
     this.setState({value: parseInt(e.target.value)});
     this.sendData()
       .then(data => {
-        if(data.status === 200) this.notifyAboutSendingStatus('#00b80c');
+        if(data.status === 200) this.notifyAboutSendingStatus(successColor);
         else this.notifyAboutSendingStatus('red');
       })
   }
@@ -360,12 +361,12 @@ class NumberInputComponent extends InputComponent {
     this.setState({value: parseFloat(this.input.value)});
     this.sendData()
       .then(data => {
-        if(data.status === 200) this.notifyAboutSendingStatus('#00b80c');
+        if(data.status === 200) this.notifyAboutSendingStatus(successColor);
         else this.notifyAboutSendingStatus('red');
       })
   }
   setColor(color){
-    this.input.style.borderBottom = `solid 2px ${color}`;
+    this.input.style.borderBottom = `solid 4px ${color}`;
   }
 
   notifyAboutSendingStatus(color) {
@@ -389,9 +390,9 @@ class NumberInputComponent extends InputComponent {
     this.input.style.width = `${this.width}px`;
     this.input.style.fontSize = `${this.fontSize}px`;
     this.input.style.color = this.color;
-    this.input.style.borderBottom = `solid 1px ${this.color}`;
-    this.input.addEventListener('focusout', (e) => {e.target.style.borderBottom = `solid 1px ${this.color}`});
-    this.input.addEventListener('focus', (e) => {e.target.style.borderBottom = `solid 2px ${this.color}`});
+    this.input.style.borderBottom = `solid 3px ${this.color}`;
+    this.input.addEventListener('focusout', (e) => {e.target.style.borderBottom = `solid 3px ${this.color}`});
+    this.input.addEventListener('focus', (e) => {e.target.style.borderBottom = `solid 4px ${this.color}`});
     this.input.addEventListener('change', (e) => {this.onSubmit(e)});
     this.input.placeholder = this.name;
 
@@ -418,7 +419,7 @@ class ButtonComponent extends InputComponent{
   }
 
   notifyAboutSendingStatus(color) {
-    this.button.style.boxShadow = `0px 0px 0px 3px ${color}`;
+    this.button.style.boxShadow = `0px 0px 0px 5px ${color}`;
   }
 
   deleteNotifyingShadow() {
@@ -431,7 +432,7 @@ class ButtonComponent extends InputComponent{
     const send = () => {
       this.sendData()
         .then(res => {
-          if (res.status === 200) this.notifyAboutSendingStatus('#00b80c');
+          if (res.status === 200) this.notifyAboutSendingStatus('white');
           else this.notifyAboutSendingStatus('red');
           if (!this.isButtonPressed) this.deleteNotifyingShadow();
         });
@@ -456,6 +457,7 @@ class ButtonComponent extends InputComponent{
     this.button.style.height = `${this.height}px`;
     this.button.addEventListener('mousedown', (e) => {this.onClick(e)});
     this.button.addEventListener('click', (e) => {this.onRelease(e)});
+    this.button.addEventListener('mouseout', (e) => {this.onRelease(e)})
     this.button.addEventListener("touchstart", (e) => {this.onClick(e)}, false);
     this.button.addEventListener("touchend", (e) => {this.onRelease(e)}, false);
 

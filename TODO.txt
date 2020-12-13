@@ -1,5 +1,7 @@
-    Add color field for grouping components
+Add label to progress bar
 
+
+Add color field for grouping components DONE
 Add Vertical button witch optional vertical text       DONE
 Scrolling issue!            DONE
 Firefox compatibility! DONE

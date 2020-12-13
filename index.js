@@ -52,8 +52,17 @@ const getData = async () => {
   const controller = new AbortController();
   setTimeout(() => controller.abort(), 10000);
   await fetch(`test.json`, {signal: controller.signal })
-    .then(response => response.json())
+    .then(response => {
+      if(response.status === 200){
+        console.log("OK");
+        return response.json();
+      }
+      else if(response.status === 204){
+        return null;
+      }
+    })
     .then(data => {
+      if(data === null) return;
       renderData(data);
       components.forEach(el => {
         const element = document.getElementById(el.name);
@@ -165,7 +174,6 @@ const renderData = ({elements}) => {
             width: el.width,
             height: el.height,
             color: el.color,
-            hasOutline: el.hasOutline,
             outlineColor: el.outlineColor
           }));
         } else existing.setState(el);
