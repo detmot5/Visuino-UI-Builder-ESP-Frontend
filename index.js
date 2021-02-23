@@ -1,4 +1,5 @@
 const url = window.location.href;
+const hostName = window.location.host;
 const connectedStr = "Connected";
 const disconnectedStr = "Disconnected";
 
@@ -13,7 +14,7 @@ console.log(content.style.width);
 
 
 const initialFetch = async () => {
-  fetch(`init.txt`)
+  fetch(`${url}init`)
     .then(response => {
       return response.text();
     })
@@ -25,33 +26,12 @@ const initialFetch = async () => {
 }
 
 
-const field = new ColorFieldComponent({
-  name: "controls",
-  width: 600,
-  height: 400,
-  posX: 1200,
-  posY: 50,
-  componentType: "field",
-  color: "#00fbff",
-})
-
-const field2 = new ColorFieldComponent({
-  name: "controls2",
-  width: 600,
-  height: 400,
-  posX: 1200,
-  posY: 450,
-  componentType: "field",
-  color: "#ffb300",
-})
 
 
 
 
 const getData = async () => {
-  const controller = new AbortController();
-  setTimeout(() => controller.abort(), 10000);
-  await fetch(`test.json`, {signal: controller.signal })
+  await fetch(`${url}input`)
     .then(response => {
       if(response.status === 200){
         console.log("OK");
