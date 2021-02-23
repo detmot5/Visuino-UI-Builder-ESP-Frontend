@@ -1,4 +1,12 @@
 const componentWrapperClassName = 'c-wrapper';
+const successColor = "#00b80c";
+const strToVertical = (str) => {
+  let newStr = '';
+  for(let i = 0; i < str.length; i++){
+    newStr += `${str.charAt(i)}<br/>`;
+  }
+  return newStr;
+}
 class Component {
   constructor({name, componentType, posX, posY, value}) {
     this.name = name;
@@ -16,7 +24,7 @@ class Component {
     this.wrapper.id = this.name;
     this.wrapper.className = componentWrapperClassName;
     this.wrapper.style.position = 'absolute';
-    this.wrapper.style.top = `${this.posY}px`;
+    this.wrapper.style.top = `${this.posY + 62}px`; //topbar offset
     this.wrapper.style.left =`${this.posX}px`;
   }
 }
@@ -39,7 +47,7 @@ class InputComponent extends Component {
 
   async sendData() {
     console.log(this.toJson())
-    const res = await fetch(`duppa`, {
+    const res = await fetch(`${url}status`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -59,19 +67,21 @@ class OutputComponent extends Component{
 
 
 class Label extends OutputComponent {
-  constructor({name, componentType, posX, posY, value, fontSize, color }) {
+  constructor({name, componentType, posX, posY, value, fontSize, color, isVertical}) {
     super({name, componentType, posX, posY, value});
     if(typeof value !== 'string') throw `${this.toString()} Illegal Parameter Type`;
     this.fontSize = fontSize;
     this.color = color;
     this.setState({fontSize, color, value});
+    this.isVertical = isVertical;
+    if(this.isVertical) this.value = strToVertical(this.value);
   }
 
   setState(state) {
     super.setState(state);
     this.fontSize = state.fontSize;
     this.color = state.color;
-
+    if(this.isVertical) this.value = strToVertical(this.value);
     this.wrapper.innerHTML = this.value;
     this.wrapper.style.fontSize = `${this.fontSize}px`;
     this.wrapper.style.color = this.color;
@@ -141,14 +151,11 @@ class LedIndicatorComponent extends OutputComponent{
     this.outerColor = "#555";
     this.innerSize = Math.round(this.size * this.outerToInnerSizeFactor);
   }
-
   setState(state) {
     super.setState(state);
     this.color = state.color;
     this.setLed(state.value);
   }
-
-
   setLed(value){
     if(value){
       this.inner.style.backgroundColor = this.color;
@@ -192,6 +199,13 @@ class ProgressBarComponent extends OutputComponent{
   }
   setState(state) {
     super.setState(state);
+    this.color = state.color;
+    this.progressBar.value = this.value;
+    this.updateColor();
+  }
+  updateColor(){
+    this.style.innerHTML = `.${this.name}::-webkit-progress-value{background-color: ${this.color};}
+                               .${this.name}::-moz-progress-bar{background-color: ${this.color};}`;
   }
   render() {
     super.render();
@@ -203,25 +217,45 @@ class ProgressBarComponent extends OutputComponent{
     this.progressBar.style.width = `${this.width}px`;
     this.progressBar.style.height = `${this.height}px`;
     if(this.isVertical) this.wrapper.style.transform = "rotate(-90deg)";
-    this.style.innerHTML = `.${this.name}::-webkit-progress-value{background-color: ${this.color};}`;
-
-
-    this.wrapper.appendChild(this.style);
+    this.updateColor();
     this.wrapper.appendChild(this.progressBar);
+    this.wrapper.appendChild(this.style);
     this.dFragment.appendChild(this.wrapper);
     return this.dFragment;
   }
-
 }
-
+class ColorFieldComponent extends OutputComponent{
+  constructor({name, componentType, posX, posY, width, height, color, outlineColor}) {
+    super({name, componentType, posX, posY});
+    this.fieldClassName = 'color-field';
+    this.width = width;
+    this.height = height;
+    this.color = color;
+    this.outlineColor = outlineColor;
+    this.outlineOffset = 2;
+  }
+  setState(state) {
+    this.color = state.color;
+    this.wrapper.style.backgroundColor = this.color;
+  }
+  render() {
+    super.render();
+    this.wrapper.classList.add(this.fieldClassName);
+    this.wrapper.style.zIndex = '0';
+    this.wrapper.style.width = `${this.width - this.outlineOffset}px`;
+    this.wrapper.style.height = `${this.height - this.outlineOffset}px`;
+    this.wrapper.style.backgroundColor = this.color;
+    this.wrapper.style.outline = `1px solid ${this.outlineColor}`;
+    this.dFragment.appendChild(this.wrapper);
+    return this.dFragment;
+  }
+}
 
 class SwitchComponent extends InputComponent {
   constructor({name, componentType, posX, posY, value, color, size }) {
     super({name, componentType, posX, posY, value});
     if(typeof value !== 'boolean') throw `Switch ${this.toString()} Illegal Value Type`;
-    this.switchClassName = "onoffswitch";
     this.switchCheckBoxClassName = "onoffswitch-checkbox";
-    this.switchLabelClassName = "onoffswitch-label";
     this.checkBox = document.createElement('input');
     this.color = color;
     this.size = size;
@@ -259,28 +293,27 @@ class SliderComponent extends InputComponent{
     this.style = document.createElement('style');
     this.sliderValueWrapper = document.createElement('span');
   }
+  notifyAboutSendingStatus(color) {
+    this.slider.style.outline = `1px solid ${color}`;
+    setTimeout(() => {this.slider.style.outline = `none`}, 500);
+  }
   setIsScrollingEnabled(state){
-    if(state){
-      document.body.style.position = 'relative';
-      document.body.style.overflowX = 'hidden';
-      document.getElementsByTagName('html').item(0).style.overflowX = "hidden";
-      content.style.overflowX = "hidden";
-    } else {
-      document.body.style.position = 'absolute';
-      document.body.style.overflowX = 'auto';
-      document.getElementsByTagName('html').item(0).style.overflowX = "scroll";
-      content.style.overflowX = "scroll";
-    }
+    content.style.overflow = state ? "scroll" : "hidden";
   }
   onChange(e) {
-    this.setIsScrollingEnabled(true);
+    this.setIsScrollingEnabled(false);
     this.sliderValueWrapper.innerHTML = e.target.value;
     this.setState({value: parseInt(e.target.value)});
+    setTimeout(() => {this.setIsScrollingEnabled(true);}, 5000);
   }
   onRelease(e) {
-    this.setIsScrollingEnabled(false);
+    this.setIsScrollingEnabled(true);
     this.setState({value: parseInt(e.target.value)});
-    this.sendData();
+    this.sendData()
+      .then(data => {
+        if(data.status === 200) this.notifyAboutSendingStatus(successColor);
+        else this.notifyAboutSendingStatus('red');
+      })
   }
   render() {
     super.render();
@@ -288,25 +321,20 @@ class SliderComponent extends InputComponent{
     this.wrapper.style.display = 'flex';
     this.wrapper.style.flexDirection = 'column';
     this.wrapper.style.alignItems = 'center';
-
     this.slider.type = "range";
     this.slider.classList.add(this.sliderClassName);
     this.slider.classList.add(`${this.name}`);        // second, unique class is required because modifying thumb via id is not working
     this.slider.max = this.maxValue;
     this.slider.min = this.minValue;
-    this.slider.style.background = '#999';
+    this.slider.style.background = '#333';
     this.slider.value = this.value;
     this.slider.style.width = this.width + 'px';
     this.slider.style.height = this.height + 'px';
     this.slider.addEventListener('input', (e) => this.onChange(e));
     this.slider.addEventListener('change', (e) => this.onRelease(e));
-    this.slider.addEventListener('click', () => {content.style.overflow = 'hidden'});
-
-    this.style.innerHTML = `.${this.name}::-webkit-slider-thumb {
-                                background: ${this.color}; 
-                                height: ${this.height * 1.1 + 'px'}; 
-                                width: ${this.height * 1.1 + 'px'}};`;
-
+    //append style to slider thumb (Chrome/Firefox)
+    this.style.innerHTML = `.${this.name}::-webkit-slider-thumb {background: ${this.color}; height: ${this.height * 1.1 + 'px'}; width: ${this.height * 1.1 + 'px'};}
+                                .${this.name}::-moz-range-thumb {background: ${this.color}; height: ${this.height * 1.1 + 'px'}; width: ${this.height * 1.1 + 'px'};}`;
     this.sliderValueWrapper.className = this.sliderValueWrapperClassName;
     this.sliderValueWrapper.innerHTML = this.value;
 
@@ -324,26 +352,21 @@ class NumberInputComponent extends InputComponent {
     super({name, componentType, posX, posY, value});
     if(typeof value !== 'number') throw `Number Input ${this.toString()} Illegal Value Type`;
     this.inputClassName = 'input';
-    this.submitButtonClassName = 'input-btn';
     this.width = width;
     this.fontSize = fontSize;
     this.color = color;
     this.input = document.createElement('input');
   }
-
-
   onSubmit(e){
     this.setState({value: parseFloat(this.input.value)});
     this.sendData()
       .then(data => {
-        if(data.status === 200) this.notifyAboutSendingStatus('#00b80c');
+        if(data.status === 200) this.notifyAboutSendingStatus(successColor);
         else this.notifyAboutSendingStatus('red');
       })
   }
-
-
   setColor(color){
-    this.input.style.borderBottom = `solid 2px ${color}`;
+    this.input.style.borderBottom = `solid 4px ${color}`;
   }
 
   notifyAboutSendingStatus(color) {
@@ -367,10 +390,10 @@ class NumberInputComponent extends InputComponent {
     this.input.style.width = `${this.width}px`;
     this.input.style.fontSize = `${this.fontSize}px`;
     this.input.style.color = this.color;
-    this.input.style.borderBottom = `solid 1px ${this.color}`;
-    this.input.addEventListener('focusout', (e) => {e.target.style.borderBottom = `solid 1px ${this.color}`});
-    this.input.addEventListener('focus', (e) => {e.target.style.borderBottom = `solid 2px ${this.color}`});
-    this.input.addEventListener('change', (e) => {this.onSubmit(e)})
+    this.input.style.borderBottom = `solid 3px ${this.color}`;
+    this.input.addEventListener('focusout', (e) => {e.target.style.borderBottom = `solid 3px ${this.color}`});
+    this.input.addEventListener('focus', (e) => {e.target.style.borderBottom = `solid 4px ${this.color}`});
+    this.input.addEventListener('change', (e) => {this.onSubmit(e)});
     this.input.placeholder = this.name;
 
     this.wrapper.appendChild(this.input);
@@ -381,9 +404,7 @@ class NumberInputComponent extends InputComponent {
 
 
 class ButtonComponent extends InputComponent{
-
-
-  constructor({name, componentType, posX, posY, value, color, text, textColor, fontSize, width, height}) {
+  constructor({name, componentType, posX, posY, value, color, text, textColor, fontSize, width, height, isVertical}) {
     super({name, componentType, posX, posY, value});
     this.buttonClassName = "button";
     this.isButtonPressed = false;
@@ -393,41 +414,38 @@ class ButtonComponent extends InputComponent{
     this.textColor = textColor;
     this.width = width;
     this.height = height;
+    if(isVertical) this.text = strToVertical(this.text);
     this.button = document.createElement('button');
   }
 
   notifyAboutSendingStatus(color) {
-    this.button.style.outline = `${color} 3px solid`;
+    this.button.style.boxShadow = `0px 0px 0px 5px ${color}`;
   }
 
-  deleteNotifyingOutline(){
-    this.button.style.outline = 'none';
+  deleteNotifyingShadow() {
+    this.button.style.boxShadow = 'none';
   }
 
-
-  onClick(e){
+  onClick(e) {
     this.isButtonPressed = true;
     this.value = true;
     const send = () => {
       this.sendData()
         .then(res => {
-          if(res.status === 200) this.notifyAboutSendingStatus('#00b80c');
+          if (res.status === 200) this.notifyAboutSendingStatus('white');
           else this.notifyAboutSendingStatus('red');
-          if(!this.isButtonPressed) this.deleteNotifyingOutline();
+          if (!this.isButtonPressed) this.deleteNotifyingShadow();
         });
-      if(this.isButtonPressed) setTimeout(send,  100);
-      else this.deleteNotifyingOutline();
+      if (this.isButtonPressed) setTimeout(send, 100);
+      else this.deleteNotifyingShadow();
     }
     send();
-
   }
-
   onRelease(e){
     this.isButtonPressed = false;
     this.value = false;
     this.sendData();
   }
-
   render() {
     super.render();
     this.button.className = this.buttonClassName;
@@ -439,6 +457,7 @@ class ButtonComponent extends InputComponent{
     this.button.style.height = `${this.height}px`;
     this.button.addEventListener('mousedown', (e) => {this.onClick(e)});
     this.button.addEventListener('click', (e) => {this.onRelease(e)});
+    this.button.addEventListener('mouseout', (e) => {this.onRelease(e)})
     this.button.addEventListener("touchstart", (e) => {this.onClick(e)}, false);
     this.button.addEventListener("touchend", (e) => {this.onRelease(e)}, false);
 

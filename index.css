@@ -19,6 +19,7 @@ body {
   border-bottom: solid 1px #eee;
   width: 100vw;
   height: 60px;
+  z-index: 1;
 }
 #title{
   text-align: left;
@@ -38,7 +39,7 @@ body {
 #isConnected{
   position: fixed;
   top: 10px;
-  right: 20px;
+  right: 15px;
   font-size: 18px;
 }
 #content {
@@ -52,6 +53,7 @@ body {
 @media screen and (min-width: 768px){
   #isConnected{
     font-size: 30px;
+    right: 20px;
   }
   #title{
     text-align: center;
@@ -62,24 +64,4 @@ body {
     margin-left: 40px;
   }
 }
-
-.pwrapper{
-  position: absolute;
-  width: 400px;
-  height: 100px;
-  top: 400px;
-  left: 700px;
-}
-#file{
-  transform: rotate(-90deg);
-  width: 150px;
-  -webkit-appearance: none;
-}
-
-#file::-webkit-progress-value{
-  background: orangered;
-  color: blue;
-}
-
-
-
+@media screen and (min-width: 1024px){#isConnected{right: 45px;}}
