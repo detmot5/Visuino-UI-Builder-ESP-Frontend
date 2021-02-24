@@ -9,6 +9,7 @@ filesToMinify = [
   "index.js",
   "index.css",
   "component.css",
+  "webSocketIO.js",
 ]
 
 def minifyFile(fileName):
@@ -29,6 +30,7 @@ def copyData():
     shutil.copytree(ROOT_DIR + "Libs", f"{BUILD_DIR}/Libs")
     shutil.copyfile(ROOT_DIR + "component.js", f"{BUILD_DIR}/component.js")
     shutil.copyfile(ROOT_DIR + "index.html", f"{BUILD_DIR}/index.html")
+    shutil.copyfile(ROOT_DIR + "webSocketIO.js", f"{BUILD_DIR}/webSocketIO.js")
     shutil.copyfile(ROOT_DIR + "favicon.ico", f"{BUILD_DIR}/favicon.ico")
   except:
     return False 

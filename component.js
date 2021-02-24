@@ -47,14 +47,9 @@ class InputComponent extends Component {
 
   async sendData() {
     console.log(this.toJson())
-    const res = await fetch(`${url}status`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(this.toJson())
-    });
-    return res.clone();
+    const dataSocket = sockets.dataSocket;
+    if(!sockets.dataSocket.isOpen) return false;
+    dataSocket.instance.send(JSON.stringify(this.toJson()));
   }
 }
 
@@ -263,7 +258,7 @@ class SwitchComponent extends InputComponent {
   onClick(e) {
     console.log(e.target.checked);
     this.setState({value: e.target.checked});
-    super.sendData();
+    this.sendData();
   }
   render() {
     super.render();
@@ -309,11 +304,8 @@ class SliderComponent extends InputComponent{
   onRelease(e) {
     this.setIsScrollingEnabled(true);
     this.setState({value: parseInt(e.target.value)});
-    this.sendData()
-      .then(data => {
-        if(data.status === 200) this.notifyAboutSendingStatus(successColor);
-        else this.notifyAboutSendingStatus('red');
-      })
+    this.sendData();
+    this.notifyAboutSendingStatus(successColor);
   }
   render() {
     super.render();
@@ -359,23 +351,8 @@ class NumberInputComponent extends InputComponent {
   }
   onSubmit(e){
     this.setState({value: parseFloat(this.input.value)});
-    this.sendData()
-      .then(data => {
-        if(data.status === 200) this.notifyAboutSendingStatus(successColor);
-        else this.notifyAboutSendingStatus('red');
-      })
+    this.notifyAboutSendingStatus(successColor);
   }
-  setColor(color){
-    this.input.style.borderBottom = `solid 4px ${color}`;
-  }
-
-  notifyAboutSendingStatus(color) {
-    this.setColor(color);
-    setTimeout(() => {
-      this.setColor(this.color);
-    },500);
-  }
-
   render() {
     super.render();
     this.input.className = this.inputClassName;
@@ -430,12 +407,9 @@ class ButtonComponent extends InputComponent{
     this.isButtonPressed = true;
     this.value = true;
     const send = () => {
-      this.sendData()
-        .then(res => {
-          if (res.status === 200) this.notifyAboutSendingStatus('white');
-          else this.notifyAboutSendingStatus('red');
-          if (!this.isButtonPressed) this.deleteNotifyingShadow();
-        });
+      this.sendData();
+      this.notifyAboutSendingStatus('white');
+      if (!this.isButtonPressed) this.deleteNotifyingShadow();
       if (this.isButtonPressed) setTimeout(send, 100);
       else this.deleteNotifyingShadow();
     }

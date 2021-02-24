@@ -1,5 +1,4 @@
 const url = window.location.href;
-const hostName = window.location.host;
 const connectedStr = "Connected";
 const disconnectedStr = "Disconnected";
 
@@ -8,13 +7,22 @@ const content = document.getElementById('content');
 const title = document.getElementById('title');
 const loadingInfo = document.getElementById('info');
 const isConnectedDiv = document.getElementById('isConnected');
+const succesIndicatorDiv = document.getElementById('successIndicator');
+
 content.style.overflow = 'scroll';
 console.log(content.style.width);
+
+const blinkSuccessIndicator = () => {
+  succesIndicatorDiv.style.visibility = "visible";
+  setTimeout(() => {
+    succesIndicatorDiv.style.visibility = "hidden";
+  }, 100);
+}
 
 
 
 const initialFetch = async () => {
-  fetch(`${url}init`)
+  fetch(`init.txt`)
     .then(response => {
       return response.text();
     })
@@ -24,42 +32,6 @@ const initialFetch = async () => {
       document.title = data.toString();
     })
 }
-
-
-
-
-
-
-const getData = async () => {
-  await fetch(`${url}input`)
-    .then(response => {
-      if(response.status === 200){
-        console.log("OK");
-        return response.json();
-      }
-      else if(response.status === 204){
-        return null;
-      }
-    })
-    .then(data => {
-      if(data === null) return;
-      renderData(data);
-      components.forEach(el => {
-        const element = document.getElementById(el.name);
-        if(element === null) content.appendChild(el.render());
-        isConnectedDiv.innerHTML = connectedStr;
-        isConnectedDiv.style.color = '#00a103';
-        loadingInfo.innerHTML = "";
-      });
-    })
-    .catch(error => {
-      console.log(error);
-      isConnectedDiv.innerHTML = disconnectedStr;
-      isConnectedDiv.style.color = '#a10000';
-    })
-  setTimeout(getData, 500);
-}
-
 
 
 
@@ -216,5 +188,5 @@ const getElementIfIsRendered = (elementToCheck) => {
 }
 
 initialFetch();
-getData();
+
 
