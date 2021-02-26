@@ -1,3 +1,5 @@
 test.json
 build/
-.idea
+.idea/
+apiServer/node_modules
+apiServer/package-lock.json

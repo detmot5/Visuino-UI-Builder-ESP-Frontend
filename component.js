@@ -446,6 +446,13 @@ class ButtonComponent extends InputComponent{
     this.value = false;
     this.sendData();
   }
+  onMouseOut(e){
+    if(this.isButtonPressed) {
+      this.isButtonPressed = false;
+      this.value = false;
+      this.sendData();
+    }
+  }
   render() {
     super.render();
     this.button.className = this.buttonClassName;
@@ -457,7 +464,7 @@ class ButtonComponent extends InputComponent{
     this.button.style.height = `${this.height}px`;
     this.button.addEventListener('mousedown', (e) => {this.onClick(e)});
     this.button.addEventListener('click', (e) => {this.onRelease(e)});
-    this.button.addEventListener('mouseout', (e) => {this.onRelease(e)})
+    this.button.addEventListener('mouseout', (e) => {this.onMouseOut(e)})
     this.button.addEventListener("touchstart", (e) => {this.onClick(e)}, false);
     this.button.addEventListener("touchend", (e) => {this.onRelease(e)}, false);
 

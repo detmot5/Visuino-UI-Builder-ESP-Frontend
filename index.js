@@ -1,5 +1,5 @@
-const url = window.location.href;
-const hostName = window.location.host;
+//const url = window.location.href;
+const url = "http://localhost:3000/";
 const connectedStr = "Connected";
 const disconnectedStr = "Disconnected";
 
@@ -14,7 +14,7 @@ console.log(content.style.width);
 
 
 const initialFetch = async () => {
-  fetch(`${url}init`)
+  fetch("http://localhost:3000/init")
     .then(response => {
       return response.text();
     })
@@ -43,6 +43,7 @@ const getData = async () => {
     })
     .then(data => {
       if(data === null) return;
+      console.log(data);
       renderData(data);
       components.forEach(el => {
         const element = document.getElementById(el.name);
