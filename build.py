@@ -27,6 +27,7 @@ def copyData():
   print("Copying libraries...")
   try:
     shutil.copytree(ROOT_DIR + "Libs", f"{BUILD_DIR}/Libs")
+    shutil.copytree(ROOT_DIR + "images", f"{BUILD_DIR}/images")
     shutil.copyfile(ROOT_DIR + "component.js", f"{BUILD_DIR}/component.js")
     shutil.copyfile(ROOT_DIR + "index.html", f"{BUILD_DIR}/index.html")
     shutil.copyfile(ROOT_DIR + "favicon.ico", f"{BUILD_DIR}/favicon.ico")

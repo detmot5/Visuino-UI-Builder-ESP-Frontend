@@ -251,6 +251,50 @@ class ColorFieldComponent extends OutputComponent{
   }
 }
 
+
+class ImageComponent extends  OutputComponent {
+  constructor({name, componentType, posX, posY, width, height, fileName}) {
+    super({name, componentType, posX, posY});
+    this.imageClassName = "background-image";
+    this.width = width;
+    this.height = height;
+    this.isFileLoaded = false;
+    this.fileName = fileName;
+    this.imageEl = document.createElement('img');
+    this.loadFile();
+  }
+
+  loadFile() {
+    fetch(`${url}image?fileName=/${this.fileName}`)
+      .then(response => {
+        console.log("image response");
+        switch (response.status) {
+          case HttpCodes.NOT_FOUND:         throw new Error(`Image ${this.fileName} doesn't exist`); break;
+          case HttpCodes.PAYLOAD_TOO_LARGE: throw new Error(`Image ${this.fileName} is too big to be processed by device`); break;
+          case HttpCodes.BAD_REQUEST:       throw new Error(`File name not provided`); break;
+          case HttpCodes.OK:                return response.blob(); break;
+        }
+      })
+      .then(blob => {
+        this.imageEl.src = URL.createObjectURL(blob);
+        this.isFileLoaded = true;
+      });
+  }
+
+  render() {
+    super.render();
+    this.wrapper.style.zIndex = '0';
+    this.imageEl.style.zIndex = '0';
+    if(this.height != 0) this.imageEl.width = this.width;
+    if(this.width != 0) this.imageEl.height = this.height;
+
+    this.wrapper.appendChild(this.imageEl);
+    this.dFragment.appendChild(this.wrapper);
+    return this.dFragment;
+  }
+
+}
+
 class SwitchComponent extends InputComponent {
   constructor({name, componentType, posX, posY, value, color, size }) {
     super({name, componentType, posX, posY, value});

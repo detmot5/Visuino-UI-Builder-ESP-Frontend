@@ -8,13 +8,21 @@ const content = document.getElementById('content');
 const title = document.getElementById('title');
 const loadingInfo = document.getElementById('info');
 const isConnectedDiv = document.getElementById('isConnected');
+const HttpCodes = {
+  OK: 200,
+  NO_CONTENT: 204,
+  BAD_REQUEST: 400,
+  NOT_FOUND: 404,
+  PAYLOAD_TOO_LARGE: 413,
+};
 content.style.overflow = 'scroll';
 console.log(content.style.width);
 
 
 
+
 const initialFetch = async () => {
-  fetch("http://localhost:3000/init")
+  fetch(`${url}init`)
     .then(response => {
       return response.text();
     })
@@ -33,11 +41,11 @@ const initialFetch = async () => {
 const getData = async () => {
   await fetch(`${url}input`)
     .then(response => {
-      if(response.status === 200){
+      if(response.status === HttpCodes.OK){
         console.log("OK");
         return response.json();
       }
-      else if(response.status === 204){
+      else if(response.status === HttpCodes.NO_CONTENT){
         return null;
       }
     })
@@ -158,6 +166,19 @@ const renderData = ({elements}) => {
             outlineColor: el.outlineColor
           }));
         } else existing.setState(el);
+        break;
+      case "image": 
+        if(existing === null) {
+          components.push(new ImageComponent({
+            name: el.name,
+            componentType: el.componentType,
+            posX: el.posX,
+            posY: el.posY,
+            width: el.width,
+            height: el.height,
+            fileName: el.fileName,
+          }));
+        } // image doesn't have state
         break;
       case 'slider':
         if(existing === null){

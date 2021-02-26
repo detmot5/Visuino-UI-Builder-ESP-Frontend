@@ -7,12 +7,9 @@ const port = 3000;
 
 const fs = require('fs');
 
-let rawinput = fs.readFileSync('test.json');
-let input = JSON.parse(rawinput);
+
 
 let rawinit = fs.readFileSync('init.txt');
-console.log(input);
-
 app.use(cors());
 app.use(bodyParser());
 app.get('/init', (req, res) => {
@@ -20,7 +17,18 @@ app.get('/init', (req, res) => {
 });
 
 app.get('/input', (req, res) => {
+  let rawinput = fs.readFileSync('test.json');
+  let input = JSON.parse(rawinput);
   res.json(input)
+});
+
+
+
+app.get('/image', (req, res) => {
+  console.log(req.query.fileName);
+  const path = `images${req.query.fileName}`;
+  console.log(path);
+  res.sendFile(path, {root: __dirname});
 });
 
 app.post('/status',  (req, res) => {
@@ -28,6 +36,9 @@ app.post('/status',  (req, res) => {
   console.log(req.body);
   res.send('');
 });
+
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
