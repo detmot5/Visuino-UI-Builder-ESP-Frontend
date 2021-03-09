@@ -265,7 +265,7 @@ class ImageComponent extends  OutputComponent {
   }
 
   loadFile() {
-    fetch(`${url}image?fileName=/${this.fileName}`)
+    fetch(`${url}image?fileName=/images/${this.fileName}`)
       .then(response => {
         console.log("image response");
         switch (response.status) {

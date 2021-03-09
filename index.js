@@ -1,5 +1,5 @@
-//const url = window.location.href;
-const url = "http://localhost:3000/";
+const url = window.location.href;
+//const url = "http://localhost:3000/";
 const connectedStr = "Connected";
 const disconnectedStr = "Disconnected";
 
