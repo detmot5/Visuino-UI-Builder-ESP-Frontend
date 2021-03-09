@@ -1,7 +1,8 @@
 import os, shutil
 
 
-ROOT_DIR = "/mySoft/Projects/Embedded/Ra/HTML_Generator/Workspace/Website/frontend-rafal-vanila/"
+
+ROOT_DIR = "/Dev/Projects/Embedded/Ra/HTML_Generator/Workspace/Website/frontend-rafal-vanila/"
 BUILD_DIR = ROOT_DIR + "build"
 
 
