@@ -26,7 +26,7 @@ app.get('/input', (req, res) => {
 
 app.get('/image', (req, res) => {
   console.log(req.query.fileName);
-  const path = `images${req.query.fileName}`;
+  const path = `.${req.query.fileName}`;
   console.log(path);
   res.sendFile(path, {root: __dirname});
 });
