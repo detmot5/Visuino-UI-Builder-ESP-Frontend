@@ -24,7 +24,7 @@ class Component {
     this.wrapper.id = this.name;
     this.wrapper.className = componentWrapperClassName;
     this.wrapper.style.position = 'absolute';
-    this.wrapper.style.top = `${this.posY + 62}px`; //topbar offset
+    this.wrapper.style.top = `${this.posY + 82}px`; //topbar offset
     this.wrapper.style.left =`${this.posX}px`;
   }
 }
@@ -34,7 +34,7 @@ class InputComponent extends Component {
     super({name, componentType, posX, posY, value});
   }
   toJson() {
-    return{
+    return {
       name: this.name,
       componentType: this.componentType,
       value: this.value
