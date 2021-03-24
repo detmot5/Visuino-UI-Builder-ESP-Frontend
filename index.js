@@ -1,13 +1,17 @@
-const url = window.location.href;
-//const url = "http://localhost:3000/";
+//const url = window.location.href;
+const url = "http://localhost:3000/";
 const connectedStr = "Connected";
 const disconnectedStr = "Disconnected";
 
 const components = [];
+const tabs = {};
+let currentTab = null;
+
 const content = document.getElementById('content');
 const title = document.getElementById('title');
 const loadingInfo = document.getElementById('info');
 const isConnectedDiv = document.getElementById('isConnected');
+const tabBarDiv = document.getElementById('tab-bar');
 const HttpCodes = {
   OK: 200,
   NO_CONTENT: 204,
@@ -15,11 +19,49 @@ const HttpCodes = {
   NOT_FOUND: 404,
   PAYLOAD_TOO_LARGE: 413,
 };
-content.style.overflow = 'scroll';
+
 console.log(content.style.width);
 
 
 
+const appendTab = (name) => {
+  const content = document.createDocumentFragment();
+  const button = document.createElement('button');
+  button.innerHTML = name;
+  button.classList.add("tab-button");
+  button.addEventListener('click', (e) => {
+    const name = e.path[0].innerHTML;
+    console.log(e);
+    if (!e.path[0].disabled) onTabSwitch(name);
+  });
+  tabBarDiv.appendChild(button);
+  tabs[name] = {button, content};
+}
+
+const setTabButtonIsDisabled = (tab, isDisabled) => {
+  console.log(tab);
+  if(isDisabled) tab.button.classList.remove("tab-button-disabled");
+  else tab.button.classList.add("tab-button-disabled");
+}
+
+const onTabSwitch = (name) => {
+  console.log(tabs[name]);
+  if (tabs[name] !== currentTab){
+    currentTab.button.disabled = false;
+    setTabButtonIsDisabled(currentTab, true);
+    setTabButtonIsDisabled(tabs[name], false);
+    currentTab = tabs[name];
+    currentTab.button.disabled = true;
+  } 
+}
+
+appendTab("dupa");
+currentTab = tabs["dupa"];
+
+appendTab("apud");
+
+appendTab("test")
+onTabSwitch("test")
 
 const initialFetch = async () => {
   fetch(`${url}init`)
@@ -53,12 +95,12 @@ const getData = async () => {
       if(data === null) return;
       console.log(data);
       renderData(data);
+      isConnectedDiv.innerHTML = connectedStr;
+      isConnectedDiv.style.color = '#00a103';
+      loadingInfo.innerHTML = "";
       components.forEach(el => {
         const element = document.getElementById(el.name);
         if(element === null) content.appendChild(el.render());
-        isConnectedDiv.innerHTML = connectedStr;
-        isConnectedDiv.style.color = '#00a103';
-        loadingInfo.innerHTML = "";
       });
     })
     .catch(error => {
