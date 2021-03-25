@@ -7,9 +7,9 @@ const components = [];
 const tabs = {};
 let currentTab = null;
 
-const content = document.getElementById('content');
-const title = document.getElementById('title');
-const loadingInfo = document.getElementById('info');
+const contentDiv = document.getElementById('content');
+const titleDiv = document.getElementById('title');
+const loadingInfoDiv = document.getElementById('info');
 const isConnectedDiv = document.getElementById('isConnected');
 const tabBarDiv = document.getElementById('tab-bar');
 const HttpCodes = {
@@ -19,111 +19,78 @@ const HttpCodes = {
   NOT_FOUND: 404,
   PAYLOAD_TOO_LARGE: 413,
 };
+contentDiv.style.overflow = "scroll";
+console.log(contentDiv.style.width);
 
-console.log(content.style.width);
 
-
-
+  
 const appendTab = (name) => {
-  const content = document.createDocumentFragment();
+  if (!(name in tabs)) 
+    throw new Error("Duplicated tabs detected!");
   const button = document.createElement('button');
   button.innerHTML = name;
   button.classList.add("tab-button");
   button.addEventListener('click', (e) => {
     const name = e.path[0].innerHTML;
-    console.log(e);
     if (!e.path[0].disabled) onTabSwitch(name);
   });
   tabBarDiv.appendChild(button);
-  tabs[name] = {button, content};
+  tabs[name] = {button, components: []};
+  return tabs[name];
 }
 
 const setTabButtonIsDisabled = (tab, isDisabled) => {
-  console.log(tab);
   if(isDisabled) tab.button.classList.remove("tab-button-disabled");
   else tab.button.classList.add("tab-button-disabled");
 }
 
 const onTabSwitch = (name) => {
-  console.log(tabs[name]);
   if (tabs[name] !== currentTab){
     currentTab.button.disabled = false;
     setTabButtonIsDisabled(currentTab, true);
     setTabButtonIsDisabled(tabs[name], false);
+    contentDiv.removeChild(currentTab.name);
     currentTab = tabs[name];
+    contentDiv.appendChild(currentTab.name);
     currentTab.button.disabled = true;
   } 
 }
 
-appendTab("dupa");
-currentTab = tabs["dupa"];
 
-appendTab("apud");
 
-appendTab("test")
-onTabSwitch("test")
 
-const initialFetch = async () => {
-  fetch(`${url}init`)
-    .then(response => {
-      return response.text();
-    })
-    .then(data => {
-      console.log(data);
-      title.innerHTML = data.toString();
-      document.title = data.toString();
-    })
+
+const createTabs = ({tabs}) => {
+  if (tabs.name === null || tabs.content === null) 
+    throw new Error("Wrong syntax during tab parsing");
+  tabs.forEach(({name, elements}) => {
+    appendTab(name, elements);
+    const tab = tabs[name];
+    parseJsonToHtmlElements(tab.elements, elements);
+  });
+}
+
+const renderTab = (tabElements) => {
+  const fragment = document.createDocumentFragment();
+  tabElements.forEach((el) => {
+    const isElementAlreadyExists = document.getElementById(el.name);
+    if (isElementAlreadyExists === null) { 
+      fragment.appendChild(el.render());
+    }
+  });
+  contentDiv.appendChild(fragment);
 }
 
 
 
-
-
-
-const getData = async () => {
-  await fetch(`${url}input`)
-    .then(response => {
-      if(response.status === HttpCodes.OK){
-        console.log("OK");
-        return response.json();
-      }
-      else if(response.status === HttpCodes.NO_CONTENT){
-        return null;
-      }
-    })
-    .then(data => {
-      if(data === null) return;
-      console.log(data);
-      renderData(data);
-      isConnectedDiv.innerHTML = connectedStr;
-      isConnectedDiv.style.color = '#00a103';
-      loadingInfo.innerHTML = "";
-      components.forEach(el => {
-        const element = document.getElementById(el.name);
-        if(element === null) content.appendChild(el.render());
-      });
-    })
-    .catch(error => {
-      console.log(error);
-      isConnectedDiv.innerHTML = disconnectedStr;
-      isConnectedDiv.style.color = '#a10000';
-    })
-  setTimeout(getData, 500);
-}
-
-
-
-
-
-const renderData = ({elements}) => {
+const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
   console.log("render");
-  //console.log(elements)
   elements.forEach((el) => {
     const existing = getElementIfIsRendered(el);
     switch (el.componentType){
       case 'switch':
         if(existing === null) {
-          components.push(new SwitchComponent({
+          elementsStorage.push(new SwitchComponent({
             name: el.name,
             componentType: el.componentType,
             size: el.size,
@@ -137,7 +104,7 @@ const renderData = ({elements}) => {
         break;
       case 'label':
         if(existing === null) {
-          components.push(new Label({
+          elementsStorage.push(new Label({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -151,7 +118,7 @@ const renderData = ({elements}) => {
         break;
       case 'gauge':
         if(existing === null){
-          components.push(new GaugeComponent({
+          elementsStorage.push(new GaugeComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -167,7 +134,7 @@ const renderData = ({elements}) => {
         break;
       case "indicator":
         if(existing === null){
-          components.push(new LedIndicatorComponent({
+          elementsStorage.push(new LedIndicatorComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -180,7 +147,7 @@ const renderData = ({elements}) => {
           break;
       case "progressBar":
         if(existing === null){
-          components.push(new ProgressBarComponent({
+          elementsStorage.push(new ProgressBarComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -197,7 +164,7 @@ const renderData = ({elements}) => {
         break;
       case "field":
         if(existing === null){
-          components.push(new ColorFieldComponent({
+          elementsStorage.push(new ColorFieldComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -211,7 +178,7 @@ const renderData = ({elements}) => {
         break;
       case "image": 
         if(existing === null) {
-          components.push(new ImageComponent({
+          elementsStorage.push(new ImageComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -224,7 +191,7 @@ const renderData = ({elements}) => {
         break;
       case 'slider':
         if(existing === null){
-          components.push(new SliderComponent({
+          elementsStorage.push(new SliderComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -240,7 +207,7 @@ const renderData = ({elements}) => {
         break;
       case "numberInput":
         if(existing === null){
-          components.push(new NumberInputComponent({
+          elementsStorage.push(new NumberInputComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -254,7 +221,7 @@ const renderData = ({elements}) => {
         break;
       case "button":
         if(existing === null){
-          components.push(new ButtonComponent({
+          elementsStorage.push(new ButtonComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -278,6 +245,58 @@ const getElementIfIsRendered = (elementToCheck) => {
   })
   return element;
 }
+
+
+const setIsConnectedDiv = (isConnected) => {
+  if (isConnected === true) {
+    isConnectedDiv.innerHTML = connectedStr;
+    isConnectedDiv.style.color = '#00a103';
+    loadingInfoDiv.innerHTML = "";
+  } else {
+    isConnectedDiv.innerHTML = disconnectedStr;
+    isConnectedDiv.style.color = '#a10000';
+  }
+}
+
+const initialFetch = async () => {
+  fetch(`${url}init`)
+    .then(response => {
+      return response.text();
+    })
+    .then(data => {
+      console.log(data);
+      titleDiv.innerHTML = data.toString();
+      document.title = data.toString();
+    })
+}
+
+
+
+const getData = async () => {
+  await fetch(`${url}input`)
+    .then(response => {
+      if(response.status === HttpCodes.OK){
+        console.log("OK");
+        return response.json();
+      }
+      else if(response.status === HttpCodes.NO_CONTENT){
+        return null;
+      }
+    })
+    .then(data => {
+      if(data === null) return;
+      console.log(data);
+      setIsConnectedDiv(true);
+      parseJsonToHtmlElements(components, data);
+      renderTab(components);
+    })
+    .catch(error => {
+      console.log(error);
+      setIsConnectedDiv(false);
+    })
+  setTimeout(getData, 500);
+}
+
 
 initialFetch();
 getData();

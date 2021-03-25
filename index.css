@@ -1,6 +1,7 @@
 body {
   padding: 0;
   margin: 0;
+  overflow-x: hidden;
 }
 #wrapper{
   font-family: 'Arial', sans-serif;
@@ -9,6 +10,7 @@ body {
   width: 100vw;
   height: 100vh;
   user-select: none;
+  overflow: hidden;
 }
 #top-bar{
   position: fixed;
@@ -18,6 +20,7 @@ body {
   height: 60px;
   z-index: 1;
   padding-bottom: 0;
+  
 }
 
 #tab-bar {
@@ -34,7 +37,8 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  overflow-y: hidden;
+  overflow: hidden;
+  
 }
 
 .tab-button {
@@ -45,21 +49,22 @@ body {
   padding: 0;
   height: 100%;
   width: 100%;
+  min-width: fit-content;
   max-width: 10%;
+  padding-left: 3px;
+  padding-right: 3px;
   color: #333;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   
-  border-top: solid 1px #999;
-  border-left: solid 1px #999;
-  border-right: solid 1px #999;
+  border-top: solid 1px #bbb;
+  border-left: solid 1px #bbb;
+  border-right: solid 1px #bbb;
 }
 
 .tab-button-disabled {
   background-color: #ccc;
-  border-top: solid 1px #444;
-  border-left: solid 1px #444;
-  border-right: solid 1px #444;
+
 }
 
 .tab-button:active {
