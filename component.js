@@ -69,7 +69,7 @@ class OutputComponent extends Component{
 class Label extends OutputComponent {
   constructor({name, componentType, posX, posY, value, fontSize, color, isVertical}) {
     super({name, componentType, posX, posY, value});
-    if(typeof value !== 'string') throw `${this.toString()} Illegal Parameter Type`;
+    if (typeof value !== 'string') throw `${this.toString()} Illegal Parameter Type`;
     this.fontSize = fontSize;
     this.color = color;
     this.setState({fontSize, color, value});

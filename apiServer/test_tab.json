@@ -1,0 +1,301 @@
+{  
+  "tabs": [
+    {
+      "name": "main",
+      "elements": [
+        {
+          "name" : "Lamp2",
+          "size" : 20,
+          "componentType" : "switch",
+          "posX" : 0,
+          "posY" : 0,
+          "color" : "blue",
+          "value": false
+        },
+        {
+          "name" : "Motor",
+          "size" : 20,
+          "componentType" : "switch",
+          "posX" : 400,
+          "posY" : 400,
+          "color" : "#abcdef",
+          "value": false
+        },
+        {
+          "name" : "Nothing",
+          "size" : 30,
+          "componentType" : "switch",
+          "posX" : 170,
+          "posY" : 100,
+          "color" : "lightgreen",
+          "value": false
+        },
+        {
+          "name" : "Something",
+          "size" : 30,
+          "componentType" : "switch",
+          "posX" : 50,
+          "posY" : 150,
+          "color" : "#bbaaaa",
+          "value": true
+        },
+        {
+          "name" : "Servo",
+          "size" : 40,
+          "componentType" : "switch",
+          "dataType" : "boolean",
+          "posX" : 170,
+          "posY" : 150,
+          "color" : "#abcada",
+          "value": true
+        },
+        {
+          "name" : "LightBulb",
+          "size" : 25,
+          "componentType" : "switch",
+          "posX" : 100,
+          "posY" : 150,
+          "color" : "#00ffe5",
+          "value": true
+        },
+        {
+          "name" : "bulb",
+          "size" : 25,
+          "componentType" : "switch",
+          "posX" : 50,
+          "posY" : 100,
+          "color" : "orange",
+          "value": true
+        },
+        {
+          "name" : "Info",
+          "componentType" : "label",
+          "posX" : 100,
+          "posY" : 300,
+          "fontSize": 24,
+          "color" : "red",
+          "isVertical": true,
+          "value": "Pionowy napis"
+        },
+        {
+          "name" : "Info2",
+          "componentType" : "label",
+          "posX" : 100,
+          "posY" : 700,
+          "fontSize": 30,
+          "color" : "lime",
+          "isVertical": false,
+          "value": "Poziomy napis"
+        },
+        {
+          "name" : "Speed",
+          "componentType" : "gauge",
+          "posX" : 200,
+          "posY" : 300,
+          "color" : "red",
+          "value": 720,
+          "maxValue": 800,
+          "minValue": 0,
+          "width" : 500,
+          "height": 400
+        },
+        {
+          "name" : "Slidee",
+          "componentType" : "slider",
+          "posX" : 300,
+          "posY" : 150,
+          "color" : "blue",
+          "value": 740,
+          "maxValue": 800,
+          "minValue": 0,
+          "width" : 500,
+          "height": 20
+        },
+      {
+        "name" : "Sliderrrre",
+        "componentType" : "slider",
+        "posX" : 300,
+        "posY" : 250,
+        "color" : "green",
+        "value": 320,
+        "maxValue": 800,
+        "minValue": 0,
+        "width" : 250,
+        "height": 20
+      },
+      {
+        "name": "other temperature",
+        "color": "#333",
+        "fontSize": 15,
+        "width": 150,
+        "value": 44.2,
+        "componentType": "numberInput",
+        "posY": 200,
+        "posX": 400
+      },
+      {
+        "name": "btn1",
+        "textColor": "white",
+        "fontSize": 16,
+        "text": "Vertical",
+        "width": 40,
+        "height": 200,
+        "color": "#555",
+        "posX": 1400,
+        "posY": 400,
+        "isVertical": true,
+        "componentType": "button"
+      },
+      {
+        "name": "btn2",
+        "textColor": "white",
+        "fontSize": 16,
+        "text": "Horizontal",
+        "width": 200,
+        "height": 40,
+        "color": "#333",
+        "posX": 1400,
+        "posY": 700,
+        "isVertical": false,
+        "componentType": "button"
+      },
+      {
+        "name": "led",
+        "componentType": "indicator",
+        "value": true,
+        "posY": 100,
+        "posX": 900,
+        "color": "red",
+        "size": 50
+      },
+      {
+        "name": "led2",
+        "componentType": "indicator",
+        "value": true,
+        "posY": 100,
+        "posX": 950,
+        "color": "yellow",
+        "size": 50
+      },
+      {
+        "name": "led3",
+        "componentType": "indicator",
+        "value": true,
+        "posY": 100,
+        "posX": 1000,
+        "color": "lime",
+        "size": 50
+      },
+      {
+        "name": "led4",
+        "componentType": "indicator",
+        "posY": 100,
+        "posX": 1050,
+        "value": false,
+        "size": 50,
+        "color": "yellow"
+      },
+      {
+        "name": "controls3",
+        "color": "orangered",
+        "width": 800,
+        "height" : 400,
+        "componentType": "field",
+        "posY": 400,
+        "posX": 800,
+        "outlineColor": "black"
+      },
+      {
+        "name": "controls4",
+        "color": "#333",
+        "width": 800,
+        "height" : 400,
+        "componentType": "field",
+        "posY": 400,
+        "posX": 0,
+        "outlineColor": "black"
+      },
+      {
+        "name": "image1",
+        "width": 0,
+        "height" : 0,
+        "componentType": "image",
+        "posY": 0,
+        "posX": 0,
+        "fileName": "test.jpg"
+      }
+      ]
+    },
+    {
+      "name": "settings",
+      "elements": [
+        {
+          "name" : "progress-bar",
+          "componentType" : "progressBar",
+          "posX" : 700,
+          "posY" : 350,
+          "color" : "#cc0000",
+          "value": 111.32,
+          "maxValue": 800,
+          "minValue": 0,
+          "width" : 400,
+          "height": 20,
+          "isVertical": true
+        },
+        {
+          "name": "controls",
+          "color": "#999",
+          "width": 800,
+          "height" : 400,
+          "componentType": "field",
+          "posY": 0,
+          "posX": 0,
+          "outlineColor": "black"
+        },
+        {
+          "name": "controls2",
+          "color": "darkorange",
+          "width": 800,
+          "height" : 400,
+          "componentType": "field",
+          "posY": 0,
+          "posX": 800,
+          "outlineColor": "black"
+        },
+        {
+          "name": "controls3",
+          "color": "orangered",
+          "width": 800,
+          "height" : 400,
+          "componentType": "field",
+          "posY": 400,
+          "posX": 800,
+          "outlineColor": "black"
+        }, 
+        {
+          "name": "image1",
+          "width": 0,
+          "height" : 0,
+          "componentType": "image",
+          "posY": 100,
+          "posX": 300,
+          "fileName": "test.jpg"
+        },
+        
+      {
+        "name": "btn1",
+        "textColor": "white",
+        "fontSize": 16,
+        "text": "Vertical",
+        "width": 40,
+        "height": 200,
+        "color": "#555",
+        "posX": 1400,
+        "posY": 400,
+        "isVertical": true,
+        "componentType": "button"
+      }
+      ]
+    }
+  ]
+}

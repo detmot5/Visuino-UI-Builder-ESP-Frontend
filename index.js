@@ -23,35 +23,43 @@ contentDiv.style.overflow = "scroll";
 console.log(contentDiv.style.width);
 
 
-  
-const appendTab = (name) => {
-  if (!(name in tabs)) 
-    throw new Error("Duplicated tabs detected!");
+const appendTab = (name, elements) => {
+  if (name in tabs) return;
+  const button = createTabButton(name);
+  tabBarDiv.appendChild(button);
+  tabs[name] = { button, 
+                 components: [], 
+                 htmlElement: document.createElement('span')
+               };
+  parseJsonToHtmlElements(tabs[name].components, {elements});          
+  return tabs[name];
+}
+
+const createTabButton = (buttonName) => {
   const button = document.createElement('button');
-  button.innerHTML = name;
+  button.innerHTML = buttonName;
   button.classList.add("tab-button");
   button.addEventListener('click', (e) => {
     const name = e.path[0].innerHTML;
     if (!e.path[0].disabled) onTabSwitch(name);
   });
-  tabBarDiv.appendChild(button);
-  tabs[name] = {button, components: []};
-  return tabs[name];
+  return button;
 }
 
 const setTabButtonIsDisabled = (tab, isDisabled) => {
-  if(isDisabled) tab.button.classList.remove("tab-button-disabled");
-  else tab.button.classList.add("tab-button-disabled");
+  if(isDisabled) tab.button.classList.add("tab-button-disabled");
+  else tab.button.classList.remove("tab-button-disabled");
 }
 
 const onTabSwitch = (name) => {
-  if (tabs[name] !== currentTab){
+  const newTab = tabs[name];
+  if (newTab !== currentTab) {
+    contentDiv.removeChild(currentTab.htmlElement);
     currentTab.button.disabled = false;
-    setTabButtonIsDisabled(currentTab, true);
-    setTabButtonIsDisabled(tabs[name], false);
-    contentDiv.removeChild(currentTab.name);
-    currentTab = tabs[name];
-    contentDiv.appendChild(currentTab.name);
+    setTabButtonIsDisabled(currentTab, false);
+    setTabButtonIsDisabled(newTab, true);
+    currentTab = newTab;
+    contentDiv.appendChild(currentTab.htmlElement);
     currentTab.button.disabled = true;
   } 
 }
@@ -59,34 +67,43 @@ const onTabSwitch = (name) => {
 
 
 
-
-const createTabs = ({tabs}) => {
-  if (tabs.name === null || tabs.content === null) 
-    throw new Error("Wrong syntax during tab parsing");
-  tabs.forEach(({name, elements}) => {
+const createTabs = (response) => {
+  if (response.tabs.name === null || response.tabs.content === null) 
+    throw new Error("Wrong syntax during tab parsing");  
+  response.tabs.forEach(({name, elements}) => {
     appendTab(name, elements);
-    const tab = tabs[name];
-    parseJsonToHtmlElements(tab.elements, elements);
-  });
-}
-
-const renderTab = (tabElements) => {
-  const fragment = document.createDocumentFragment();
-  tabElements.forEach((el) => {
-    const isElementAlreadyExists = document.getElementById(el.name);
-    if (isElementAlreadyExists === null) { 
-      fragment.appendChild(el.render());
+    if (currentTab === null) {
+      currentTab = tabs[name];
+      switchTab(currentTab);
     }
   });
-  contentDiv.appendChild(fragment);
+
 }
 
+const renderTab = (tab) => {
+  tab.components.forEach((el) => {
+    const isElementAlreadyExists = document.getElementById(el.name);
+    if (isElementAlreadyExists === null) { 
+      console.log(`rendered ${el.name}`);
+      tab.htmlElement.appendChild(el.render());
+    }
+  });
+}
+
+const switchTab = (tab) => {
+  if (contentDiv.contains(currentTab.htmlElement))
+    contentDiv.removeChild(currentTab.htmlElement);
+  contentDiv.appendChild(tab.htmlElement);
+  setTabButtonIsDisabled(currentTab, false);
+  currentTab = tab;
+  setTabButtonIsDisabled(currentTab, true);
+}
 
 
 const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
   console.log("render");
   elements.forEach((el) => {
-    const existing = getElementIfIsRendered(el);
+    const existing = getElementIfIsRendered(el, elementsStorage);
     switch (el.componentType){
       case 'switch':
         if(existing === null) {
@@ -203,7 +220,7 @@ const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
             minValue: el.minValue,
             value: el.value
           }));
-        }
+        } 
         break;
       case "numberInput":
         if(existing === null){
@@ -238,11 +255,11 @@ const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
     }
   });
 }
-const getElementIfIsRendered = (elementToCheck) => {
+const getElementIfIsRendered = (elementToCheck, elementsStorage) => {
   let element = null;
-  components.forEach((el) => {
+  elementsStorage.forEach((el) => {
     if(el.name === elementToCheck.name) element = el;
-  })
+  });
   return element;
 }
 
@@ -258,7 +275,7 @@ const setIsConnectedDiv = (isConnected) => {
   }
 }
 
-const initialFetch = async () => {
+const initialFetch = () => {
   fetch(`${url}init`)
     .then(response => {
       return response.text();
@@ -271,9 +288,8 @@ const initialFetch = async () => {
 }
 
 
-
-const getData = async () => {
-  await fetch(`${url}input`)
+const getData = () => {
+  fetch(`${url}input`)
     .then(response => {
       if(response.status === HttpCodes.OK){
         console.log("OK");
@@ -287,8 +303,8 @@ const getData = async () => {
       if(data === null) return;
       console.log(data);
       setIsConnectedDiv(true);
-      parseJsonToHtmlElements(components, data);
-      renderTab(components);
+      createTabs(data);
+      renderTab(currentTab);      
     })
     .catch(error => {
       console.log(error);

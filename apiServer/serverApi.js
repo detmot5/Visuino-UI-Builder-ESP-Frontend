@@ -17,7 +17,7 @@ app.get('/init', (req, res) => {
 });
 
 app.get('/input', (req, res) => {
-  let rawinput = fs.readFileSync('test.json');
+  let rawinput = fs.readFileSync('test_tab.json');
   let input = JSON.parse(rawinput);
   res.json(input)
 });
