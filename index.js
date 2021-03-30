@@ -23,17 +23,16 @@ contentDiv.style.overflow = "scroll";
 console.log(contentDiv.style.width);
 
 
-const appendTab = (name, elements) => {
-  if ((name in tabs)) return;
+const appendTab = (name) => {
+  if (name in tabs) return;
   const button = createTabButton(name);
   tabBarDiv.appendChild(button);
   tabs[name] = { 
-                 button, 
-                 components: {}, 
-                 htmlElement: document.createElement('span')
-               };
-  parseJsonToHtmlElements(tabs[name].components, {elements});          
-  return tabs[name];
+                  button, 
+                  components: {}, 
+                  htmlElement: document.createElement('span')
+                };
+  
 }
 
 const createTabButton = (buttonName) => {
@@ -73,6 +72,7 @@ const createTabs = (response) => {
     throw new Error("Wrong syntax during tab parsing");  
   response.tabs.forEach(({name, elements}) => {
     appendTab(name, elements);
+    parseJsonToHtmlElements(tabs[name].components, {elements});      
     if (currentTab === null) {
       currentTab = tabs[name];
       switchTab(currentTab);
@@ -82,7 +82,6 @@ const createTabs = (response) => {
 }
 
 const renderTab = (tab) => {
-  console.log(tab);
   Object.entries(tab.components)
     .forEach(([key, el]) => {
       const isElementAlreadyExists = document.getElementById(el.name);
@@ -107,10 +106,9 @@ const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
   console.log("render");
   elements.forEach((el) => {
     if (isElementExistsOnOtherTabs(el, elements)) {
-      console.warn(`Component name: ${el.name} is not unique`);
-      return;
+
     }
-    const existingElement = elementsStorage[el.nmae];
+    const existingElement = elementsStorage[el.name];
     switch (el.componentType){
       case 'switch':
         if (existingElement === null || existingElement === undefined) {
@@ -268,7 +266,7 @@ const isElementExistsOnOtherTabs = (elementToCheck, actualTabStorage) => {
   Object.entries(tabs)
     .forEach(([tabName, tab]) => {
       if (tab.components.hasOwnProperty(elementToCheck.name) &&
-          tab.components !== actualTabStorage) {
+          tab.components != actualTabStorage) {
         isExists = true;
       }
     });
@@ -316,6 +314,7 @@ const getData = () => {
       setIsConnectedDiv(true);
       createTabs(data);
       renderTab(currentTab);      
+      
     })
     .catch(error => {
       console.log(error);
