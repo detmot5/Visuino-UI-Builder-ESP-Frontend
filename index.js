@@ -24,11 +24,12 @@ console.log(contentDiv.style.width);
 
 
 const appendTab = (name, elements) => {
-  if (name in tabs) return;
+  if ((name in tabs)) return;
   const button = createTabButton(name);
   tabBarDiv.appendChild(button);
-  tabs[name] = { button, 
-                 components: [], 
+  tabs[name] = { 
+                 button, 
+                 components: {}, 
                  htmlElement: document.createElement('span')
                };
   parseJsonToHtmlElements(tabs[name].components, {elements});          
@@ -81,13 +82,15 @@ const createTabs = (response) => {
 }
 
 const renderTab = (tab) => {
-  tab.components.forEach((el) => {
-    const isElementAlreadyExists = document.getElementById(el.name);
-    if (isElementAlreadyExists === null) { 
-      console.log(`rendered ${el.name}`);
-      tab.htmlElement.appendChild(el.render());
-    }
-  });
+  console.log(tab);
+  Object.entries(tab.components)
+    .forEach(([key, el]) => {
+      const isElementAlreadyExists = document.getElementById(el.name);
+      if (isElementAlreadyExists === null) { 
+        console.log(`rendered ${el.name}`);
+        tab.htmlElement.appendChild(el.render());
+      }
+    });
 }
 
 const switchTab = (tab) => {
@@ -103,11 +106,15 @@ const switchTab = (tab) => {
 const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
   console.log("render");
   elements.forEach((el) => {
-    const existing = getElementIfIsRendered(el, elementsStorage);
+    if (isElementExistsOnOtherTabs(el, elements)) {
+      console.warn(`Component name: ${el.name} is not unique`);
+      return;
+    }
+    const existingElement = elementsStorage[el.nmae];
     switch (el.componentType){
       case 'switch':
-        if(existing === null) {
-          elementsStorage.push(new SwitchComponent({
+        if (existingElement === null || existingElement === undefined) {
+          elementsStorage[el.name] = (new SwitchComponent({
             name: el.name,
             componentType: el.componentType,
             size: el.size,
@@ -120,8 +127,8 @@ const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
         }
         break;
       case 'label':
-        if(existing === null) {
-          elementsStorage.push(new Label({
+        if (existingElement === null || existingElement === undefined) {
+          elementsStorage[el.name] = (new Label({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -131,11 +138,11 @@ const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
             isVertical: el.isVertical,
             color: el.color,
           }));
-        } else existing.setState(el);
+        } else existingElement.setState(el);
         break;
       case 'gauge':
-        if(existing === null){
-          elementsStorage.push(new GaugeComponent({
+        if(existingElement === null || existingElement === undefined) {
+          elementsStorage[el.name] = (new GaugeComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -147,11 +154,11 @@ const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
             minValue: el.minValue,
             value: el.value,
           }));
-        } else existing.setState(el);
+        } else existingElement.setState(el);
         break;
       case "indicator":
-        if(existing === null){
-          elementsStorage.push(new LedIndicatorComponent({
+        if (existingElement === null || existingElement === undefined) {
+          elementsStorage[el.name] = (new LedIndicatorComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -160,11 +167,11 @@ const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
             color: el.color,
             value: el.value
           }));
-        } else existing.setState(el);
+        } else existingElement.setState(el);
           break;
       case "progressBar":
-        if(existing === null){
-          elementsStorage.push(new ProgressBarComponent({
+        if (existingElement === null || existingElement === undefined) {
+          elementsStorage[el.name] = (new ProgressBarComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -177,11 +184,11 @@ const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
             minValue: el.minValue,
             maxValue: el.maxValue,
           }));
-        } else existing.setState(el);
+        } else existingElement.setState(el);
         break;
       case "field":
-        if(existing === null){
-          elementsStorage.push(new ColorFieldComponent({
+        if(existingElement === null || existingElement === undefined) {
+          elementsStorage[el.name] = (new ColorFieldComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -191,11 +198,11 @@ const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
             color: el.color,
             outlineColor: el.outlineColor
           }));
-        } else existing.setState(el);
+        } else existingElement.setState(el);
         break;
       case "image": 
-        if(existing === null) {
-          elementsStorage.push(new ImageComponent({
+        if(existingElement === null || existingElement === undefined) {
+          elementsStorage[el.name] = (new ImageComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -207,8 +214,8 @@ const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
         } // image doesn't have state
         break;
       case 'slider':
-        if(existing === null){
-          elementsStorage.push(new SliderComponent({
+        if(existingElement === null || existingElement === undefined) {
+          elementsStorage[el.name] = (new SliderComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -223,8 +230,8 @@ const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
         } 
         break;
       case "numberInput":
-        if(existing === null){
-          elementsStorage.push(new NumberInputComponent({
+        if(existingElement === null || existingElement === undefined) {
+          elementsStorage[el.name] = (new NumberInputComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -237,8 +244,8 @@ const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
         }
         break;
       case "button":
-        if(existing === null){
-          elementsStorage.push(new ButtonComponent({
+        if(existingElement === null || existingElement === undefined) {
+          elementsStorage[el.name] = (new ButtonComponent({
             name: el.name,
             componentType: el.componentType,
             posX: el.posX,
@@ -255,14 +262,18 @@ const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
     }
   });
 }
-const getElementIfIsRendered = (elementToCheck, elementsStorage) => {
-  let element = null;
-  elementsStorage.forEach((el) => {
-    if(el.name === elementToCheck.name) element = el;
-  });
-  return element;
-}
 
+const isElementExistsOnOtherTabs = (elementToCheck, actualTabStorage) => {
+  let isExists = false;
+  Object.entries(tabs)
+    .forEach(([tabName, tab]) => {
+      if (tab.components.hasOwnProperty(elementToCheck.name) &&
+          tab.components !== actualTabStorage) {
+        isExists = true;
+      }
+    });
+  return isExists;
+} 
 
 const setIsConnectedDiv = (isConnected) => {
   if (isConnected === true) {

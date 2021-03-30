@@ -191,7 +191,7 @@
         "componentType": "indicator",
         "posY": 100,
         "posX": 1050,
-        "value": false,
+        "value": true,
         "size": 50,
         "color": "yellow"
       },
@@ -230,7 +230,7 @@
       "name": "settings",
       "elements": [
         {
-          "name" : "progress-bar",
+          "name" : "settings-progress-bar",
           "componentType" : "progressBar",
           "posX" : 700,
           "posY" : 350,
@@ -243,7 +243,7 @@
           "isVertical": true
         },
         {
-          "name": "controls",
+          "name": "settings-controls",
           "color": "#999",
           "width": 800,
           "height" : 400,
@@ -253,7 +253,7 @@
           "outlineColor": "black"
         },
         {
-          "name": "controls2",
+          "name": "settings-controls2",
           "color": "darkorange",
           "width": 800,
           "height" : 400,
@@ -263,7 +263,7 @@
           "outlineColor": "black"
         },
         {
-          "name": "controls3",
+          "name": "settings-controls3",
           "color": "orangered",
           "width": 800,
           "height" : 400,
@@ -273,7 +273,7 @@
           "outlineColor": "black"
         }, 
         {
-          "name": "image1",
+          "name": "settings-image1",
           "width": 0,
           "height" : 0,
           "componentType": "image",
@@ -283,7 +283,7 @@
         },
         
       {
-        "name": "btn1",
+        "name": "settings-btn1",
         "textColor": "white",
         "fontSize": 16,
         "text": "Vertical",
