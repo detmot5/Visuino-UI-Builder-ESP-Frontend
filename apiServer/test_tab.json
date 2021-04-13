@@ -1,8 +1,5 @@
-{  
-  "tabs": [
-    {
-      "name": "main",
-      "elements": [
+{
+  "main": [
         {
           "name" : "Lamp2",
           "size" : 20,
@@ -126,7 +123,7 @@
       {
         "name": "other temperature",
         "color": "#333",
-        "fontSize": 15,
+        "fontSize": 24,
         "width": 150,
         "value": 44.2,
         "componentType": "numberInput",
@@ -224,13 +221,10 @@
         "posX": 0,
         "fileName": "test.jpg"
       }
-      ]
-    },
-    {
-      "name": "settings",
-      "elements": [
+    ],
+    "settings": [
         {
-          "name" : "settings-progress-bar",
+          "name" : "progress-bar",
           "componentType" : "progressBar",
           "posX" : 700,
           "posY" : 350,
@@ -271,7 +265,7 @@
           "posY": 400,
           "posX": 800,
           "outlineColor": "black"
-        }, 
+        },
         {
           "name": "settings-image1",
           "width": 0,
@@ -281,7 +275,7 @@
           "posX": 300,
           "fileName": "test.jpg"
         },
-        
+
       {
         "name": "settings-btn1",
         "textColor": "white",
@@ -289,13 +283,11 @@
         "text": "Vertical",
         "width": 40,
         "height": 200,
-        "color": "#555",
+        "color": "#85a",
         "posX": 1400,
         "posY": 400,
         "isVertical": true,
         "componentType": "button"
       }
       ]
-    }
-  ]
 }

@@ -16,7 +16,7 @@ app.get('/init', (req, res) => {
   res.send("website");
 });
 
-app.get('/input', (req, res) => {
+app.get('/state', (req, res) => {
   let rawinput = fs.readFileSync('test_tab.json');
   let input = JSON.parse(rawinput);
   res.json(input)
@@ -31,7 +31,7 @@ app.get('/image', (req, res) => {
   res.sendFile(path, {root: __dirname});
 });
 
-app.post('/status',  (req, res) => {
+app.post('/input',  (req, res) => {
   res.status = 200;
   console.log(req.body);
   res.send('');

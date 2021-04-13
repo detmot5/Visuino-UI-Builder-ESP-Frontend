@@ -1,9 +1,14 @@
-//const url = window.location.href;
-const url = "http://localhost:3000/";
+const url = window.location.href;
+//const url = "http://localhost:3000/";
 const connectedStr = "Connected";
 const disconnectedStr = "Disconnected";
 
-const components = [];
+
+/* data in tab: 
+ * button - htmlButtonEl
+ * object with components
+ * span with rendered comopnents
+*/
 const tabs = {};
 let currentTab = null;
 
@@ -23,90 +28,16 @@ contentDiv.style.overflow = "scroll";
 console.log(contentDiv.style.width);
 
 
-const appendTab = (name) => {
-  if (name in tabs) return;
-  const button = createTabButton(name);
-  tabBarDiv.appendChild(button);
-  tabs[name] = { 
-                  button, 
-                  components: {}, 
-                  htmlElement: document.createElement('span')
-                };
-  
-}
-
-const createTabButton = (buttonName) => {
-  const button = document.createElement('button');
-  button.innerHTML = buttonName;
-  button.classList.add("tab-button");
-  button.addEventListener('click', (e) => {
-    const name = e.path[0].innerHTML;
-    if (!e.path[0].disabled) onTabSwitch(name);
-  });
-  return button;
-}
-
-const setTabButtonIsDisabled = (tab, isDisabled) => {
-  if(isDisabled) tab.button.classList.add("tab-button-disabled");
-  else tab.button.classList.remove("tab-button-disabled");
-}
-
-const onTabSwitch = (name) => {
-  const newTab = tabs[name];
-  if (newTab !== currentTab) {
-    contentDiv.removeChild(currentTab.htmlElement);
-    currentTab.button.disabled = false;
-    setTabButtonIsDisabled(currentTab, false);
-    setTabButtonIsDisabled(newTab, true);
-    currentTab = newTab;
-    contentDiv.appendChild(currentTab.htmlElement);
-    currentTab.button.disabled = true;
-  } 
-}
 
 
-
-
-const createTabs = (response) => {
-  if (response.tabs.name === null || response.tabs.content === null) 
-    throw new Error("Wrong syntax during tab parsing");  
-  response.tabs.forEach(({name, elements}) => {
-    appendTab(name, elements);
-    parseJsonToHtmlElements(tabs[name].components, {elements});      
-    if (currentTab === null) {
-      currentTab = tabs[name];
-      switchTab(currentTab);
-    }
-  });
-
-}
-
-const renderTab = (tab) => {
-  Object.entries(tab.components)
-    .forEach(([key, el]) => {
-      const isElementAlreadyExists = document.getElementById(el.name);
-      if (isElementAlreadyExists === null) { 
-        console.log(`rendered ${el.name}`);
-        tab.htmlElement.appendChild(el.render());
-      }
-    });
-}
-
-const switchTab = (tab) => {
-  if (contentDiv.contains(currentTab.htmlElement))
-    contentDiv.removeChild(currentTab.htmlElement);
-  contentDiv.appendChild(tab.htmlElement);
-  setTabButtonIsDisabled(currentTab, false);
-  currentTab = tab;
-  setTabButtonIsDisabled(currentTab, true);
-}
-
-
-const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
+const parseJsonToHtmlElements = (tab, elements) => {
   console.log("render");
+  const elementsStorage = tab.components
   elements.forEach((el) => {
-    if (isElementExistsOnOtherTabs(el, elements)) {
-
+    if (isElementExistsOnOtherTabs(el, tab)) {
+      console.warn(`element ${el.name} on tab ${tab.button.innerHTML}` + 
+                    ` exists on other tabs - skipping it`);
+      return;
     }
     const existingElement = elementsStorage[el.name];
     switch (el.componentType){
@@ -261,12 +192,12 @@ const parseJsonToHtmlElements = (elementsStorage, {elements}) => {
   });
 }
 
-const isElementExistsOnOtherTabs = (elementToCheck, actualTabStorage) => {
+const isElementExistsOnOtherTabs = (elementToCheck, actualTab) => {
   let isExists = false;
   Object.entries(tabs)
     .forEach(([tabName, tab]) => {
       if (tab.components.hasOwnProperty(elementToCheck.name) &&
-          tab.components != actualTabStorage) {
+          tab !== actualTab) {
         isExists = true;
       }
     });
@@ -298,7 +229,7 @@ const initialFetch = () => {
 
 
 const getData = () => {
-  fetch(`${url}input`)
+  fetch(`${url}state`)
     .then(response => {
       if(response.status === HttpCodes.OK){
         console.log("OK");

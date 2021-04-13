@@ -8,6 +8,7 @@ BUILD_DIR = ROOT_DIR + "build"
 
 filesToMinify = [
   "index.js",
+  "tab.js",
   "index.css",
   "component.css",
 ]
