@@ -228,29 +228,34 @@ const initialFetch = () => {
 }
 
 
+let isPendingRequest = false;
 const getData = () => {
-  fetch(`${url}state`)
-    .then(response => {
-      if(response.status === HttpCodes.OK){
-        console.log("OK");
-        return response.json();
-      }
-      else if(response.status === HttpCodes.NO_CONTENT){
-        return null;
-      }
-    })
-    .then(data => {
-      if(data === null) return;
-      console.log(data);
-      setIsConnectedDiv(true);
-      createTabs(data);
-      renderTab(currentTab);      
-      
-    })
-    .catch(error => {
-      console.log(error);
-      setIsConnectedDiv(false);
-    })
+  if (isPendingRequest == false) {
+    isPendingRequest = true;
+    fetch(`${url}state`)
+      .then(response => {
+        isPendingRequest = false;
+        if(response.status === HttpCodes.OK){
+          console.log("OK");
+          return response.json();
+        }
+        else if(response.status === HttpCodes.NO_CONTENT){
+          return null;
+        }
+      })
+      .then(data => {
+        if(data === null) return;
+        console.log(data);
+        setIsConnectedDiv(true);
+        createTabs(data);
+        renderTab(currentTab);      
+        
+      })
+      .catch(error => {
+        console.log(error);
+        setIsConnectedDiv(false);
+      })
+  }
   setTimeout(getData, 500);
 }
 
