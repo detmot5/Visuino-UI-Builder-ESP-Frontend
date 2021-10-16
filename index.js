@@ -28,7 +28,51 @@ contentDiv.style.overflow = "scroll";
 console.log(contentDiv.style.width);
 
 
+const appendTab = (name, elements) => {
+  if (name in tabs) return;
+  const button = createTabButton(name);
+  tabBarDiv.appendChild(button);
+  tabs[name] = { button, 
+                 components: [], 
+                 htmlElement: document.createElement('span')
+               };
+  parseJsonToHtmlElements(tabs[name].components, {elements});          
+  return tabs[name];
+}
 
+const setTabButtonIsDisabled = (tab, isDisabled) => {
+  if(isDisabled) tab.button.classList.add("tab-button-disabled");
+  else tab.button.classList.remove("tab-button-disabled");
+}
+
+const onTabSwitch = (name) => {
+  const newTab = tabs[name];
+  if (newTab !== currentTab) {
+    contentDiv.removeChild(currentTab.htmlElement);
+    currentTab.button.disabled = false;
+    setTabButtonIsDisabled(currentTab, false);
+    setTabButtonIsDisabled(newTab, true);
+    currentTab = newTab;
+    contentDiv.appendChild(currentTab.htmlElement);
+    currentTab.button.disabled = true;
+  } 
+}
+
+
+
+
+const createTabs = (response) => {
+  if (response.tabs.name === null || response.tabs.content === null) 
+    throw new Error("Wrong syntax during tab parsing");  
+  response.tabs.forEach(({name, elements}) => {
+    appendTab(name, elements);
+    if (currentTab === null) {
+      currentTab = tabs[name];
+      switchTab(currentTab);
+    }
+  });
+
+}
 
 const parseJsonToHtmlElements = (tab, elements) => {
   console.log("render");
@@ -230,32 +274,27 @@ const initialFetch = () => {
 
 let isPendingRequest = false;
 const getData = () => {
-  if (isPendingRequest == false) {
-    isPendingRequest = true;
-    fetch(`${url}state`)
-      .then(response => {
-        isPendingRequest = false;
-        if(response.status === HttpCodes.OK){
-          console.log("OK");
-          return response.json();
-        }
-        else if(response.status === HttpCodes.NO_CONTENT){
-          return null;
-        }
-      })
-      .then(data => {
-        if(data === null) return;
-        console.log(data);
-        setIsConnectedDiv(true);
-        createTabs(data);
-        renderTab(currentTab);      
-        
-      })
-      .catch(error => {
-        console.log(error);
-        setIsConnectedDiv(false);
-      })
-  }
+  fetch(`${url}state`)
+    .then(response => {
+      if(response.status === HttpCodes.OK){
+        console.log("OK");
+        return response.json();
+      }
+      else if(response.status === HttpCodes.NO_CONTENT){
+        return null;
+      }
+    })
+    .then(data => {
+      if(data === null) return;
+      console.log(data);
+      setIsConnectedDiv(true);
+      createTabs(data);
+      renderTab(currentTab);      
+    })
+    .catch(error => {
+      console.log(error);
+      setIsConnectedDiv(false);
+    })
   setTimeout(getData, 500);
 }
 

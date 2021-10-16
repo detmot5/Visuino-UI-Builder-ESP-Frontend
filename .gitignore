@@ -3,3 +3,5 @@ build/
 .idea/
 apiServer/node_modules
 apiServer/package-lock.json
+node_modules
+tmp
