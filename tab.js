@@ -15,8 +15,8 @@ const createTabButton = (buttonName) => {
   button.innerHTML = buttonName;
   button.classList.add("tab-button");
   button.addEventListener('click', (e) => {
-    const name = e.path[0].innerHTML;
-    if (!e.path[0].disabled) onTabSwitch(name);
+    const name = e.target.innerHTML;
+    if (!e.target.disabled) onTabSwitch(name);
   });
   return button;
 }

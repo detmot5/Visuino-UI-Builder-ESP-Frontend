@@ -121,6 +121,16 @@
         "height": 20
       },
       {
+        "name": "textinputTest",
+        "color": "#333",
+        "fontSize": 24,
+        "width": 150,
+        "value": "lol",
+        "componentType": "textInput",
+        "posY": 600,
+        "posX": 600
+      },
+      {
         "name": "other temperature",
         "color": "#333",
         "fontSize": 24,

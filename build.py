@@ -6,11 +6,13 @@
 
 
 import os, shutil
+from to1File import merge_sources
 
 
 
 ROOT_DIR = "./"
-BUILD_DIR = ROOT_DIR + "build"
+BUILD_DIR = ROOT_DIR + "data"
+TMP_DIR = ROOT_DIR + "tmp"
 
 
 filesToMinify = [
@@ -21,7 +23,7 @@ filesToMinify = [
 ]
 
 def minifyFile(fileName):
-  return os.system(f"minify {ROOT_DIR}{fileName} > {BUILD_DIR}/{fileName}")
+  return os.system(f"minify {ROOT_DIR}{fileName} > {TMP_DIR}/{fileName}")
 
 
 def minify():
@@ -34,41 +36,44 @@ def minify():
 
 
 
-def merge_sources():
-  print("Merging sources")
-  with open('index_build.html') as f: 
-    indexHtmlData = f.read()
-    scriptIndex = indexHtmlData.find("<script>") + 8
-    styleIndex = indexHtmlData.find("<style>") + 7 
-    with open("tmp/index.js") as indexJS:
-      indexJSData = indexJS.read()   
-      indexHtmlData = indexHtmlData[:scriptIndex] + indexJSData + indexHtmlData[scriptIndex:]
-    with open("tmp/component.js") as componentJS:
-      componentJSData = componentJS.read()   
-      indexHtmlData = indexHtmlData[:scriptIndex] + componentJSData + indexHtmlData[scriptIndex:]
-    with open("tmp/component.css") as component_css:
-      component_css_data = component_css.read()
-      indexHtmlData = indexHtmlData[:styleIndex] + component_css_data + indexHtmlData[styleIndex:]
-    with open("tmp/index.css") as index_css:
-      index_css_data = index_css.read()
-      indexHtmlData = indexHtmlData[:styleIndex] + index_css_data + indexHtmlData[styleIndex:]
+# def merge_sources():
+#   print("Merging sources")
+#   with open('index_build.html') as f: 
+#     indexHtmlData = f.read()
+#     scriptIndex = indexHtmlData.find("<script>") + 8
+#     styleIndex = indexHtmlData.find("<style>") + 7 
 
-  with open('build/index.html', "w") as f:  
-    f.write(indexHtmlData)
+#     with open("Libs/pureknobMin.js") as pureKnobJS:
+#       pureKnobJsDaa = pureKnobJS.read()
+#       indexHtmlData[:scriptIndex] + pureKnobJsDaa + indexHtmlData[scriptIndex:]
+#     with open("tmp/tab.js") as tabJS:
+#       tabJSData = tabJS.read()   
+#       indexHtmlData = indexHtmlData[:scriptIndex] + tabJSData + indexHtmlData[scriptIndex:]
+#     with open("tmp/component.js") as componentJS:
+#       componentJSData = componentJS.read()   
+#       indexHtmlData = indexHtmlData[:scriptIndex] + componentJSData + indexHtmlData[scriptIndex:]
+#     with open("tmp/index.js") as indexJS:
+#       indexJSData = indexJS.read()   
+#       indexHtmlData = indexHtmlData[:scriptIndex] + indexJSData + indexHtmlData[scriptIndex:]
+#     with open("tmp/component.css") as component_css:
+#       component_css_data = component_css.read()
+#       indexHtmlData = indexHtmlData[:styleIndex] + component_css_data + indexHtmlData[styleIndex:]
+#     with open("tmp/index.css") as index_css:
+#       index_css_data = index_css.read()
+#       indexHtmlData = indexHtmlData[:styleIndex] + index_css_data + indexHtmlData[styleIndex:]
+
+#   with open(f'{BUILD_DIR}/index.html', "w") as f:  
+#     f.write(indexHtmlData)
 
       
       
-
-
-
 
 def copyData():
   print("Copying libraries...")
   try:
     shutil.copytree(ROOT_DIR + "Libs", f"{BUILD_DIR}/Libs")
-    shutil.copytree(ROOT_DIR + "images", f"{BUILD_DIR}/images")
-    shutil.copyfile(ROOT_DIR + "component.js", f"{BUILD_DIR}/component.js")
-    shutil.copyfile(ROOT_DIR + "index.html", f"{BUILD_DIR}/index.html")
+    shutil.copytree(ROOT_DIR + "Images", f"{BUILD_DIR}/images")
+    shutil.copyfile(ROOT_DIR + "component.js", f"{TMP_DIR}/component.js")
     shutil.copyfile(ROOT_DIR + "favicon.ico", f"{BUILD_DIR}/favicon.ico")
   except:
     return False 
@@ -79,6 +84,8 @@ def copyData():
 
 
 def main():  
+  if "data" not in os.listdir(ROOT_DIR):
+    os.mkdir(BUILD_DIR)
   print("Cleaning website project...")
   for file in os.listdir(BUILD_DIR):
     filepath = f"{BUILD_DIR}/{file}"

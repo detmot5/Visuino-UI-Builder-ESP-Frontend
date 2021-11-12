@@ -1,9 +1,9 @@
 import os, shutil
 
-ROOT = "./build/"
-DESTINATION = "./min/"
+ROOT = "./"
+DESTINATION = "./data/"
 HTML_FILE = DESTINATION + "index.html"
-HTML_SRC_FILE = DESTINATION + "indexbase.html"
+HTML_SRC_FILE = ROOT + "index_build.html"
 
 def init():
   if os.path.exists(HTML_FILE): 
@@ -37,17 +37,17 @@ def insert_js_file(html_file_str, js_file_name):
 
 
 
-def main():
+def merge_sources():
   init()
-  with open("./min/index.html", 'r+') as html_file:
+  with open(f"{DESTINATION}/index.html", 'r+') as html_file:
     html_string = html_file.read()
-    html_string = insert_css_file(html_string, "./build/component.css")
-    html_string = insert_css_file(html_string, "./build/index.css")
+    html_string = insert_css_file(html_string, "./tmp/component.css")
+    html_string = insert_css_file(html_string, "./tmp/index.css")
     
-    html_string = insert_js_file(html_string, "./build/component.js")
-    html_string = insert_js_file(html_string, "./build/tab.js")
-    html_string = insert_js_file(html_string, "./build/index.js")
-    html_string = insert_js_file(html_string, "./build/Libs/pureknobMin.js")
+    html_string = insert_js_file(html_string, "./component.js")
+    html_string = insert_js_file(html_string, "./tmp/tab.js")
+    html_string = insert_js_file(html_string, "./tmp/index.js")
+    html_string = insert_js_file(html_string, "./Libs/pureknobMin.js")
 
     html_file.seek(0)
     html_file.write(html_string)
@@ -55,4 +55,3 @@ def main():
   
 
 
-if __name__ == "__main__": main()
