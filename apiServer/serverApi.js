@@ -1,44 +1,37 @@
-const { json } = require('express');
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+const { json } = require("express");
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 const app = express();
 const port = 3000;
 
-const fs = require('fs');
+const fs = require("fs");
 
-
-
-let rawinit = fs.readFileSync('init.txt');
+let rawinit = fs.readFileSync("init.txt");
 app.use(cors());
 app.use(bodyParser());
-app.get('/init', (req, res) => {
+app.get("/init", (req, res) => {
   res.send("website");
 });
 
-app.get('/state', (req, res) => {
-  let rawinput = fs.readFileSync('test_tab.json');
+app.get("/state", (req, res) => {
+  let rawinput = fs.readFileSync("test_tab.json");
   let input = JSON.parse(rawinput);
-  res.json(input)
+  res.status(200).json(input);
 });
 
-
-
-app.get('/image', (req, res) => {
+app.get("/image", (req, res) => {
   console.log(req.query.fileName);
   const path = `.${req.query.fileName}`;
   console.log(path);
-  res.sendFile(path, {root: __dirname});
+  res.sendFile(path, { root: __dirname });
 });
 
-app.post('/input',  (req, res) => {
+app.post("/input", (req, res) => {
   res.status = 200;
   console.log(req.body);
-  res.send('');
+  res.send("");
 });
-
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

@@ -24,7 +24,7 @@ class Component {
     this.wrapper.id = this.name;
     this.wrapper.className = componentWrapperClassName;
     this.wrapper.style.position = "absolute";
-    this.wrapper.style.top = `${this.posY + 82}px`; //topbar offset
+    this.wrapper.style.top = `${this.posY}px`; //topbar offset
     this.wrapper.style.left = `${this.posX}px`;
   }
 }

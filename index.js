@@ -1,8 +1,9 @@
-// const url = window.location.href;
-const url = "http://localhost:3000/";
-const interval = 100;
+const url = window.location.href;
+// const url = "http://localhost:3000/";
+let interval = 300;
 const connectedStr = "Connected";
 const disconnectedStr = "Disconnected";
+let fetchingIntervalHandle = 0;
 
 /* data in tab:
  * button - htmlButtonEl
@@ -17,6 +18,17 @@ const titleDiv = document.getElementById("title");
 const loadingInfoDiv = document.getElementById("info");
 const isConnectedDiv = document.getElementById("isConnected");
 const tabBarDiv = document.getElementById("tab-bar");
+const refreshIntervalInput = document.getElementById("interval-input");
+
+if (refreshIntervalInput) {
+  refreshIntervalInput.value = interval;
+  refreshIntervalInput.onchange = (e) => {
+    interval = parseInt(e.target.value);
+    clearInterval(fetchingIntervalHandle);
+    fetchingIntervalHandle = setInterval(() => getData(), interval);
+  };
+}
+
 const HttpCodes = {
   OK: 200,
   NO_CONTENT: 204,
@@ -263,8 +275,7 @@ const getData = () => {
       console.log(error);
       setIsConnectedDiv(false);
     });
-  setTimeout(getData, interval);
 };
 
 initialFetch();
-getData();
+fetchingIntervalHandle = setInterval(() => getData(), interval);

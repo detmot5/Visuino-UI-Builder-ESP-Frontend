@@ -89,14 +89,34 @@ body {
 }
 
 #isConnected{
+  font-size: 18px;
+}
+
+.top-right {
   position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
   top: 10px;
   right: 15px;
   font-size: 18px;
 }
+
+#interval-input {
+  max-width: 50px;
+}
+
+#interval-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 #content {
   position: fixed;
-  top: 0;
+  top: 80px;
   bottom: 0;
   width: 100vw;
   overflow-y: scroll;
@@ -104,7 +124,7 @@ body {
 }
 @media screen and (min-width: 768px){
   #isConnected{
-    font-size: 30px;
+    font-size: 20px;
     right: 20px;
   }
   #title{
